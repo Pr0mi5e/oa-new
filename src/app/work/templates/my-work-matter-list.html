@@ -1,0 +1,43 @@
+
+<ion-view hide-tabs="true" >
+
+
+        <ion-nav-buttons side="right">
+            <button class="button button-icon icon ion-ios-search-strong" ng-click="goSearch()" native-transitions></button>
+        </ion-nav-buttons>
+
+
+    <ion-content class="portion-content-bgcolor">
+
+
+      <ion-refresher refreshing-icon="ion-checkmark-circled" pulling-text="下拉刷新"
+                     on-refresh="doRefresh()" refreshing-text="{{noti.text}}"></ion-refresher>
+      <ion-list class="wait-work-list">
+          <div ng-if="isEmptyData" style="">
+              <img src="img/nodata.svg" alt="没有数据" style="width:100%">
+              <p style="text-align:center;color:#c0c0c0;font-size:5vw">请求数据为空</p>
+          </div>
+        <ion-item class="zw-item-marginTop10" ng-click="goDetails(WorkNewsItem)" native-transitions
+                  ng-repeat="WorkNewsItem in WorkNewsListData  track by $index">
+          <div class="zw-name-round" style="text-align: center;line-height: 55px;color: white" ng-class="{true:'zw-red-round',false:'zw-blue-round'}[false]">{{userName | limitTo:-2}}
+          </div>
+          <img class="zw-daily-iconimg">
+
+          <h3 class="zw-title-h3"><b style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;display: inline-block;width: 70%;">{{WorkNewsItem.subject.split("¤※")[0]}}</b> <span style="position: absolute;right: 15px;font-size: 13px;color: #999">{{WorkNewsItem.createTime}}</span></h3>
+          <h3 class="zw-title-h3" style="color: #3c8dbc" ng-if="WorkNewsItem.totalNum !== undefined && WorkNewsItem.totalNum !== ''"><span style="color: black">总价：</span>{{WorkNewsItem.totalNum + '元 ' + WorkNewsItem.totalLetter}}</h3>
+          <h3 ng-if="WorkNewsItem.totalNum === undefined" style="width: 62%;height: 5px;"></h3>
+          <!--<img class="zw-state-rightIMG" src="{{waitWork.urlImg}}">-->
+          <!--<img class="zw-state-rightIMG" src="{{WorkNewsItem.imgUrl}}">-->
+          <h3 class="zw-title-h3 zw-name-date">
+            <p>
+              <span>当前待办节点: {{WorkNewsItem.taskName}}</span>
+            </p>
+
+          </h3>
+
+        </ion-item>
+
+      </ion-list>
+      <ion-infinite-scroll ng-if="isHasNextPage" on-infinite="loadMore()" distance="3%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

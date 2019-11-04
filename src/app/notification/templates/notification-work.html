@@ -1,0 +1,36 @@
+<ion-view hide-tabs="true" class="notification work-notification">
+  
+  
+        <ion-nav-buttons side="right">
+            <button class="head-btn" ng-click="goNotificationDetail()" ng-show="jumpTypeTrue" >查看</button>
+        </ion-nav-buttons>
+   
+  
+  <ion-content overflow-scroll="true"  style="overflow: auto;background-color: #f3f3f3;">
+      <ion-list>
+          <div style="margin: 10px;background: white;padding: 10px" ng-click="">
+            
+              <img style="width: 30px;height: 30px;vertical-align: middle" src="app/notification/img/view-form-notification.png">
+              <div style="font-size: 15px;color:#3c8dbc;display: inline-block ">{{msgTypeName}}</div>
+              <div style="display: inline-block;float: right;font-size: 12px;color: #999999;">
+                  <span>{{makeTime}}</span>
+                  
+              </div>
+              
+              <hr class="hr_01">
+              <div class="zw-reply">
+                  <span style="white-space: normal">{{msgInfo}}</span>
+              </div>
+          
+          </div>
+      </ion-list>
+  </ion-content>
+  <ion-footer-bar>
+    <div class="bar bar-footer" style="background-color: #fff;background-position:bottom;margin-top: 44px">
+      <button style="width: 95%" class="button button-outline button-stable div-btn-outline"  ng-click="deleteDetail()">删除</button>
+    </div>
+  </ion-footer-bar>
+</ion-view>
+
+
+

@@ -1,0 +1,120 @@
+$white:#ffffff;//用于chats中所有白色 背景 边框（除字体颜色）
+.chat-message-wrap p{
+  font-size: 12px;
+}
+.chat-message-wrap {
+  overflow: auto;
+  padding: 7px;
+  position: relative;
+}
+.chat-message-wrap .chat-head-pic, .chat-message-wrap .chat-head-pic-right {
+  max-height: $Headpicture;
+  max-width: $Headpicture;
+}
+.chat-message-wrap .chat-head-pic {
+  float: left;
+}
+.chat-message-wrap .chat-head-pic-right {
+  float: right;
+}
+.chat-message-wrap .chat-message, .chat-message-wrap .chat-message-right {
+  border-radius: 5px;
+  line-height: 26px;
+  max-width: 190px;
+  padding: 6px 8px;
+}
+.chat-message-wrap .chat-message {
+  background-color: $white;
+  float: left;
+  margin-left: 16px;
+}
+.chat-message-wrap .chat-message-right {
+  background-color: #6be00b;
+  float: right;
+  margin-right: 16px;
+}
+.chat-message-wrap .chat-triangle-left, .chat-message-wrap .chat-triangle-right {
+  border-style: solid;
+  border-width: 8px 10px;
+  display: inline-block;
+  height: 0;
+  position: absolute;
+  top: 17px;
+  width: 0;
+}
+.chat-message-wrap .chat-triangle-left {
+  border-color: transparent $white transparent transparent;
+  left: 47px;
+}
+.chat-message-wrap .chat-triangle-right {
+  border-color: transparent transparent transparent #6be00b;
+  right: 47px;
+}
+.chat-message-time {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: $size-fff;
+  font-size: 12px;
+  margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 42px;
+}
+.chat-footer-btn-wrap .chat-send-button {
+  background-color: #1bbb37;
+  bottom: 3px;
+  color: $size-fff;
+  height: 30px;
+  left: 4px;
+  line-height: 30px;
+  position: absolute;
+  text-align: center;
+  width: 38px;
+}
+
+/*tab-chats样式*/
+
+//h2默认定义为红色，在这里改成黑色
+.h2-defaultBlack{
+  color: $size-000!important;
+}
+//最后聊天时间的样式
+.rj-push-right {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #8c8c8c;
+  font-size: 13px;
+}
+//微信列表中头像的位置
+.chat-imgPosition{
+  top:10px!important;
+  left:10px!important;
+}
+//微信列表中，昵称和最后一条聊天记录位置的样式,覆盖ionic原有的样式
+.item-complex .item-content{
+  padding: 10px 65px;
+}
+.item-avatar{
+  min-height:60px;
+}
+.item-avatar .item-content{
+  min-height: 60px;
+}
+
+.item .rj-sm-red-icon {
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  height: 18px;
+  left: 40px;
+  line-height: 18px;
+  position: absolute;
+  text-align: center;
+  top: 5px;
+  width: 18px;
+}
+.item .rj-sm-red-icon p {
+  color: #FFF;
+  font-size: 12px;
+}

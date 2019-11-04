@@ -1,0 +1,32 @@
+/**
+ *  2018/5/22 CrazyDong
+ *  变更描述：营口所使用的scss
+ *  功能说明：样式引入文件,针对营口
+ */
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Include all of Ionic
+@import "src/lib/ionic/scss/ionic";
+
+// Include all custom style
+@import 'global';
+@import 'src/app/addressList/address-list.scss';
+@import 'src/app/view-form/view-form.scss';
+/*通知*/
+@import 'src/app/notification/notification.scss';
+/*我的*/
+@import 'src/app/mine/mine';
+/*待办*/
+@import "src/app/wait-work/wait-work";
+
+/*用户*/
+@import 'src/app/auth/auth-yk';
+
+/*工作*/
+@import 'src/app/work/work';
+
+/*tabs 底部按钮*/
+@import 'src/app/tabs/tabs';
+

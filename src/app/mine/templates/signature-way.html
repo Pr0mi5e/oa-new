@@ -1,0 +1,101 @@
+<ion-view id = "viewID" hide-tabs="true">
+    <!--<link rel="stylesheet"  href="../../../shared/mui/css/mui.min.css">-->
+  <!--<script src="../../../shared/mui/js/mui.min.js"></script>-->
+    <ion-content overflow-scroll="true" style="overflow:auto;" class="portion-content-bgcolor">
+        <style>
+            .toggle-small.item-toggle .toggle{
+                top: 5px;
+            }
+        </style>
+
+        <div class="mien-div-padding10-bgcolorfff">
+            <p class="zw-mine-bill-text-p-style" >审批时免输签章密码</p>
+            <!--<ion-toggle ng-model="valuePW" ng-change="toggleChangePW()" native-transitions
+                        style="border:0;float: right;display: inline-block;"></ion-toggle>-->
+            <label class="toggle" style="float:right;">
+                <input id="pwdInput" id="approvalPWD"  type="checkbox" ng-model="valuePW"  ng-click="toggleChangePW()" native-transitions>
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </div>
+        <hr class="zw-mine-line-style">
+
+        <!--<p class="zw-mine-summary-p-style">{{summaryPWOpen}}<br />{{summaryPWClose}}</p>-->
+        <p class="zw-mine-summary-p-style">{{summaryPWOpen}}</p>
+        <hr class="zw-mine-line-style">
+
+        <div ng-show="!valuePW || isShowSignature">
+            <div class="mien-div-padding10-bgcolorfff" style="margin-bottom: 10px">
+            <div class="my-mine-div-border" native-transitions style="padding-top: 10px;" ng-click="goChangePW()">
+                <span style="font-size: 16px;">签章密码</span>
+                <div class="zw-mine-right-div-style">
+                    <img class="zw-mine-item-right-arrow-style"
+                         src="app/mine/img/mine-arrow-right.png">
+                </div>
+            </div>
+            </div>
+
+            <div class="mien-div-padding10-bgcolorfff">
+                <p class="zw-mine-bill-text-p-style">手势图案签章</p>
+                <!--<ion-toggle ng-model="valueImg" ng-change="toggleChangeImg()"  native-transitions
+                            style="border:0;float: right;"></ion-toggle>-->
+              <!--<div class="mui-switch mui-switch-mini mui-active">-->
+                <!--<div class="mui-switch-handle"></div>-->
+              <!--</div>-->
+                <label class="toggle" style="float:right;">
+                    <input id="gesturePwd" type="checkbox"  ng-model="valueImg" ng-click="toggleChangeImg()"  native-transitions>
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+                <div ng-show="changeHandImg" class="my-mine-div-border" ng-click="goGestureLock()" native-transitions style="padding-top: 10px;">
+                    <span style="color: #3c8dbc;font-size: 16px;">修改手势密码</span>
+                    <div class="zw-mine-right-div-style">
+                        <img class="zw-mine-item-right-arrow-style" src="app/mine/img/mine-arrow-right.png">
+                    </div>
+                </div>
+            </div>
+            <hr class="zw-mine-line-style">
+            <p class="zw-mine-summary-p-style">{{summaryGesturesOpen}}</p>
+
+        </div>
+
+    </ion-content>
+
+  <!--弹出签章密码确认模板-->
+  <div ng-show="isChangePW" class="show-mask">
+    <div class="show-mask-content">
+      <div style="font-size: 16px">{{maskTitle}}</div>
+      <div style="width: 100%;text-align: center;border-bottom: 1px solid #d5d5d5">
+
+        <input id="changePassword" style="width:35%;padding:10px 0;margin:5px auto ;font-size: 13px;color: #69717d" ng-model="passwordChange" type="password" placeholder=" 请输入签章密码"/>
+
+      </div>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="goDash()">{{ 'form-handle.opinion-go' | translate }}
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="cancel()">{{ 'form-handle.opinion-cancel' | translate }}
+      </button>
+    </div>
+  </div>
+  <!--弹出密码校验窗口-->
+  <div ng-if="checkPW" class="show-mask">
+    <div class="show-mask-content">
+      <div style="font-size: 16px">密码验证</div>
+      <div style="width: 100%;text-align: center;border-bottom: 1px solid #d5d5d5">
+        <div style="color: red; height: 20px">{{errMsg}}</div>
+        <input id="pwValue" style="width:30%;padding:10px 0;margin:5px auto ;font-size: 13px;color: #69717d" type="password" placeholder=" 输入登录密码"/>
+
+      </div>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 5px"
+              ng-click="checkPWMethod()">验证
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 5px"
+              ng-click="cancelCheck()">取消
+      </button>
+    </div>
+  </div>
+
+</ion-view>

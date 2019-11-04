@@ -1,0 +1,419 @@
+$margin15:15px;
+$padding10:10px;
+$right:right;
+$margin10:10px;
+$black:#000000;
+$white:#ffffff;
+/********
+    登录页-开始
+********/
+.zw-login-divtop30{
+  //margin-top: 30px;
+  //border: 2px solid #000;
+}
+//登录页面 背景颜色
+@media screen and (max-width:640px){
+  .calm-bg{
+    background:url(../app/auth/img/640.jpg) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+  .zw-log{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: $margin15;
+    //margin-top: $margin15;
+    text-align: center;
+    padding-top: 10px;
+  }
+  .kbpaddingT{
+    padding-bottom: 75%;
+  }
+  .kbpaddingN{
+    padding-bottom: 0;
+  }
+
+  .zw-login-logo {
+    width: 75%;
+    margin: 0 auto;
+    height: 180px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    background:url(../app/auth/img/768-logo.png) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+
+}
+@media screen and (min-width: 641px) and (max-width: 720px){
+  .calm-bg{
+    background:url(../app/auth/img/720.jpg) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+  .zw-log{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: $margin15;
+    //margin-top: $margin15;
+    text-align: center;
+    padding-top: 10px;
+  }
+  .kbpadding{
+    padding-bottom: 120px;
+  }
+
+  .zw-login-logo {
+    width: 75%;
+    margin: 0 auto;
+    height: 180px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    background:url(../app/auth/img/768-logo.png) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+
+}
+@media screen and (min-width: 721px) and (max-width: 768px){
+  .calm-bg{
+    background:url(../app/auth/img/768.jpg) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+  .zw-log{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: $margin15;
+    //margin-top: $margin15;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .zw-login-logo {
+    width: 65%;
+    margin: 0 auto;
+    height: 300px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    background:url(../app/auth/img/768-logo.png) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 799px){
+  .calm-bg{
+    background:url(../app/auth/img/800.jpg) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+  .zw-log{
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: $margin15;
+    //margin-top: $margin15;
+    text-align: center;
+    padding-top: 10px;
+  }
+  .zw-login-logo {
+    width: 65%;
+    margin: 0 auto;
+    height: 300px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    background:url(../app/auth/img/768-logo.png) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+
+}
+@media screen and (min-width: 800px) and (max-width: 1023px){
+  .calm-bg{
+    background:url(../app/auth/img/1024.jpg) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+
+
+  .zw-log{
+    width: 50%;
+    float:left;
+    text-align: center;
+    top: 50%;
+    margin-top:15%;
+  }
+  .zw-log img{
+    width: 80% !important;
+  }
+  .zw-home-div-right{
+    width: 40%;
+    float:left;
+    top: 50%;
+    margin-top:20%;
+    margin-left: 5%;
+  }
+
+  .zw-login-logo {
+    width: 75%;
+    margin: 0 auto;
+    height: 300px;
+    background:url(../app/auth/img/768-logo.png) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+
+}
+
+@media screen and (min-width:1024px){
+  .calm-bg{
+    background:url(../app/auth/img/1024.jpg) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+  .zw-log{
+    width: 50%;
+    float:left;
+    text-align: center;
+    top: 50%;
+    margin-top:15%;
+  }
+  .zw-home-div-right{
+    width: 40%;
+    float:left;
+    top: 50%;
+    margin-top:20%;
+    margin-left: 5%;
+  }
+
+  .zw-login-logo {
+    width: 75%;
+    margin: 0 auto;
+    height: 300px;
+    background:url(../app/auth/img/768-logo.png) no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+  }
+}
+/*.calm-bg{
+  *//*background: #3c8dbb;
+  background: -moz-linear-gradient(top,  #3c8dbb 0%, #143576 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3c8dbb), color-stop(100%,#143576));
+  background: -webkit-linear-gradient(top,  #3c8dbb 0%,#143576 100%);
+  background: -o-linear-gradient(top,  #3c8dbb 0%,#143576 100%);
+  background: -ms-linear-gradient(top,  #3c8dbb 0%,#143576 100%);
+  background: linear-gradient(to bottom,  #3c8dbb 0%,#143576 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3c8dbb', endColorstr='#143576',GradientType=0 );*//*
+  background-image:-webkit-image-set(
+          url(../app/auth/img/640.jpg) 1x,
+          url(../app/auth/img/1024.jpg) 2x
+  );
+  filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+  -moz-background-size:100% 100%;
+  background-size:100% 100%;
+
+
+  *//*background:url(../app/auth/img/zhongwang-login-bgimg.png) no-repeat;
+  filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+  -moz-background-size:100% 100%;
+  background-size:100% 100%;*//*
+}*/
+/*.zw-log{
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: $margin15;
+  //margin-top: $margin15;
+  text-align: center;
+  padding-top: 10px;
+}*/
+.zw-log{
+  text-align:center ;
+}
+//.zw-log img{
+//  width: 75%;
+//  margin: 8% 0px;
+//}
+
+
+
+
+/*.zw-login-labeluser{
+  border-radius:10px;
+  width:90%;
+  margin: 0 auto;
+  margin-bottom:20px;
+  margin-top: 20px;
+  background-color: #FFFFFF;
+  padding: 2px 0 2px 5px;
+
+}*/
+
+.zw-login-labeluser{
+  width:90%;
+  margin: 0 auto;
+  margin-bottom:20px;
+  margin-top: 20px;
+  background-color: transparent;
+  padding: 2px 0 2px 5px;
+  border-top: 0;
+  border-left:0;
+  border-right: 0;
+
+}
+.zw-login-labeluser .login-bgimglabeluser{
+
+  background:url(../app/auth/img/login-man-img.png) 5px no-repeat;
+  background-size: 25px;
+  width: 100%;
+
+}
+.zw-login-labeluser  input{
+
+}
+.zw-login-labeluser .login-bgimglabelpassword{
+  background:url(../app/auth/img/login-password-img.png) 5px no-repeat;
+  background-size: 20px;
+  width: 100%;
+}
+.zw-login-labeluser .login-circled{
+  margin-right: 15px;
+  color:#ffffff;
+  font-size: 18px;
+  display: inline-block;
+  float:right;
+  margin-top: 5px;
+}
+.zw-login-divtop30 input{
+  color:#ffffff;
+  font-size: 16px;
+  padding-left: 40px;
+  float:left;
+  width: 80%;
+}
+.zw-login-choice{
+  width: 90%;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+.zw-login-choice span{
+  width:100%;
+  text-align: center;
+  color:#ffffff;
+  display: block;
+  letter-spacing: 1px;
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.zw-login-but02{
+  float:$right;
+  color:$white!important;
+}
+.zw-login-but03{
+  border-radius:10px;
+  background-color: #ff121f!important;
+  color:#fff!important;
+  display: inline-block;
+  letter-spacing:8px;
+  min-height: 40px;
+  line-height: 40px;
+  margin-top: 20px !important;
+}
+.zw-login-but04{
+  margin: 0 auto;
+  border-radius:30px;
+  background-color:#f5f6f8!important;
+  color: #666!important;
+  float:$right;
+  margin-top: 0px !important;
+}
+/********
+    登录页-结束
+********/
+
+/********
+忘记密码-开始
+********/
+.zw-forgeth4{
+  text-align: center;
+  line-height: 30px;
+  font-size: 16px;
+  margin: $margin15+$margin15 $margin10 $margin15+$margin15 $margin10;
+}
+.zw-forgetlabel{
+  color: #3c8dbc;
+  text-align: center;
+  border-radius:30px;
+  width:80%;
+  margin: 0 auto;
+  background:url(../app/auth/img/call-phone.png) no-repeat;
+  background-position: 10px;
+  background-size: 40px;
+  border-color: #3c8dbc;
+}
+/********
+忘记密码-结束
+********/
+/*按钮样式切换按钮背景图片来实现的*/
+/*.zw-login-choice .remember-btn
+  {
+  background:url(../app/auth/img/remember-btn.png) no-repeat;
+  background-position: 10px;
+  background-size: 20px;
+  padding-left: 40px;
+  color:#ffffff;
+  line-height: 30px;
+  min-height: 30px;
+  }
+.zw-login-choice .remember-btn-change
+{
+  background:url(../app/auth/img/cancel-btn.png) no-repeat;
+  background-position: 10px;
+  background-size: 20px;
+  padding-left: 40px;
+  color:#ffffff;
+  line-height: 30px;
+  min-height: 30px;
+}*/
+
+.zw-login-but01{
+  color:#ffffff !important;
+}
+
+/**input 提示文字***/
+.calm-bg input::-webkit-input-placeholder,.calm-bg textarea::-webkit-input-placeholder {
+  color: #999999;
+  line-height: 20px;
+}
+.calm-bg input:-moz-placeholder,.calm-bg textarea:-moz-placeholder{
+  color: #999999;
+  line-height: 20px;
+}
+.calm-bg input::-moz-placeholder,.calm-bg textarea::-moz-placeholder{
+  color: #999999;
+  line-height: 20px;
+}
+.calm-bg input:-ms-input-placeholder,.calm-bg textarea:-ms-input-placeholder{
+  color: #999999;
+  line-height: 20px;
+}
+
+.topY{
+  bottom:-150px;
+
+}
+.topN{
+  bottom:0;
+}
+

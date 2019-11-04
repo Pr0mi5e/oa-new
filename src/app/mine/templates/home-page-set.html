@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<ion-view hide-tabs="true">
+   
+       
+
+        <ion-nav-buttons side="right">
+            <button class="button-clear zw-mine-finish-btn-style" ng-click="setFinish()" native-transitions> 完成 </button>
+        </ion-nav-buttons>
+
+
+
+    <ion-content overflow-scroll="true" style="overflow:auto;" class="portion-content-bgcolor">
+        <div class="home-page-set-div-margin">
+
+             <div class="my-mine-div-padding10 padding16" ng-click="isWorkClick()">
+                <p class="zw-mine-bill-text-p-style">工作</p>
+                <button class="my-mine-div-radio-button" ng-class="isWork ? 'mine-select' : 'mine-unselect' ">
+                </button>
+            </div>
+
+            <div class="my-mine-div-padding10 padding16" ng-click="isWaitDoClick()">
+                <p class="zw-mine-bill-text-p-style">待办</p>
+                <button class="my-mine-div-radio-button" ng-class="isWaitDo ? 'mine-select' : 'mine-unselect' ">
+                </button>
+            </div>
+
+            <div class="my-mine-div-padding10 padding16" ng-click="isContactClick()">
+                <p class="zw-mine-bill-text-p-style">消息</p>
+                <button class="my-mine-div-radio-button" ng-class="isContact ? 'mine-select' : 'mine-unselect' ">
+                </button>
+            </div>
+            <div class="my-mine-div-padding10 padding16" ng-click="isMineClick()">
+                <p class="zw-mine-bill-text-p-style">我的</p>
+                <button class="my-mine-div-radio-button"ng-class="isMine ? 'mine-select' : 'mine-unselect' ">
+                </button>
+            </div>
+        </div>
+        <p class="zw-mine-summary-p-style">{{summanyHomePage}}</p>
+
+        <!--<div class="my-mine-div-padding10 my-mine-div-border item">-->
+            <!--<span class="zw-mine-item-text-style">工作设置</span>-->
+            <!--<div class="zw-mine-right-div-style">-->
+                <!--<button class="button button-small button-outline button-positive" style="padding: 0 10px;" ng-click="syncOperate()">-->
+                    <!--同步-->
+                <!--</button>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<p class="zw-mine-summary-p-style">{{workSettingsRemarks}}</p>-->
+
+
+        <div class="my-mine-div-padding10 my-mine-div-border">
+            <span class="zw-mine-item-text-style">默认跟踪</span>
+            <label class="toggle" style="float:right; margin-top: -10px;">
+                <input id="followBtnId" type="checkbox" ng-click="setFollow()">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </div>
+
+        <div class="my-mine-div-padding10 my-mine-div-border">
+            <span class="zw-mine-item-text-style">日志记录</span>
+            <label class="toggle" style="float:right; margin-top: -10px;">
+                <input id="logBtnId" type="checkbox" ng-click="setLogRecord()">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </div>
+
+
+    </ion-content>
+</ion-view>

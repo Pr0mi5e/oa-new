@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<ion-view hide-tabs="true">
+  
+        <ion-nav-buttons side="right">
+            <button class="button-clear zw-mine-finish-btn-style" ng-click="setFinish()" native-transitions> 完成 </button>
+        </ion-nav-buttons>
+
+
+    <ion-content overflow-scroll="true" style="overflow:auto;" class="portion-content-bgcolor">
+        <div class="my-mine-div-ipad" ng-click="isSelectOriginalClick()" style="padding: 10px; background-color: #FFFFFF">
+            <p class="zw-mine-bill-text-p-style">原始单据</p>
+            <button class="my-mine-div-radio-button" ng-class="isSelectOriginal ? 'mine-select' : 'mine-unselect' ">
+            </button>
+        </div>
+        <hr class="zw-mine-line-style">
+
+        <div class="my-mine-div-ipad" ng-click="isSelectLightClick(1)" style="padding: 10px;background-color: #FFFFFF">
+            <p class="zw-mine-bill-text-p-style">轻量单据</p>
+            <button class="my-mine-div-radio-button" ng-class="isSelectLight ? 'mine-select' : 'mine-unselect' ">
+            </button>
+        </div>
+        <hr class="zw-mine-line-style" >
+        <p class="zw-mine-summary-p-style">{{summaryBill}}</p>
+
+    </ion-content>
+</ion-view>

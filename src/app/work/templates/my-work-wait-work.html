@@ -1,0 +1,28 @@
+<ion-view hide-tabs="true">
+    <ion-content class="portion-content-bgcolor">
+        <ion-refresher refreshing-icon="ion-checkmark-circled" pulling-text="下拉刷新"
+                       on-refresh="doRefresh()" refreshing-text="{{noti.text}}"></ion-refresher>
+        <ion-list class="wait-work-list">
+            <ion-item class="zw-item-marginTop10" ng-click="goDetails(waitWorkItem)" native-transitions
+                      collection-repeat="waitWorkItem in waitWorkListData">
+                <div class="zw-name-round" ng-class="{true:'zw-red-round',false:'zw-blue-round'}[false]">
+                    <h2>{{waitWorkItem.creator|limitTo:-2}}</h2>
+                </div>
+                <img class="zw-daily-iconimg">
+
+                <h3 class="zw-title-h3"><b>{{waitWorkItem.subject}}</b></h3>
+                <!--<img class="zw-state-rightIMG" src="{{waitWork.urlImg}}">-->
+                <img class="zw-state-rightIMG" src="{{waitWorkItem.imgUrl}}">
+                <h3 class="zw-title-h3 zw-name-date">
+                    <p>
+                        <span>{{waitWorkItem.creator}}</span><span>{{waitWorkItem.createDate}}</span><span>发起</span>
+                    </p>
+                    <img ng-if="waitWorkItem.flagApproval" src="app/wait-work/img/wait-work-msg.png"
+                         style="width: 15px;height:15px">
+                </h3>
+            </ion-item>
+        </ion-list>
+        <!--上拉加载-->
+        <ion-infinite-scroll ng-if="isHasNextPage" on-infinite="loadMore()" distance="3%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

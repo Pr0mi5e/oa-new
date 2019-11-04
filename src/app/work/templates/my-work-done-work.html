@@ -1,0 +1,109 @@
+<ion-view hide-tabs="true">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-ios-search-strong" ng-click="goSearch()" native-transitions></button>
+  </ion-nav-buttons>
+
+  <ion-content class="portion-content-bgcolor" overflow-scroll="true">
+    <ion-refresher refreshing-icon="ion-checkmark-circled" pulling-text="下拉刷新"
+                   on-refresh="doRefresh()" refreshing-text="{{noti.text}}"></ion-refresher>
+    <div ng-if="isEmptyData" style="">
+      <img src="img/nodata.svg" alt="没有数据" style="width:100%">
+      <p style="text-align:center;color:#c0c0c0;font-size:5vw">请求数据为空</p>
+    </div>
+    <ion-list class="wait-work-list" ng-if=" titleFlag === '1'">
+      <ion-item class="zw-item-marginTop10" ng-click="goDetails(doneWorkItem)" native-transitions
+                ng-repeat="doneWorkItem in doneWorkListData" ng-if="doneWorkItem">
+        <div class="zw-name-round" ng-class="{true:'zw-red-round',false:'zw-blue-round'}[false]">
+          <h2>{{doneWorkItem.creator|limitTo:-2}}</h2>
+        </div>
+        <img class="zw-daily-iconimg">
+
+        <h3 class="zw-title-h3"><b>{{doneWorkItem.subject.split("¤※")[0]}}</b></h3>
+        <h3 class="zw-title-h3" style="color: #3c8dbc" ng-if="doneWorkItem.totalNum !== undefined && doneWorkItem.totalNum !== ''"><span style="color: black">总价：</span>{{doneWorkItem.totalNum + '元 ' + doneWorkItem.totalLetter}}</h3>
+        <h3 ng-if="doneWorkItem.totalNum === undefined" style="width: 62%;height: 5px;"></h3>
+        <!--<img class="zw-state-rightIMG" src="{{waitWork.urlImg}}">-->
+        <!--<img class="zw-state-rightIMG" src="{{doneWorkItem.imgUrl}}">-->
+        <h3 class="zw-title-h3 zw-name-date">
+          <p>
+            <span>{{doneWorkItem.creator}}</span><span>{{doneWorkItem.createTime}}</span><span>发起</span>
+          </p>
+          <img ng-if="doneWorkItem.flagApproval" src="app/wait-work/img/wait-work-msg.png"
+               style="width: 15px;height:15px">
+        </h3>
+      </ion-item>
+    </ion-list>
+
+    <ion-list class="wait-work-list" ng-if="titleFlag === '2'">
+      <ion-item class="zw-item-marginTop10" ng-click="goDetails(followWorkItem)" native-transitions
+                ng-repeat="followWorkItem in followWorkListData" ng-if="followWorkItem">
+        <div class="zw-name-round" ng-class="{true:'zw-red-round',false:'zw-blue-round'}[false]">
+          <h2>{{followWorkItem.creator|limitTo:-2}}</h2>
+        </div>
+        <img class="zw-daily-iconimg">
+
+        <h3 class="zw-title-h3"><b>{{followWorkItem.subject.split("¤※")[0]}}</b></h3>
+        <h3 class="zw-title-h3" style="color: #3c8dbc" ng-if="followWorkItem.totalNum !== undefined && followWorkItem.totalNum !== ''"><span style="color: black">总价：</span>{{followWorkItem.totalNum + '元 ' + followWorkItem.totalLetter}}</h3>
+        <h3 ng-if="followWorkItem.totalNum === undefined" style="width: 62%;height: 5px;"></h3>
+
+        <h3 class="zw-title-h3 zw-name-date">
+          <p>
+            <span>{{followWorkItem.creator}}</span><span>{{followWorkItem.createTime}}</span><span>发起</span>
+          </p>
+          <img ng-if="followWorkItem.flagApproval" src="app/wait-work/img/wait-work-msg.png" style="width: 15px;height:15px">
+        </h3>
+        <hr class="hr_01">
+        <div class="zw-reply">
+          <h3><span>当前待办节点: {{followWorkItem.taskName}}</span></h3>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-list class="wait-work-list" ng-if=" titleFlag === '4'">
+      <ion-item class="zw-item-marginTop10" ng-click="goDetails(workDocItem)" native-transitions
+                ng-repeat="workDocItem in workDocListData" ng-if="workDocItem">
+        <div class="zw-name-round" ng-class="{true:'zw-red-round',false:'zw-blue-round'}[false]">
+          <h2>{{workDocItem.startName|limitTo:-2}}</h2>
+        </div>
+        <img class="zw-daily-iconimg">
+
+        <h3 class="zw-title-h3"><b>{{workDocItem.documentName}}</b></h3>
+        <img class="zw-state-rightIMG" ng-if="workDocItem.flagRead=='0'" src="app/wait-work/img/wait-work-unread.png">
+        <img class="zw-state-rightIMG" ng-if="workDocItem.flagRead=='1'" src="app/wait-work/img/wait-work-read.png">
+        <h3 class="zw-title-h3 zw-name-date">
+          <p>
+            <span>{{workDocItem.startName}}</span><span>{{workDocItem.appStartTime | date:'yyyy-MM-dd HH:mm:ss'}}</span><span>发起</span>
+          </p>
+          <img ng-if="workDocItem.flagApproval" src="app/wait-work/img/wait-work-msg.png"
+               style="width: 15px;height:15px">
+        </h3>
+      </ion-item>
+    </ion-list>
+    <ion-list class="wait-work-list" ng-if=" titleFlag === '5'">
+      <ion-item class="zw-item-marginTop10" ng-click="goDetails(workUndItem)" native-transitions
+                ng-repeat="workUndItem in workUnderstandingListData track by $index" ng-if="workUndItem" style="padding:0px">
+        <div class="zw-name-round" ng-class="{true:'zw-red-round',false:'zw-blue-round'}[false]">
+          <h2>{{workUndItem.startName|limitTo:-2}}</h2>
+        </div>
+        <img class="zw-daily-iconimg">
+
+        <h3 class="zw-title-h3"><b>{{workUndItem.understandingName}}</b></h3>
+        <img class="zw-state-rightIMG" ng-if="workUndItem.flagRead=='0'" src="app/wait-work/img/wait-work-unread.png">
+        <img class="zw-state-rightIMG" ng-if="workUndItem.flagRead=='1'" src="app/wait-work/img/wait-work-read.png">
+        <h3 class="zw-title-h3 zw-name-date">
+          <p>
+            <span>{{workUndItem.startName}}</span><span>{{workUndItem.startTime | date:'yyyy-MM-dd HH:mm:ss'}}</span><span>发起</span>
+          </p>
+          <img ng-if="workUndItem.flagApproval" src="app/wait-work/img/wait-work-msg.png"
+               style="width: 15px;height:15px">
+        </h3>
+
+        <ion-option-button class="" ng-click="deleteUndData($index,workUndItem)" style="background-color:red;color:white">
+          删除
+        </ion-option-button>
+      </ion-item>
+
+    </ion-list>
+
+    <!--上拉加载-->
+    <ion-infinite-scroll ng-if="isHasNextPage" on-infinite="loadMore()" distance="3%"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

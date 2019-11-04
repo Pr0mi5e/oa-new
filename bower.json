@@ -1,0 +1,24 @@
+{
+  "name": "China_ZhongWang_Community",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.2.4",
+    "angular-translate": "^2.18.1",
+    "angular-translate-loader-static-files": "^2.18.1"
+  },
+  "dependencies": {
+    "ngCordova": "^0.1.27-alpha",
+    "ion-datetime-picker": "https://github.com/tyw2015/ion-datetime-picker.git#master",
+    "ionic-native-transitions": "shprink/ionic-native-transitions#^1.0.3",
+    "jquery": "2.2.4",
+    "oi.select": "https://github.com/liujingdong/removeIoSelectItem.git",
+    "angular-md5": "^0.1.10",
+    "AlloyFinger": "https://github.com/zhengjin/AlloyFinger.git#1.0.0",
+    "angular-sqlite": "^0.1.2"
+  },
+  "resolutions": {
+    "angular-sanitize": "1.4.3",
+    "angular-animate": "1.4.3",
+    "angular": "1.7.0"
+  }
+}

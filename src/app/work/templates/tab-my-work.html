@@ -1,0 +1,267 @@
+<ion-view>
+
+
+  <!--<ion-content class="portion-content-bgcolor" overflow-scroll="true" style="overflow:hidden;">-->
+  <ion-content class="portion-content-bgcolor" overflow-scroll="true" style="overflow:auto;">
+    <style>
+      .list {
+        position: inherit;
+      }
+
+      .item-radio .item-content, .item-radio input:checked + .radio-content .item-content {
+        background-color: transparent;
+      }
+
+      /**
+       * * 2018/5/4 16:21  tyw
+       *  变更描述：添加样式，替换图片
+       *  功能说明：工作页面图标替换，未读信息居中显示
+       */
+      .button-wrapper {
+        position: relative;
+        width: 45px;
+        height: 45px;
+        margin: 0 auto;
+        margin-bottom: 5px;
+        padding: 0;
+        transform: translateX(-3px);
+      }
+
+      #message-number {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        z-index: 999;
+        margin-left: 7px;
+        padding-top: 5px;
+        width: 100%;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+      }
+    </style>
+
+    <ion-list>
+      <ion-item class="my-work-item-borderLeftright0">
+        <p>待办工作&nbsp;<span style="color: red;font-weight: 700">{{workTotalNum}}</span></p>
+      </ion-item>
+
+      <div class="content-view">
+        <div class="item-view" ng-repeat="workHomeItem in workHomeData"  ng-click="goWaitWork(workHomeItem)">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 56%;">
+              <img ng-src="{{workHomeItem.imgUrl}}" style="width: 40px;height: 40px;">
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{workHomeItem.CNT}}</div>
+            <div class="item-same function-title"style="height: 22%;">{{workHomeItem.NAME_}}</div>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+
+
+    <ion-list ng-show="flagStatusOne.length > 0">
+      <ion-item class="my-work-item-borderLeftright0"  ng-click="toggleMenu()">
+        <p>自定义待办&nbsp;<span style="color: red;font-weight: 700">{{flagOneNum}}</span></p>
+      </ion-item>
+
+      <div class="content-view " ng-show="isShow">
+        <div class="item-view" ng-repeat="workHomeItem in flagStatusOne" ng-click="daibanzhihui(workHomeItem,DBMsg)">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 50%">
+              <img src="app/work/img/custom-db.png"  style="width: 40px;height: 40px;"/>
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{numDataObj[workHomeItem.pkid]}}</div>
+            <div class="item-same function-title" style="height: 22%;">{{workHomeItem.name}}</div>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+
+    <ion-list ng-show="flagStatusTwo.length > 0">
+      <ion-item class="my-work-item-borderLeftright0" ng-click="toggleMenus()">
+        <p>自定义知会&nbsp;<span style="color: red;font-weight: 700">{{flagTwoNum}}</span></p>
+      </ion-item>
+
+      <div class="content-view " ng-show="isShows">
+        <div class="item-view" ng-repeat="workHomeItem in flagStatusTwo" ng-click="daibanzhihui(workHomeItem, ZHMsg)">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 56%;">
+              <img src="app/work/img/custom-zh.png"  style="width: 40px;height: 40px;"/>
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{numDataObj[workHomeItem.pkid]}}</div>
+            <div class="item-same function-title" style="height: 22%;">{{workHomeItem.name}}</div>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+
+
+    <ion-list>
+      <ion-item class="my-work-item-borderLeftright0">
+        <p>已办工作&nbsp;<span style="color: red;font-weight: 700">{{done}}</span></p>
+      </ion-item>
+
+      <div class="content-view">
+        <div class="item-view" ng-repeat="alreadyWorkHomeItem in alreadyWorkHomeData"  ng-click="goAlreadyWork(alreadyWorkHomeItem)">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 56%;">
+              <img ng-src="{{alreadyWorkHomeItem.imgUrl}}" style="width: 40px;height: 40px;">
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{alreadyWorkHomeItem.CNT}}</div>
+            <div class="item-same function-title" style="height: 22%;">{{alreadyWorkHomeItem.NAME_}}</div>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+
+    <ion-list>
+      <ion-item class="my-work-item-borderLeftright0">
+        <p>其它应用&nbsp;<span style="color: red;font-weight: 700">{{otherAppplications}}</span></p>
+      </ion-item>
+
+      <div class="content-view">
+        <div class="item-view" ng-click="goSend()">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 56%;">
+              <img src="app/work/img/already-matter.png" style="width: 40px;height: 40px;">
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{request}}</div>
+            <div class="item-same function-title" style="height: 22%;">已发事项</div>
+          </div>
+        </div>
+        <div class="item-view" ng-click="goTracking()">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 56%;">
+              <img src="app/work/img/tracking-matter.png" style="width: 40px;height: 40px;">
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{followNum}}</div>
+            <div class="item-same function-title" style="height: 22%;">跟踪事项</div>
+          </div>
+        </div>
+        <div class="item-view" ng-click="goWorkDoc()">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 56%;">
+              <img src="app/work/img/document-query.png" style="width: 40px;height: 40px;">
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{documentNum}}</div>
+            <div class="item-same function-title" style="height: 22%;">公文查询</div>
+          </div>
+        </div>
+        <div class="item-view" ng-click="goUnderstanding()">
+          <div class="item-view-content">
+            <div class="item-same" style="height: 56%;">
+              <img src="app/work/img/notify-matter.png" style="width: 40px;height: 40px;">
+            </div>
+            <div class="item-same function-title" style="height: 22%;font-weight: bold">{{understandingNum}}</div>
+            <div class="item-same function-title" style="height: 22%;">知会事项</div>
+          </div>
+        </div>
+      </div>
+
+    </ion-list>
+
+    <ion-list ng-show="isShowForm">
+      <!--图表文字-->
+      <ion-item class="my-work-item-borderLeftright0">
+        <p>已审采购付款金额统计</p>
+      </ion-item>
+
+      <div style="background-color: #ffffff;overflow: auto;">
+        <div
+          style="float: left;background-color: #87CEFA ;width: 96%;border-radius: 10px;padding-bottom: 2%;margin: 2%">
+          <div ng-show="!isTotalMoney"
+               style="color: #ffffff;padding-left: 10px;padding-top: 10px;display: inline-block">本年总付款金额
+            <p style="color: #ff0000;display: inline-block">&nbsp;0&nbsp;</p> ( 元 )
+          </div>
+          <div ng-show="isTotalMoney" style="color: #fff;padding:10px;">本年总付款金额 ( 元 )</div>
+          <div class="col col-border-bottom" ng-class="{'col-25':col25,'col-50':col50,'':col100}"
+               style="float: left;padding: 0px"
+               ng-repeat="formDataArr in formData.list">
+            <div style="padding-left: 5px">
+              <img style="width: 20px;height: 20px;display: inline-block" ng-src="{{formDataArr.imgSrc}}"/>
+              <p style="display: inline-block;vertical-align: middle;color: #fff;margin: 0 0 7px;"
+                 ng-class="{'form-money-size':formDataArr.changeSize,'':!formDataArr.changeSize}">
+                {{formDataArr.total.CALSUM}}</p>
+              <p ng-show="!showIpadHr"
+                 style="display: inline-block;vertical-align: middle;color: #fff;margin: 0 0 7px;">
+                ({{formDataArr.total.BZBD}})</p>
+              <hr ng-show="formDataArr.hrShow" style="display: inline-block;border: none;border-right: 1px solid #fff;
+                                width: 1px;float:right;font-size:0px;overflow:hidden;"
+                  ng-class="{'form-hr-height-50':showIpadHr,'form-hr-height-30':!showIpadHr}">
+              <p ng-show="showIpadHr" style="vertical-align: middle;color: #fff;margin: 0 0 7px;">
+                ({{formDataArr.total.BZBD}})</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!--饼状图-->
+      <div ng-show="isShowForm" style="float: left;background-color: #ffffff ;width: 100%;">
+
+        <div class="col col-border-bottom" ng-class="{'col-25':colForm25,'col-50':colForm50,'':colForm100}"
+             style="float: left;"
+             ng-repeat="formDataArr in formData.list">
+          <div style="color: #666;padding: 10px">{{formDataArr.total.BZBD}}付款分布</div>
+          <div name="" style="text-align: center;margin: 0 auto;">
+            <div style="margin: 0 auto;width: 100%;" pie-charts source="formDataArr.detail" width="widthValue"
+            />
+          </div>
+
+        </div>
+
+      </div>
+    </ion-list>
+
+
+  </ion-content>
+  <div ng-show="waitWorkMask" class="wait-work-show-mask" ng-click="noMask()">
+    <!--下拉框-->
+    <div class="wait-work-pull-down-list-div-{{platformComboBox}}" ng-show="isUnfoldtitle">
+      <div class="">
+        <div class="wait-work-pull-down-list-arrow-div">
+          <style>
+            .item-radio .item-content, .item-radio input:checked + .radio-content .item-content {
+              background-color: transparent;
+            }
+
+            .item-radio {
+              border-top: 0;
+              border-right: 0;
+              border-left: 0;
+              border-bottom: 2px solid #a3c9df;
+              background-color: transparent;
+            }
+
+            .disable-pointer-events {
+              color: #ffffff;
+            }
+          </style>
+          <div class="list wait-work-pull-down-list-content-div">
+            <ion-radio ng-repeat="item in clientSideList" ng-value="item.value" ng-model="data.clientSide"
+                       ng-change="serverSideChange(item)">
+              {{ item.text }}
+            </ion-radio>
+          </div>
+        </div>
+        <!--<div class="wait-work-pull-down-list-padding-ten">
+            <span class="need-handle-down-list-notification">忠旺集团大连</span>
+        </div>
+        <div class="wait-work-pull-down-list-padding-ten">
+            <span class="need-handle-down-list-follow-font">忠旺集团上海</span>
+        </div>
+        <div class="wait-work-pull-down-list-padding-ten">
+            <span class="need-handle-down-list-follow-font">忠旺集团天津</span>
+        </div>-->
+
+      </div>
+    </div>
+  </div>
+
+</ion-view>
+

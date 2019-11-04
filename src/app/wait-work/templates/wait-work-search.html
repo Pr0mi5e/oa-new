@@ -1,0 +1,58 @@
+
+<ion-view hide-tabs="true">
+
+    <ion-content overflow-scroll="true" style="overflow:auto;" class="zw-mine-content-style">
+
+        <div class="wait-work-search-list-style" ng-if="title == '跟踪事项'">
+            <div class="zw-wait-work-search-div-text-style">标题</div>
+            <input class="zw-wait-work-search-input-text-style placeholder-right" id="titleID"
+                   placeholder="请输入标题" >
+        </div>
+
+        <div class="wait-work-search-list-style" ng-if="title != '跟踪事项'">
+            <div class="zw-wait-work-search-div-text-style">标题名称</div>
+            <input class="zw-wait-work-search-input-text-style placeholder-right" id="titleID"
+                   placeholder="请输入标题" >
+        </div>
+
+        <div class="wait-work-search-list-style" ng-if="title != '跟踪事项'">
+            <div class="zw-wait-work-search-div-text-style">发起人</div>
+            <input class="zw-wait-work-search-input-text-style placeholder-right" id="nameID"
+                   placeholder="请选择发起人姓名" >
+        </div>
+
+        <div class="wait-work-search-time-style" ng-if="title != '跟踪事项'">
+            <div class="zw-wait-work-search-div-text-style">{{titleFlagText}}时间段</div>
+        </div>
+
+        <div  style="padding-left: 50px; float:left; width: 100%" ion-datetime-picker ng-model="startTime.time" date title="'请选择时间'" ng-if="title != '跟踪事项'">
+            <span class="zw-wait-work-select-time-span-style">
+                   {{startTime.time| date: "yyyy-MM-dd"}}
+                </span>
+            <div class="zw-wait-work-search-time-img-div">
+                <img class="zw-wait-work-search-time-img"
+                     src="app/mine/img/mine-arrow-right.png">
+            </div>
+        </div>
+
+        <div  style="padding-left: 50px;float:left; width: 100%" ion-datetime-picker date title="'请选择时间'"
+              only-valid="{'inclusive': true}" ng-model="endTime.time" ng-if="title != '跟踪事项'">
+            <span class="zw-wait-work-select-time-span-style">
+                   {{endTime.time| date: "yyyy-MM-dd"}}
+                </span>
+            <div class="zw-wait-work-search-time-img-div">
+                <img class="zw-wait-work-search-time-img"
+                     src="app/mine/img/mine-arrow-right.png">
+            </div>
+        </div>
+        <hr style="height:1px;width:100%;border:none;border-top:1px solid #e5e5e5;margin-left: 10px" ng-if="title != '跟踪事项'" />
+
+    </ion-content>
+
+    <div class="bar bar-footer zw-wait-work-bottom-btn-click-background">
+        <button class="button button-icon icon zw-wait-work-bottom-btn-style" ng-click="searchWaitWork()">
+            查询
+        </button>
+    </div>
+
+</ion-view>

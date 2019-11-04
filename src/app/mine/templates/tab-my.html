@@ -1,0 +1,183 @@
+
+<ion-view>
+
+    <ion-content class="portion-content-bgcolor" overflow-scroll="true" style="overflow:auto;">
+
+        <ion-item style="padding: 0 16px 0 16px" ng-click="goMyDetails()" native-transitions>
+              <div class="zw-mine-name-round-bg"  ng-if="!showDetailImg">
+                  <h2 >{{personInfo.name|limitTo:-2}}</h2>
+
+              </div>
+              <div class="zw-mine-name-round-img" ng-show="showDetailImg">
+                <img style="width: 50px;height: 50px;border-radius: 50%" imageonerror='imgonerror()'  ng-src="{{detailImg}}" alt="">
+              </div>
+              <img class="zw-daily-iconimg">
+              <h3 class="zw-mine-title-h3"><b>{{personInfo.name}}</b></h3>
+              <h3 class="zw-mine-title-h3 zw-mine-describe-style">{{personInfo.dept}}</h3>
+              <img class="zw-mine-top-right-arrow-style" src="app/mine/img/mine-arrow-right.png">
+
+          </ion-item>
+
+        <!--首页设置-->
+        <div class="my-mine-div-padding10 my-mine-div-border item" ng-click="goHomePageSet()" native-transitions>
+            <img class="zw-mine-item-left-img-style"
+                 src="app/mine/img/mine-home-page-set.png">
+            <span class="zw-mine-item-text-style">显示设置</span>
+            <div class="zw-mine-right-div-style">
+                 <span class="zw-mine-right-text-span-style">{{homePageText}}</span>
+                <img class="zw-mine-item-right-arrow-style"
+                     src="app/mine/img/mine-arrow-right.png">
+            </div>
+        </div>
+        <!--<hr class="zw-mine-line-style">-->
+
+        <!--单据设置-->
+        <!--<div class="my-mine-div-padding10 item" ng-click="goBillSet()" native-transitions>-->
+            <!--<img class="zw-mine-item-left-img-style"-->
+                 <!--src="app/mine/img/mine-bill-set.png">-->
+            <!--<span class="zw-mine-item-text-style">单据设置</span>-->
+            <!--<div class="zw-mine-right-div-style">-->
+                 <!--<span class="zw-mine-right-text-span-style">{{setBillText}}</span>-->
+                <!--<img class="zw-mine-item-right-arrow-style"-->
+                     <!--src="app/mine/img/mine-arrow-right.png">-->
+            <!--</div>-->
+        <!--</div>-->
+       <!-- <hr class="zw-mine-line-style">-->
+
+        <!--签章方式-->
+        <div class="my-mine-div-padding10 item" ng-click="goSignatureWay()" native-transitions>
+            <img class="zw-mine-item-left-img-style"
+                 src="app/mine/img/mine-signature.png">
+            <span class="zw-mine-item-text-style">签章管理</span>
+            <div class="zw-mine-right-div-style">
+                <img class="zw-mine-item-right-arrow-style"
+                     src="app/mine/img/mine-arrow-right.png">
+            </div>
+        </div>
+        <!--<hr class="zw-mine-line-style">
+
+        <hr class="zw-mine-line-style" style="margin-top: 10px">-->
+
+        <!--解锁手势密码-->
+        <div class="my-mine-div-padding10 my-mine-div-border">
+            <img class="zw-mine-item-left-img-style"
+                 src="app/mine/img/mine-gestures-password.png">
+            <span class="zw-mine-item-text-style">解锁手势密码</span>
+            <label class="toggle" style="float:right; margin-top: -10px;">
+                <input type="checkbox" ng-click="tabLockClick()">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+
+            <div class="my-mine-div-border" ng-click="goGestureLock()" native-transitions style="padding-top: 10px;"
+                 ng-show="isShowGestureLockChange">
+                <span style="color: #3c8dbc;font-size: 16px;margin-left: 30px">修改手势密码</span>
+                <div class="zw-mine-right-div-style">
+                    <img class="zw-mine-item-right-arrow-style"
+                         src="app/mine/img/mine-arrow-right.png">
+                </div>
+            </div>
+        </div>
+
+        <!--修改手势密码-->
+        <div style="padding: 10px 16px 0 16px " ng-show="isShowGestureLockChange">
+            <span style="color: #a1a1a1;font-size: 10px;">手势密码可用于手机解锁及签章,若要用于签章,请前往"签章方式"中开启</span>
+        </div>
+        <!--<hr class="zw-mine-line-style">-->
+
+        <!--登录密码-->
+        <div class="my-mine-div-padding10 my-mine-div-border item" ng-click="goSetPassword()" native-transitions>
+            <img class="zw-mine-item-left-img-style"
+                 src="app/mine/img/mine-login-password.png">
+            <span class="zw-mine-item-text-style">登录密码</span>
+            <div class="zw-mine-right-div-style">
+                <img class="zw-mine-item-right-arrow-style"
+                     src="app/mine/img/mine-arrow-right.png">
+            </div>
+        </div>
+       <!-- <hr class="zw-mine-line-style">-->
+
+        <!--清理缓存-->
+        <div class="my-mine-div-padding10 item" ng-click="clearCache()">
+            <img class="zw-mine-item-left-img-style"
+                 src="app/mine/img/mine-clear-cache.png">
+            <span class="zw-mine-item-text-style">清理缓存</span>
+            <div class="zw-mine-right-div-style">
+                 <span class="zw-mine-clear-text-span-style">立即清除</span>
+            </div>
+        </div>
+        <!--<hr class="zw-mine-line-style">-->
+
+        <!--其他人待办-->
+        <div ng-if="canViewOtherWaitWork" class="my-mine-div-padding10 item" ng-click="viewOtherWaitWorkDialogShow()">
+        <img class="zw-mine-item-left-img-style"
+             src="app/mine/img/mine-clear-cache.png">
+        <span class="zw-mine-item-text-style">其他人待办</span>
+          <div class="zw-mine-right-div-style">
+            <span class="zw-mine-clear-text-span-style">查看</span>
+          </div>
+      </div>
+
+        <!--关于系统-->
+        <div class="my-mine-div-padding10 item" ng-click="versionUpdate()">
+            <img class="zw-mine-item-left-img-style"
+                 src="app/mine/img/mine-about-system.png">
+            <span class="zw-mine-item-text-style">关于系统</span>
+            <span class="zw-mine-item-text-style" style="font-size: 12px">{{currentVersion}}</span>
+            <img ng-show="upDateFlag" style="width: 20px;height: 10px" src="app/mine/img/mine-new-img.png">
+            <div class="zw-mine-right-div-style">
+                 <span ng-show="!upDateFlag" class="zw-mine-right-text-span-style">已经是最新版本</span>
+                 <span ng-show="upDateFlag" class="zw-mine-clear-text-span-style">立即更新</span>
+                <img ng-show="upDateFlag" class="zw-mine-item-right-arrow-style" src="app/mine/img/mine-arrow-right.png">
+            </div>
+        </div>
+            <!--网络时间请求记录-->
+        <div class="my-mine-div-padding10 item" ng-click="uploadTimeData()" ng-show="showTiemUpload">
+            <img class="zw-mine-item-left-img-style"
+                 src="app/mine/img/mine-signature.png">
+            <span class="zw-mine-item-text-style">日志上传</span>
+        </div>
+
+        <div style="padding:10px;text-align: center;">
+                <button class="button button-outline button-assertive" style="width: 95%;
+                border: 1px solid #e9a59c; color:#dd4b39;background-color: #FFFFFF;" ng-click="exitLogin()">
+                    退出登录</button>
+            </div>
+
+    </ion-content>
+  <!--弹出密码校验窗口-->
+  <div ng-if="checkPW" class="show-mask">
+    <div class="show-mask-content">
+      <div style="font-size: 16px">密码验证</div>
+      <div style="width: 100%;text-align: center;border-bottom: 1px solid #d5d5d5">
+        <div style="color: red; height: 20px">{{errMsg}}</div>
+        <input id="pwValue" style="width:30%;padding:10px 0;margin:5px auto ;font-size: 13px;color: #69717d" type="password" placeholder=" 输入登录密码"/>
+
+      </div>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 5px"
+              ng-click="checkPWMethod()">验证
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 5px"
+              ng-click="cancelCheck()">取消
+      </button>
+    </div>
+  </div>
+
+  <div ng-if="viewOtherWaitWorkVisible" class="show-mask">
+    <div class="show-mask-content">
+      <div style="font-size: 16px">请输入userCode</div>
+      <div style="width: 100%;text-align: center;border-bottom: 1px solid #d5d5d5">
+        <input id="user-code" style="border:none;width:30%;padding:10px 0;margin:5px auto ;font-size: 13px;color: #69717d" type="input" placeholder=" 输入UserCode"/>
+
+      </div>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 5px"
+              ng-click="viewOtherWaitWork()">确认
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 5px"
+              ng-click="viewOtherWaitWorkDialogHide()">取消
+      </button>
+    </div>
+  </div>
+
+</ion-view>

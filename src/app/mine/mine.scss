@@ -1,0 +1,271 @@
+
+/*我的*/
+.zw-mine-content-style{
+  background-color: #FFFFFF;
+}
+.my-mine-div-padding10{
+  padding:16px 10px 10px 10px;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+.my-mine-boder-bottom0{
+  border-bottom: 0px;
+}
+.my-mine-div-border{
+  border-top: 1px solid #e5e5e5;
+  margin-top: 10px;
+}
+.home-page-set-bgcolor{
+  padding: 10px;
+  background-color: #ffffff;
+}
+.toggle-small.item-toggle .toggle{
+  top: 5px;
+}
+/*姓名圆圈背景*/
+.zw-mine-name-round-bg{
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  border-radius: 50%;
+  display:table;
+  margin-top: 13px;
+  background-color: #dd4b39;
+  float:left;
+}
+.zw-mine-name-round-img{
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  border-radius: 50%;
+  display:table;
+  margin-top: 13px;
+  float:left;
+}
+/*圆圈里面名字的字体*/
+.zw-mine-name-round-bg h2{
+  vertical-align:middle;
+  display:table-cell;
+  font-weight: 700;
+  text-align: center;
+  color:#fffeff;
+}
+/*标题字体控制,超过宽度,省略号*/
+.zw-mine-title-h3{
+  display: inline-block;
+  width: 62%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 16px 0 0 10px;
+  float:left;
+  font-size: 15px !important;
+}
+.zw-mine-title-h3 b{
+  font-weight: normal;
+}
+/*部门描述*/
+.zw-mine-describe-style{
+  padding-top: 0;
+  line-height: 40px;
+  color:#999;
+  font-size: 12px !important;
+}
+
+/*item右边的图片样式*/
+.zw-mine-item-left-img-style{
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle
+}
+/*item中间的文字样式*/
+.zw-mine-item-text-style{
+  vertical-align: middle;
+  display: inline-block;
+  padding-left: 5px;
+  font-size: 15px
+}
+
+/*退出div按钮样式*/
+.zw-mine-exit-btn-style{
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*顶部箭头样式*/
+.zw-mine-top-right-arrow-style{
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  float:right;
+  margin-right: -5px;
+  vertical-align: middle
+}
+
+/*item样式中的箭头*/
+.zw-mine-item-right-arrow-style{
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+}
+
+/*横线样式*/
+.zw-mine-line-style{
+  width: 100%;
+  height: 1px;
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 0;
+}
+
+/*item中控制右边div样式*/
+.zw-mine-right-div-style{
+  display: inline-block;
+  float: right;
+  vertical-align: middle
+}
+
+/*itme中控制右边字体的样式*/
+.zw-mine-right-text-span-style{
+  display: inline-block;
+  color: #a1a1a1;
+  float: left;
+  font-size: 12px
+}
+
+/*立即清除的字体样式*/
+.zw-mine-clear-text-span-style{
+  display: inline-block;
+  color: #3c8dbc;
+  float: left;
+  font-size: 12px
+}
+
+/*选择模块的字体样式*/
+.zw-mine-bill-text-p-style{
+  display: inline-block;
+  font-size: 16px;
+  margin: 3px 0 5px 0;
+}
+
+
+/*描述字体样式*/
+.zw-mine-summary-p-style{
+  font-size: 12px;
+  color: #a1a1a1;
+  padding: 10px 10px 10px 10px
+}
+
+/*修改密码div字体*/
+.zw-mine-set-password-div-text-style{
+  display: inline;
+  color: #000000;
+  font-size: 16px;
+}
+
+/*修改密码input字体*/
+.zw-mine-set-password-input-text-style{
+  text-align: right;
+  height:20px!important;
+  width: 60%;
+  float: right;
+  display: inline!important;
+  border: 0;
+  color: #a1a1a1!important;
+  margin-left:10px;
+}
+
+/*顶部右边完成按钮样式*/
+.zw-mine-finish-btn-style{
+  color: #ffffff!important;
+  font-size: 17px!important;
+}
+
+//控制上下的箭头图标,如规章制度中的箭头
+$animal-list: mine-select, mine-unselect;
+@each $animal in $animal-list {
+  .#{$animal} {
+    background: url('../img/#{$animal}.png') no-repeat;
+    border: 0px;
+    background-size: 28px 28px;
+    background-position:center ;
+    display: inline-block;
+    padding:0 15px;
+    color: transparent;
+    height:30px;
+  }
+}
+
+//签章密码页面
+
+//小框父级
+.signature-password .password-input-list{
+  width: 100%;
+  margin: 20px auto;
+  text-align: center;
+  box-sizing: border-box;
+}
+//每个小框
+.signature-password .password-input{
+  width: 40px;
+  height: 40px;
+  margin: 0 3px;
+  border-radius: 6px;
+  border: 1px solid #d1d3d6;
+  background-color: #fff;
+  display: inline-block;
+}
+
+
+/*首页设置*/
+.home-page-set-div-margin{
+  background-color: #FFFFFF;
+}
+
+/*签章方式*/
+.mien-div-padding10-bgcolorfff{
+  padding: 10px;
+  background-color: #FFFFFF;
+}
+//首页设置页面
+.my-mine-div-radio-button{
+  float: right;
+  display: inline-block
+}
+.padding16{
+  padding: 16px;
+}
+
+
+.ng-image-crop > section{
+  background-color: #999 !important;
+}
+
+
+.rotateIOSImg{
+  transform: rotateZ(90deg);
+  -moz-transform: rotateZ(90deg);
+  -webkit-transform: rotateZ(90deg);
+  -o-transform: rotateZ(90deg);
+
+}
+
+//关于系统
+.zw-system-butt{
+  display: inline-block;
+  vertical-align: middle;
+  border-radius:0px;
+  float:right;
+  margin-right:10px;
+  border: 1px solid #ff6c62;
+  background-color: #ffffff;
+  color:#ff6c62;
+  padding: 3px 6px 3px 6px;
+}
+
+.zw-system-scan{
+  text-align: center;
+  margin: 20px 10px 20px 10px ;
+  border:1px solid #ff6c62;
+}

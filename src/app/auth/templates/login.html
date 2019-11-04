@@ -1,0 +1,160 @@
+<ion-view hide-nav-bar="true" style="z-index: 9" >
+  <ion-content id="isContentHide">
+    <!--style="background-color: #f5f6f8;"-->
+    <!--class="calm-bg"-->
+    <div  class="calm-bg" ng-if="isWhich" style="overflow-y: auto;height: 100%" ng-class="{'topY':showTop,'topN':!showTop}" delegate-handle="loginScroll" id="loginScroll">
+        <div class="list zw-login-divtop30">
+            <div class="zw-log">
+                <div class="zw-login-logo"></div>
+            <!--<img src="app/auth/img/768-logo.png"/>-->
+            </div>
+            
+            <div class="zw-home-div-right">
+            <!--请输入用户名-->
+            <div class="item item-input zw-login-labeluser">
+            <style>
+                .calm-bg input::-webkit-input-placeholder,.calm-bg textarea::-webkit-input-placeholder {
+                color: #ffffff;
+                line-height: 20px;
+                }
+                .calm-bg input:-moz-placeholder,.calm-bg textarea:-moz-placeholder{
+                color: #ffffff;
+                line-height: 20px;
+                }
+                .calm-bg input::-moz-placeholder,.calm-bg textarea::-moz-placeholder{
+                color: #ffffff;
+                line-height: 20px;
+                }
+                .calm-bg input:-ms-input-placeholder,.calm-bg textarea:-ms-input-placeholder{
+                color: #ffffff;
+                line-height: 20px;
+                }
+            </style>
+            
+            <div class="login-bgimglabeluser">
+                <input id ="userName" type="text" placeholder="请输入用户名" ng-model="data.username" ng-click="topChange()"
+                       ng-keyup="okKeyup($event)">
+                <i class="login-circled ion-close-circled" style="padding: 2px 5px 0 15px" ng-click="clearName()"></i>
+            </div>
+            
+            
+            </div>
+            <!--请输入密码-->
+            <div class="item item-input zw-login-labeluser" style="margin-top: 40px;">
+                <div class="login-bgimglabelpassword">
+                    <input type="password" class="" placeholder="请输入密码" ng-model="data.password" ng-click="topChange()"
+                           ng-keyup="okKeyup($event)">
+                    <i class="login-circled ion-close-circled" style="padding: 2px 5px 0 15px" ng-click="clearPW()"></i>
+                </div>
+            </div>
+            <div class="zw-login-choice">
+                
+                <button ng-class="{true:'ion-android-checkbox',false:'ion-android-checkbox-blank'}[data.savePassword]"
+                    class="button button-clear button-positive icon-left zw-login-but01" ng-click="savePassword()">
+                    记住密码
+                </button>
+                <button style="float: right; color:#ffffff" ng-class="{true:'ion-android-checkbox',false:'ion-android-checkbox-blank'}[data.autoGetToken]"
+                    class="button button-clear button-positive icon-left" ng-click="autoGetToken()">
+                    自动登录
+                </button>
+            
+            </div>
+            
+            <div class="zw-login-choice">
+                <button class="button button-block button-positive zw-login-but03" ng-click="login()" native-transitions>
+                登录
+                </button>
+                <span ng-show="isShowforgetPw" ng-click="forget()" native-transitions>
+                        忘记密码?
+                    </span>
+            </div>
+            <div style="width: 100%;padding-bottom: 120px;" ></div>
+            
+            
+            </div>
+        </div>
+    </div>
+  </ion-content>
+  
+  
+  
+  
+  
+  
+  <!--<ion-content></ion-content>-->
+  <div class="calm-bg" ng-if="!isWhich" style="overflow-y: auto;height: 100%" ng-class="{'topY':showTop,'topN':!showTop}" delegate-handle="loginScroll" id="loginScroll">
+    <div class="list zw-login-divtop30">
+      <div  class="zw-log">
+        <div class="zw-login-logo"></div>
+        <!--<img src="app/auth/img/768-logo.png"/>-->
+      </div>
+      
+      <div class="zw-home-div-right">
+        <!--请输入用户名-->
+        <div class="item item-input zw-login-labeluser">
+          <style>
+            .calm-bg input::-webkit-input-placeholder,.calm-bg textarea::-webkit-input-placeholder {
+              color: #ffffff;
+              line-height: 20px;
+            }
+            .calm-bg input:-moz-placeholder,.calm-bg textarea:-moz-placeholder{
+              color: #ffffff;
+              line-height: 20px;
+            }
+            .calm-bg input::-moz-placeholder,.calm-bg textarea::-moz-placeholder{
+              color: #ffffff;
+              line-height: 20px;
+            }
+            .calm-bg input:-ms-input-placeholder,.calm-bg textarea:-ms-input-placeholder{
+              color: #ffffff;
+              line-height: 20px;
+            }
+          </style>
+          
+          <div class="login-bgimglabeluser">
+            <input id ="userName" type="text" placeholder="请输入用户名" ng-model="data.username" ng-click="topChange()">
+            <i class="login-circled ion-close-circled" style="padding: 2px 5px 0 15px" ng-click="clearName()"></i>
+          </div>
+        
+        
+        </div>
+        <!--请输入密码-->
+        <div class="item item-input zw-login-labeluser" style="margin-top: 40px;">
+          <div class="login-bgimglabelpassword">
+            <input type="password" class="" placeholder="请输入密码" ng-model="data.password" ng-click="topChange()">
+            <i class="login-circled ion-close-circled" style="padding: 2px 5px 0 15px" ng-click="clearPW()"></i>
+          </div>
+        </div>
+        <div class="zw-login-choice">
+          
+          <button ng-class="{true:'ion-android-checkbox',false:'ion-android-checkbox-blank'}[data.savePassword]"
+                  class="button button-clear button-positive icon-left zw-login-but01" ng-click="savePassword()">
+            记住密码
+          
+          </button>
+          <button style="float: right; color:#ffffff" ng-class="{true:'ion-android-checkbox',false:'ion-android-checkbox-blank'}[data.autoGetToken]"
+                  class="button button-clear button-positive icon-left" ng-click="autoGetToken()">
+            自动登录
+          
+          </button>
+        
+        </div>
+        
+        <div class="zw-login-choice">
+          <button class="button button-block button-positive zw-login-but03" ng-click="login()" native-transitions>
+            登录
+          </button>
+          <span ng-show="isShowforgetPw" ng-click="forget()" native-transitions>
+                        忘记密码?
+                    </span>
+        </div>
+  
+  
+        
+      </div>
+      <div ng-if='IosTop' style="width: 100%;height: 100%;padding-bottom: 70%"></div>
+    </div>
+  </div>
+
+</ion-view>
+

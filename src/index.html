@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+  <script src="app/log/sendError.js"></script>
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <!-- <link href="lib/ionic/css/ionic.css" rel="stylesheet">-->
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above -->
+  <!-- compiled css output -->
+  <!-- NOTE: the build-endbuild tags are used by gulp-htmlreplace - DO NOT REMOVE -->
+  <!-- build:sass -->
+  <!--引用压缩后的css,by dong-->
+  <!--<link href="css/ionic.app.css" rel="stylesheet">-->
+  <link href="css/ionic.app.min.css" rel="stylesheet">
+  <!-- endbuild -->
+
+  <!-- NOTE: the build-endbuild tags are used by gulp-htmlreplace - DO NOT REMOVE -->
+  <!-- build:third-library-js -->
+  <!-- NOTE: the inject-endinject tags are used by gulp-inject - DO NOT REMOVE -->
+  <!-- inject:js -->
+  <script src="lib/ionic/js/ionic.bundle.js"></script>
+  <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
+  <script src="lib/oi.select/dist/select-tpls.js"></script>
+
+  <script src="lib/angular-md5/angular-md5.js"></script>
+  <script src="lib/angular-translate/angular-translate.min.js"></script>
+  <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+  <!--<script src="lib/ion-datetime-picker/release/ion-datetime-picker.min.js"></script>-->
+  <script src="lib/ion-datetime-picker/src/picker.js"></script>
+  <script src="lib/ionic-native-transitions/dist/ionic-native-transitions.js"></script>
+  <script src="lib/angular-sqlite/angular-sqlite.js"></script>
+
+  <!--头像编辑start-->
+  <script src="lib/AlloyFinger/transformjs/transform.js"></script>
+  <script src="lib/AlloyFinger/alloy_finger.js"></script>
+  <script src="lib/AlloyFinger/alloy_crop/alloy_crop.js"></script>
+  <!--头像编辑end-->
+  <script src="lib/angular-base64-2.0.3/angular-base64.js"></script>
+
+  <!-- endinject -->
+  <!-- endbuild -->
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <!--指令-->
+  <script src="shared/directives/html.directives.js"></script>
+  <script src="shared/directives/view-form.directives.js"></script>
+  <script src="shared/directives/pinch-form.directives.js"></script>
+  <script src="shared/directives/information.directives.js"></script>
+  <script src="shared/directives/form-handle.directives.js"></script>
+  <script src="shared/directives/view-form-myPopup.directives.js"></script>
+  <script src="shared/directives/echart.directives.js"></script>
+  <!--echart图表-->
+  <script src="shared/lib/echarts.min.js"></script>
+  <!-- your app's js -->
+  <!-- NOTE: the build-endbuild tags are used by gulp-htmlreplace - DO NOT REMOVE -->
+  <!-- build:js -->
+
+  <!-- gesture lock module -->
+  <script src="app/gesture-lock/controllers/gesture-lock.ctrl.js"></script>
+  <script src="app/gesture-lock/controllers/gesture-nav.ctrl.js"></script>
+  <script src="app/gesture-lock/controllers/reset-gesture-lock.ctrl.js"></script>
+  <script src="app/gesture-lock/controllers/set-gesture-lock.ctrl.js"></script>
+  <script src="app/gesture-lock/controllers/sign-in-gesture-lock.ctrl.js"></script>
+
+  <script src="app/gesture-lock/gesture-lock.services.js"></script>
+
+  <!-- auth module -->
+  <script src="app/auth/user.module.js"></script>
+  <script src="app/auth/controllers/login.ctrl.js"></script>
+  <script src="app/auth/controllers/forget.ctrl.js"></script>
+  <script src="app/auth/auth.services.js"></script>
+
+  <!-- scripts belonging to the root "app" module are placed here -->
+  <script src="app/app.js"></script>
+  <script src="app/constants.js"></script>
+  <script src="app/config/config.js"></script>
+  <script src="app/application.ctrl.js"></script>
+  <script src="app/application.service.js"></script>
+  <!--工具类-->
+  <script src="app/utils.js"></script>
+  <!--单例类-->
+  <script src="app/single-instance.js"></script>
+
+
+
+  <script src="app/app.routes.js"></script>
+  <script src="app/auth/auth.router.js"></script>
+  <script src="app/gesture-lock/gesture.router.js"></script>
+  <!-- endbuild -->
+
+  <!-- ANGULAR-TEMPLATECACHE -->
+  <!-- build:templates -->
+  <script src="app/app.templates.js"></script>
+
+  <script src="lib/ion-datetime-picker/src/picker-i18n.js"></script>
+  <!--通讯录-->
+  <script src="app/addressList/controllers/address-list.ctrl.js"></script>
+  <!-- view-form module待办详情 -->
+  <script src="app/view-form/controllers/view-form.ctrl.js"></script>
+  <script src="app/view-form/controllers/form-handle.ctrl.js"></script>
+  <script src="app/view-form/controllers/signature-password.ctrl.js"></script>
+  <script src="app/view-form/controllers/form-enlargement.ctrl.js"></script>
+  <script src="app/view-form/view-form.router.js"></script>
+  <script src="app/view-form/view-form.services.js"></script>
+  <script src="app/view-form/view-form.module.js"></script>
+  <!--我-->
+  <script src="app/mine/controllers/mine-about-system.js"></script>
+  <script src="app/mine/controllers/mine.ctrl.js"></script>
+  <script src="app/mine/controllers/mine-bill-set.ctrl.js"></script>
+  <script src="app/mine/controllers/mine-details.ctrl.js"></script>
+  <script src="app/mine/controllers/mine-home-page-set.ctrl.js"></script>
+  <script src="app/mine/controllers/mine-signature-way.ctrl.js"></script>
+  <script src="app/mine/controllers/mine-set-password.ctrl.js"></script>
+
+  <script src="app/mine/mine.routes.js"></script>
+  <script src="app/mine/mine.services.js"></script>
+  <!--工作-->
+  <script src="app/work/controllers/work-create-matter.ctrl.js"></script>
+  <script src="app/work/controllers/work.ctrl.js"></script>
+  <script src="app/work/controllers/work-wait-work.ctrl.js"></script>
+  <script src="app/work/controllers/work-other-wait-news.ctrl.js"></script>
+  <script src="app/work/controllers/work-sizer.ctrl.js"></script>
+  <script src="app/work/controllers/work-create-synergy.ctrl.js"></script>
+  <script src="app/work/work.routes.js"></script>
+  <script src="app/work/work.services.js"></script>
+  <!--待办-->
+  <script src="app/wait-work/controllers/wait-search.ctrl.js"></script>
+  <script src="app/wait-work/controllers/wait-work.ctrl.js"></script>
+  <script src="app/wait-work/controllers/wait-sizer.ctrl.js"></script>
+  <script src="app/wait-work/wait-work.routes.js"></script>
+  <script src="app/wait-work/wait-work.services.js"></script>
+  <!--通知-->
+  <script src="app/notification/controllers/notification-work.ctrl.js"></script>
+  <script src="app/notification/controllers/notification.ctrl.js"></script>
+  <script src="app/notification/notification.routes.js"></script>
+  <script src="app/notification/notification.services.js"></script>
+  <!--联系人-->
+  <script src="app/addressList/controllers/address-list.ctrl.js"></script>
+  <script src="app/addressList/addressList.routes.js"></script>
+  <!--消息-->
+  <script src="app/information/controllers/information.ctrl.js"></script>
+  <script src="app/information/information.routes.js"></script>
+  <!-- endbuild -->
+
+  <script src="shared/lib/util.js"></script>
+
+  <!-- form validator -->
+  <script src="shared/lib/jqueryValidate/jquery.qtip.js"></script>
+  <script src="shared/lib/jqueryValidate/customValid.js"></script>
+
+  <script src="shared/lib/baseService.js"></script>
+  <script src="shared/lib/component.js"></script>
+  <script src="shared/lib/uploadModule.js"></script>
+
+
+</head>
+<body ng-app="community" ng-controller="ApplicationCtrl" id="stuff">
+<!--
+  The nav bar that will be updated as we navigate between views.
+-->
+<ion-nav-bar class="bar-dark">
+  <ion-nav-back-button class="button-clear back-btn" transitiontype="flip" direction="right" go-native ng-show="$root.toBack">
+    <i class="ion-chevron-left"></i>
+  </ion-nav-back-button>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon icon ion-ios-bell-outline" ng-show="$root.bell" ng-click="clickLiftMessage()">
+      <i ng-show="$root.bellRed" class="my-work-top-dotRed ion-record"></i>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-title>{{$root.titleData}}</ion-nav-title>
+</ion-nav-bar>
+<!--
+  The views will be rendered in the <ion-nav-view> directive below
+  Templates are in the /templates folder (but you could also
+  have templates inline in this html file if you'd like).
+-->
+<ion-nav-view></ion-nav-view>
+<link href="lib/ion-datetime-picker/release/ion-datetime-picker.min.css" rel="stylesheet">
+<link href="lib/oi.select/dist/select.css" rel="stylesheet">
+</body>
+</html>

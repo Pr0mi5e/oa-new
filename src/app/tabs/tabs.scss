@@ -1,0 +1,66 @@
+/*待办*/
+.tab-tab-wait-work-p {
+  background: url("../img/tab-wait-work-p.png") no-repeat center;
+  background-size: 25px 25px;
+}
+.tab-tab-wait-work-f {
+  background: url("../img/tab-wait-work-f.png") no-repeat center;
+  background-size: 25px 25px;
+}
+
+/*工作*/
+.tab-work-p {
+  background: url("../img/tab-work-p.png") no-repeat center;
+  background-size: 25px 25px;
+}
+.tab-work-f {
+  background: url("../img/tab-work-f.png") no-repeat center;
+  background-size: 25px 25px;
+}
+
+/*联系人*/
+.ion_notification_p{
+  background: url("../img/ion_notification_p.png") no-repeat center;
+  background-size: 25px 25px;
+}
+.ion_notification_f{
+  background: url("../img/ion_notification_f.png") no-repeat center;
+  background-size: 25px 25px;
+}
+
+/*我的*/
+.tab-mine-p {
+  background: url("../img/tab-mine-p.png") no-repeat center;
+  background-size: 25px 25px;
+}
+.tab-mine-f {
+  background: url("../img/tab-mine-f.png") no-repeat center;
+  background-size: 25px 25px;
+}
+
+/*底部红色圆点*/
+.tab-work a[icon-on="tab-work-p"],.tab-wait-work a[icon-on="tab-tab-wait-work-p"],.tab-ion-notification a[icon-on="ion_notification_p"],.tab-mine a[icon-on="tab-mine-p"]{
+  position: relative;
+}
+/*底部红色圆点---开始*/
+.tab-work a[icon-on="tab-work-p"].tab-item:after,.tab-wait-work a[icon-on="tab-tab-wait-work-p"].tab-item:after,
+.tab-ion-notification a[icon-on="ion_notification_p"].tab-item:after,.tab-mine a[icon-on="tab-mine-p"].tab-item:after{
+  position: absolute;
+  content: ' ';
+  top:0;
+  right: 30%;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: red;
+}
+@media screen and (min-width: 430px) {
+
+  .tab-work a[icon-on="tab-work-p"].tab-item:after,.tab-wait-work a[icon-on="tab-tab-wait-work-p"].tab-item:after,
+  .tab-ion-notification a[icon-on="ion_notification_p"].tab-item:after,.tab-mine a[icon-on="tab-mine-p"].tab-item:after{
+    right: 35%;
+  }
+}
+
+
+/*底部红色圆点---结束*/

@@ -1,0 +1,157 @@
+.rj-list .list {
+  margin-left: 10px;
+  margin-right: auto;
+  margin-top: -1px;
+  width: 90%;
+}
+.rj-list .list .rj-item {
+  border-bottom: medium none;
+  border-left: medium none;
+  border-right: medium none;
+  padding-bottom: 6px;
+  padding-left: 0;
+  padding-top: 6px;
+}
+
+.rj-item .rj-contacts-pic {
+  color: #fff;
+  float: left;
+  font-size: 28px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  width: 36px;
+}
+.rj-contacts-pic img {
+  width: 36px;
+  height: 36px;
+}
+.rj-orange-bgc {
+  background-color: orange;
+}
+.rj-green-bgc {
+  background-color: #63db2a;
+}
+.rj-item h2 {
+  bottom: 0;
+  height: 32px;
+  left: 36px;
+  line-height: 32px;
+  margin: auto !important;
+  padding-left: 10px;
+  position: absolute;
+  top: 0;
+  color: $size-000!important;
+}
+
+/*26个字母的样式*/
+.rj-contacts-item {
+  padding: 0 !important;
+}
+.rj-contacts-index-bar {
+  background-color: #e8e8e8;
+  color: #545454;
+  font-size: 80%;
+  height: 20px;
+  line-height: 20px;
+  padding-left: 10px;
+}
+
+/*触摸字母检索*/
+.rj-contacts-right-bar {
+  color: #545454;
+  font-size: 80%;
+  height: 464px;
+  position: fixed;
+  right: 0;
+  text-align: center;
+  width: 20px;
+  z-index: 2;
+  top:50px;
+}
+.rj-contacts-right-bar div {
+  height: 16px;
+}
+
+/**/
+.address-item-padding0{
+  padding: 0px;
+  border-bottom: 1px solid #e5e5e5;
+  border-top:none;
+}
+.address-button-div{
+  width: 25%;
+  display:inline-block;
+  float:left;
+}
+.adderss-list-div-left{
+  width: 75%;
+  display:inline-block;
+  float:left;
+}
+.adderss-list-div-left .list{
+  padding: 0;
+}
+.adderss-list-div-left .item{
+  border: 0px;
+  margin: 0;
+  padding-bottom:0 ;
+  padding-right: 0;
+  padding-top:0;
+  height: 75px;
+}
+.adderss-list-div-left .item-image{
+  width: 50px;
+  height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  left:6px;
+  top:0px;
+}
+.adderss-list-div-left .item-image img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.adderss-list-div-left .hr-margin0{
+  margin: 0;
+}
+.adderss-list-name-div{
+  height: 74px;
+  padding-top:10px;
+  width: 60%;
+  float:left;
+}
+.adderss-list-name-div h3,.adderss-list-name-div .p-inline{
+  padding-top:5px;
+}
+.adderss-list-name-div h3 b{
+  font-weight: normal;
+  font-size: 15px;
+}
+.adderss-list-name-div .p-inline{
+  color:#a9a9a9;
+  font-size: 12px;
+}
+/*.adderss-list-name-div h3{
+  font-size: 15px !important;
+}*/
+.adderss-check-div{
+  padding-top: 20px;
+}
+
+.address-button-department{
+  width: 100%;
+  height: 75px;
+  display: block;
+  border: 1px solid #e5e5e5;
+  border-top: none;
+  border-left: none;
+  color:#666666;
+  background-color: #FFFFFF;
+  font-size: 15px;
+}
+.address-button-div .active{
+  background-color: #3c8cbd;
+  color:#ffffff;
+}

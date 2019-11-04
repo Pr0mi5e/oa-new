@@ -1,0 +1,57 @@
+
+<ion-view hide-tabs="true" view-title="新建事项">
+  
+
+    <ion-content class="portion-content-bgcolor" overflow-scroll="true" style="overflow:auto;">
+        <ion-list class="my-work-newmatter-list">
+            <ion-item class="my-work-newmatter" ng-click="goMineItem()" native-transitions>
+                <img class="my-work-newmatter-documentImg" src="app/work/img/my-work-newmatter-document.png" />
+                <span>我保存的模板（5）</span>
+                <img ng-class="{'my-work-newmatter-transform-img':mineItemFlag,'my-work-newmatter-table-item-img':!mineItemFlag}" src="app/work/img/my-work-newmatter-chevron.png" alt="">
+            </ion-item>
+            <ion-list ng-if="mineItemFlag" class="my-work-newmatter-listPaddingLeft">
+                <ion-item ng-click="goSynergy()">
+                    铝厂采购模板
+                </ion-item>
+                <ion-item ng-click="goSynergy()">
+                    忠旺财务年假单信息部专用版
+                </ion-item>
+                <ion-item ng-click="goSynergy()">
+                    铝锭采购2017版
+                </ion-item>
+                <ion-item ng-click="goSynergy()">
+                    忠旺财务年假单信息部专用版
+                </ion-item>
+                <ion-item ng-click="goSynergy()">
+                    铝锭采购2017版
+                </ion-item>
+
+            </ion-list>
+        </ion-list>
+        <ion-list class="my-work-newmatter-list">
+            <ion-item class="my-work-newmatter" ng-click="goCommonality()" native-transitions>
+                <img class="my-work-newmatter-documentImg" src="app/work/img/my-work-newmatter-document.png" />
+                <span>公共模板（10）</span>
+                <img ng-class="{'my-work-newmatter-transform-img':commonalityFlag,'my-work-newmatter-table-item-img':!commonalityFlag}" src="app/work/img/my-work-newmatter-chevron.png" alt="">
+            </ion-item>
+            <ion-list ng-if="commonalityFlag" class="my-work-newmatter-listPaddingLeft">
+                <ion-item ng-click="goSynergy()" native-transitions>
+                    铝厂采购模板
+                </ion-item>
+                <ion-item ng-click="goSynergy()" native-transitions>
+                    忠旺财务年假单信息部专用版
+                </ion-item>
+                <ion-item ng-click="goSynergy()" native-transitions>
+                    铝锭采购2017版
+                </ion-item>
+                <ion-item ng-click="goSynergy()" native-transitions>
+                    忠旺财务年假单信息部专用版
+                </ion-item>
+                <ion-item ng-click="goSynergy()" native-transitions>
+                    铝锭采购2017版
+                </ion-item>
+
+            </ion-list>
+        </ion-list>
+    </ion-content>
+</ion-view>

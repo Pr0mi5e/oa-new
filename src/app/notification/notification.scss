@@ -1,0 +1,158 @@
+
+.notification .head-btn{
+  background-color: #3c8dbc!important;
+  border: transparent;
+  color: white;
+  font-size: 16px;
+
+}
+//搜索
+.button-seek{
+  width:98%;
+  height:20px;
+  margin-top: 8px;
+  display:block ;
+  color:#cccccc !important;
+}
+.notification .tabs-top .tabs{
+  background: #F7F7F7 !important;
+  width: 100%;
+  border: none;
+}
+.selectContacts-select-position {
+  position: absolute;
+  vertical-align: middle;
+  right: 5px;
+
+}
+.notification .need-document{
+  border: 0;
+  background-color: white;
+  height: 80px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 16px 16px 16px;
+}
+.need-inform-tiem{
+  width: 60px;
+  float:right;
+  text-align: center;
+  padding-left: 20px;
+
+}
+.need-inform-tiem span{
+  font-size: 12px;
+  -webkit-transform-origin-x: 0;
+  -webkit-transform: scale(.8)!important;
+  color:#999;
+}
+//通知内的复选框
+.check-radius{
+  background: url("../img/mine-unselect.png") no-repeat;
+  background-size: 28px 28px;
+  background-position:center ;
+  display: inline-block;
+  padding:0 15px;
+  color: transparent;
+  height:30px;
+  margin-top: 5px;
+}
+.checked-radius{
+  background: url("../img/mine-select.png") no-repeat;
+  background-size: 28px 28px;
+  background-position:center ;
+  display: inline-block;
+  padding:0 15px;
+  color: transparent;
+  height:30px;
+  margin-top: 5px;
+}
+
+.item-margin{
+  margin-top: 10px;
+}
+.notification .need-document-img-left{
+  width: 50px;
+  height: 50px;
+  vertical-align: middle;
+}
+.notification .need-document-img-right{
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+  opacity: 0.6;
+
+}
+.notification .need-document-content{
+  vertical-align: middle;
+  display: inline-block;
+  width: 50%;
+  margin: 0 1%
+}
+.notification  .need-document-content-item{
+
+  display: flex;
+  margin-top: 3px
+}
+.notification  .need-document-content-item h5{
+  margin-right: 10px;
+  color: #999 !important;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+
+}
+.notification .need-document-content-title{
+  color:#000000;
+  font-size: 16px ;
+}
+.notification .need-document-border{
+  border-bottom:1px solid #e5e5e5 ;
+}
+.notification button.div-btn-outline{
+  width: 45%;
+  margin: 15px 2%;
+  height: 30px!important;
+  color: #3c8dbc!important;
+  position: absolute;
+  top: -10px !important;
+  border: 1px solid #3c8dbc !important;
+  line-height: normal;
+
+}
+.notification button.div-btn-outline.active{
+  border-color: transparent;
+  background-color: #3c8dbc !important;
+  color: #fff!important;
+}
+.notification button.div-btn-outline.activated{
+  border-color: transparent;
+  background-color: #3c8dbc !important;
+  color: #fff!important;
+}
+
+
+//通知详情
+
+.work-notification .hr_01 {
+  height: 1px;
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  width: 100%;
+}
+.work-notification .zw-reply{
+  padding:10px;
+}
+.work-notification .zw-reply span{
+  color:#999;
+  font-size: 13px;
+}
+
+.work-notification .zw-item-marginTop10{
+  padding: 10px;
+}
+.work-notification .zw-item-marginTop10.activated{
+  background-color:#ffffff !important;
+  border-color:#f3f3f3;
+}

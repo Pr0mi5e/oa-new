@@ -1,0 +1,21 @@
+<ion-view hide-tabs="true"  class="form-handle">
+  <ion-nav-back-button class="button-clear back-btn" transitiontype="flip" direction="right">
+    <i class="ion-chevron-left"></i>
+  </ion-nav-back-button>
+  <ion-content overflow-scroll="false" style="overflow: auto;background-color: #F7F7F7;">
+    <div>
+      <div style="text-align: center;width: 100%;">
+        <div style="width:66px;height: 66px;margin:20px auto 5px;border-radius: 33px;text-align: center;line-height: 66px;color:white;background-color:#3C8DBC ">{{personInfo.name|limitTo:-2}}</div>
+        <div style="font-size: 16px">{{personInfo.name}}</div>
+      </div>
+
+      <div ui-view style="margin-top: -40px ;">
+      </div>
+
+      <div style="text-align: center" ng-show="showForgetPW">
+        <a style="font-size: 13px;color: #69717d;" ng-click="resetPassword()" native-transitions>忘记手势密码</a>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
+

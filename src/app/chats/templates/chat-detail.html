@@ -1,0 +1,55 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view view-title="" >
+    <ion-nav-bar class = "bar-dark">
+
+        <ion-nav-back-button class="button-clear back-btn">
+            <i class="ion-arrow-left-c zw-return-button"></i>
+            李明
+        </ion-nav-back-button>
+
+        <ion-nav-buttons side="right">
+            <button class="button button-icon icon ion-android-people"></button>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+
+  <ion-content class="bgColorEEE-stable-content">
+      <div class="">
+          <!-- ngIf: false -->
+          <!-- ngIf: !item.isFromeMe -->
+          <!-- ngIf: item.isFromeMe -->
+          <div class="chat-message-wrap">
+              <img ng-src="../img/adam.jpg" class="chat-head-pic-right" src="../img/adam.jpg">
+              <span class="chat-triangle-right"></span>
+              <p class="chat-message-right ng-binding">说走就走的旅行</p>
+          </div><!-- end ngIf: item.isFromeMe -->
+      </div>
+
+      <div class="">
+          <!-- ngIf: false -->
+          <!-- ngIf: !item.isFromeMe -->
+          <div class="chat-message-wrap">
+              <img ng-src="../img/adam.jpg" class="chat-head-pic" src="../img/adam.jpg">
+              <span class="chat-triangle-left"></span>
+              <p class="chat-message ng-binding">被酒莫惊春睡重，赌书消得泼茶香，当时只道是寻常</p>
+          </div>
+          <!-- end ngIf: !item.isFromeMe -->
+          <!-- ngIf: item.isFromeMe -->
+      </div>
+      <div class="">
+          <!-- ngIf: false -->
+          <!-- ngIf: !item.isFromeMe -->
+          <!-- ngIf: item.isFromeMe -->
+          <div class="chat-message-wrap">
+              <img ng-src="../img/adam.jpg" class="chat-head-pic-right" src="../img/adam.jpg">
+              <span class="chat-triangle-right"></span>
+              <p class="chat-message-right ng-binding">说走就走的旅行说走就走的旅行说走就走的旅行说走就走的旅行</p>
+          </div><!-- end ngIf: item.isFromeMe -->
+      </div>
+  </ion-content>
+</ion-view>

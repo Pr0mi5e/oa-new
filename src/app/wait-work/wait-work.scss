@@ -1,0 +1,509 @@
+//头部标题
+.title-rewrite-android {
+  left: 93px;
+  right: 93px;
+  z-index: 999;
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  margin: 0 10px;
+  min-width: 30px;
+  height: 43px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 44px;
+  letter-spacing: 2px;
+}
+
+.title-rewrite-ios {
+  top: 20px;
+  left: 93px;
+  right: 93px;
+  z-index: 999;
+  position: absolute;
+  display: block;
+  overflow: hidden;
+  margin: 0 10px;
+  min-width: 30px;
+  height: 43px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 17px;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 44px;
+  letter-spacing: 2px;
+}
+
+.ion-padding-left {
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.yes-text {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 30px;
+  color: rgb(111, 250, 111);
+  opacity: 0;
+}
+
+.no-text {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  color: rgb(255, 115, 115);
+  opacity: 0;
+}
+
+.fade {
+  -webkit-transition: 0.2s opacity linear;
+  transition: 0.2s opacity linear;
+  opacity: 0;
+}
+
+//top 中的标题 变粗体
+.header-item {
+  font-weight: 700 !important;
+}
+
+// top 按钮的背景图~因为在ionic中没有找到合适的图标
+.button-bgimg {
+  width: 32px;
+  background-image: url("../app/wait-work/img/wait-work-header-Sizer.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: 26px !important;
+  margin-top: 5px;
+}
+
+.wait-work-list .activated {
+  border-color: #f3f3f3;
+}
+
+//列表中 item 中间的线
+.hr_01 {
+  height: 1px;
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  width: 100%;
+}
+
+//姓名 div为圆形
+.zw-name-round, .zw-name-round img {
+  width: 55px;
+  height: 55px;
+  display: inline-block;
+  border-radius: 50%;
+  display: table;
+}
+
+.zw-name-round h2 {
+  vertical-align: middle;
+  display: table-cell;
+  font-weight: 700;
+  text-align: center;
+  color: #fffeff;
+}
+
+//姓名为背景红色
+.zw-red-round {
+  margin-top: 10px;
+  background-color: #dd4b39;
+  float: left;
+
+}
+
+.zw-blue-round {
+  margin-top: 10px;
+  background-color: #3c8dbc;
+  float: left;
+}
+
+//列表标题 h3
+// 待办列表样式修改，外部套一层class避免污染其他列表样式
+.waitWork {
+  .zw-state-rightIMG {
+    //width: 55px;
+    //height: 55px;
+    //right: 5px;
+    //float: right;
+    width: 55px;
+    height: 55px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  //列表标题 h3
+  .zw-title-h3 {
+    //display: inline-block;
+    //width: 62%;
+    //height: 25%;
+    //text-overflow: ellipsis;
+    //overflow: hidden;
+    //padding: 5px 10px;
+    //float: left;
+    width: 62%;
+    height: 25%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 5px 10px;
+    flex: 1;
+    margin: 0 !important;
+  }
+}
+
+//列表中 信息状态 img位置
+.zw-state-rightIMG {
+  width: 55px;
+  height: 55px;
+  right: 5px;
+  float: right;
+}
+
+//列表标题 h3
+.zw-title-h3 {
+  display: inline-block;
+  width: 62%;
+  height: 33.33%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 5px 10px;
+  float: left;
+}
+
+.zw-title-h3 b {
+  font-weight: normal;
+  color: #000000;
+}
+
+.wait-work-list .activated {
+  border-color: #f3f3f3;
+}
+
+//item 上外边距10
+.zw-item-marginTop10 {
+  padding: 0 0 5px 16px;
+  border-color: #e5e5e5;
+  border-top: 10px solid #f3f3f3;
+  border-bottom: 0px;
+}
+
+.zw-item-img-marginTop10 {
+  border-color: #e5e5e5;
+  border-top: 10px solid #f3f3f3;
+  border-bottom: 0px;
+}
+
+//信息的 发起人 日期
+.zw-name-date {
+  padding-top: 0;
+  //line-height: 40px;
+  color: #999;
+}
+
+.zw-name-date span {
+  padding-right: 5px;
+  font-size: 12px;
+}
+
+.zw-name-date p {
+  float: left;
+  color: #999999;
+}
+
+@media screen and (max-width: 320px) {
+  .zw-name-date p {
+    float: left;
+    width: 80%;
+  }
+}
+
+/*下拉框最外层div*/
+.wait-work-pull-down-list-div-ios {
+  position: absolute;
+  top: 74px;
+  padding: 0px 10px;
+  width: 100%;
+  z-index: 15 !important;
+}
+
+.wait-work-pull-down-list-div-android {
+  position: absolute;
+  top: 52px;
+  padding: 0px 10px;
+  width: 100%;
+  z-index: 15 !important;
+}
+
+/*下拉框内容的div样式*/
+.wait-work-pull-down-list-content-div, .wait-work-pull-down-list-arrow-div {
+  background-color: #3c8dbc;
+  filter: alpha(opacity=90);
+  -moz-opacity: 0.9;
+  -khtml-opacity: 0.9;
+  opacity: 0.9;
+}
+
+.wait-work-pull-down-list-content-div {
+  width: 100%;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 1px;
+}
+
+/*下拉框箭头样式*/
+.wait-work-pull-down-list-arrow-div {
+  /* width: 15px;
+   height: 15px;
+   transform:rotateZ(45deg);
+   -webkit-transform:rotateZ(45deg);
+   -moz-transform:rotateZ(45deg);
+   -o-transform:rotateZ(45deg);
+   position: absolute;
+   left:50%;
+   top:-5px;*/
+}
+
+.wait-work-pull-down-list-arrow-div:before {
+  content: "";
+  left: 50%;
+  top: -14px;
+  display: block;
+  border-width: 7px;
+  position: absolute;
+  transform: rotateZ(180deg);
+  -webkit-transform: rotateZ(180deg);
+  -moz-transform: rotateZ(180deg);
+  -o-transform: rotateZ(180deg);
+  border-style: solid dashed dashed;
+  border-color: #4693bf transparent transparent;
+  font-size: 0;
+  line-height: 0;
+}
+
+/*list,上下padding 10%,*/
+/*.wait-work-pull-down-list-padding-ten{
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #a3c9df;
+}*/
+
+
+.zw-reply {
+  padding: 0 10px 0 65px;
+}
+
+.zw-reply h3 {
+  color: #999;
+}
+
+
+/*****待办-筛选 开始*****/
+//item 边框0
+.screenItem-border0 {
+  border: 0;
+  padding-bottom: 0;
+  width: 100%;
+}
+
+.screenItem-border0 .ion-record {
+  color: #01a55c;
+  font-size: 10px;
+}
+
+.screenItem-border0 span {
+  font-size: 14px;
+  margin-left: 5px;
+  font-weight: 700;
+  color: #000;
+}
+
+.screen-button {
+  width: 100%;
+  padding: 0 20px;
+}
+
+.screen-button button {
+  border: 0;
+  background-color: #e5e5e5;
+  width: 45%;
+  text-align: center;
+  height: 30px;
+  border-radius: 5px;
+  margin-top: 16px;
+  color: #999;
+  font-size: 14px;
+  letter-spacing: 10px;
+}
+
+.screen-button .activated {
+  background-color: #c5f5e9 !important;
+  opacity: 1 !important;
+  color: #01a65a;
+}
+
+.screen-button button:nth-child(odd) {
+  margin-right: 8%;
+}
+.screen-button .normals{
+  background-color: #e5e5e5;
+  color: #999;
+}
+.screen-button .actives{
+  background-color: #c5f5e9;
+  color: #01a65a;
+}
+
+/*待办事项div字体*/
+.zw-wait-work-search-div-text-style {
+  display: inline;
+  color: #666666;
+  padding: 10px
+}
+
+/*待办事项input字体*/
+.zw-wait-work-search-input-text-style {
+  text-align: right;
+  height: 20px !important;
+  width: 60%;
+  float: right;
+  display: inline !important;
+  border: 0;
+  color: #999999 !important;
+  font-size: 12px !important;
+  margin-left: 10px;
+}
+
+
+/*横线样式*/
+.zw-wait-work-line-style {
+  width: 100%;
+  height: 1px;
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 0px;
+}
+
+/*底部btn样式*/
+.zw-wait-work-bottom-btn-click-background {
+  padding: 0;
+  background-color: #3c8dbc;
+}
+
+.zw-wait-work-bottom-btn-style {
+  position: fixed;
+  width: 100%;
+  height: 44px;
+  bottom: 0;
+  border: 0;
+  background-color: #3c8dbc;
+  text-align: center;
+  color: #fff !important;
+  border-radius: 0px;
+}
+
+/*底部btn点击样式*/
+.zw-wait-work-bottom-btn-click-background .activated {
+  background-color: #11c1f3 !important;
+  opacity: 0.6 !important;
+  color: #ffffff;
+}
+
+/*待办事件查询span字体样式*/
+.zw-wait-work-select-span-style {
+  font-size: 12px;
+  color: #999999;
+  float: left;
+}
+
+/*待办事件查询span时间字体样式*/
+.zw-wait-work-select-time-span-style {
+  font-size: 12px;
+  color: #999999;
+}
+
+/*查询-时间图标样式*/
+.zw-wait-work-search-time-img-div {
+  float: right;
+  vertical-align: middle
+}
+
+/*查询-时间箭头图标样式*/
+.zw-wait-work-search-time-img {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  margin-right: 5px
+}
+
+/*待办事件查询添加人员的img样式*/
+.zw-wait-work-select-add-img-style {
+  width: 25px;
+  height: 25px;
+  margin-left: 10px
+}
+
+/*待办事项-查询页面*/
+.wait-work-search-list-style {
+  margin-left: 10px;
+  padding: 15px 10px 15px 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.wait-work-search-time-style {
+  margin-left: 10px;
+  padding: 15px 10px 15px 10px;
+}
+
+.wait-work-search-paddingLeft20 {
+  margin-left: 0px;
+  padding-left: 20px;
+}
+
+/*****待办-筛选 结束*****/
+
+@media screen and (max-width: 335px) {
+  .title-span {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 80%;
+    float: left;
+  }
+}
+
+/*遮罩*/
+.wait-work-show-mask {
+  position: absolute;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/*新增按钮（时间，名称，正序，倒序）样式*/
+.same-btn-style {
+  border: none;
+  padding: 6px 8px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-right: 10px
+}
+
+.btnstyle {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+

@@ -1,0 +1,99 @@
+<ion-view>
+
+        <ion-nav-buttons side="right">
+            <button ng-show="sizerImgShow" class="button button-icon icon button-bgimg" ng-click="goSizer()" native-transitions></button>
+            <button ng-show="searchImgShow" class="button button-icon icon ion-ios-search-strong" ng-click="goSearch()" native-transitions></button>
+        </ion-nav-buttons>
+        <div class="title title-center header-item title-rewrite-{{platform}}" ng-click="selectTitleOption()">
+            <span class="title-span">{{ data.clientSide }}</span>
+            <i class="ion-padding-left" ng-class="{'ion-ios-arrow-down':waitWorkMask,'ion-ios-arrow-up':!waitWorkMask}">
+            </i>
+        </div>
+
+  <ion-content class="portion-content-bgcolor" delegate-handle="myScroll">
+      <ion-refresher refreshing-icon="ion-checkmark-circled" pulling-text="下拉刷新"
+                     on-refresh="doRefresh()" refreshing-text="{{noti.text}}"></ion-refresher>
+    <div style="margin: 5px 5px 0 5px;" ng-if="!isEmptyData">
+      <button ng-click="chooseBtn(btn)" ng-repeat="btn in buttons" ng-class="{'btnstyle':(isBtn.name == btn.name)}" class="same-btn-style">{{btn.name}}</button>
+      <button ng-if="isDesc" ng-click="chooseBtns()" class="same-btn-style">降序</button>
+      <button ng-if="!isDesc" ng-click="chooseBtns()" class="same-btn-style">升序</button>
+    </div>
+        <div ng-if="isEmptyData" style="">
+            <img src="img/nodata.svg" alt="没有数据" style="width:100%">
+            <p style="text-align:center;color:#c0c0c0;font-size:5vw">请求数据为空</p>
+        </div>
+      <ion-list class="wait-work-list">
+        <ion-item class="zw-item-marginTop10" ng-click="goDetails(waitWorkItem,$index)" native-transitions
+                  collection-repeat="waitWorkItem in waitWorkListData track by $index">
+
+          <div class="waitWork" style="display: flex;height: 99px">
+            <div style="display: flex;width: 55px;align-items: center">
+              <div class="zw-name-round"  ng-class="{true:'zw-red-round',false:'zw-blue-round'}[false]" >
+                <h2>{{waitWorkItem.creator|limitTo:-2}}</h2>
+              </div>
+            </div>
+            <div class="wait-work-list-right" style="display: flex;flex-direction: column;width: 100%">
+              <h3 class="zw-title-h3"><b>{{waitWorkItem.subject.split("¤※")[0]}}</b></h3>
+              <!--<img class="zw-state-rightIMG" src="{{waitWork.urlImg}}">-->
+              <h3 class="zw-title-h3" style="color: #3c8dbc" ng-if="waitWorkItem.totalNum !== undefined && waitWorkItem.totalNum !== ''">
+                <span style="color: black">总价：</span>{{waitWorkItem.totalNum + '元 ' + waitWorkItem.totalLetter}}
+              </h3>
+              <h3 ng-if="waitWorkItem.totalNum === ''|| waitWorkItem.totalNum === undefined" style="width: 62%;height: 5px;"></h3>
+              <h3 class="zw-title-h3 zw-name-date">
+                <p>
+                  <span>{{waitWorkItem.creator}}</span><span>{{waitWorkItem.createDate}}</span><span>发起</span>
+                </p>
+              </h3>
+              <h3 class="zw-title-h3 zw-name-date" style="padding-bottom: 0;">
+                <p>
+                  <span>接收时间:</span><span>{{waitWorkItem.createTime}}</span>
+                </p>
+                <!--<img ng-if="waitWorkItem.flagApproval" src="app/wait-work/img/wait-work-msg.png" style="width: 15px;height:15px">-->
+                <img ng-if="approveFlags.indexOf(waitWorkItem.procInstId) > -1" src="app/wait-work/img/wait-work-msg.png" style="width: 15px;height:15px">
+              </h3>
+              <!-- 处理中 -->
+              <img ng-if="handlingList.indexOf(waitWorkItem.procInstId)>-1" class="zw-state-rightIMG" src="app/wait-work/img/wait-work-handling.png" alt="">
+              <!-- 处理完成 -->
+              <img ng-if="handledList.indexOf(waitWorkItem.procInstId)>-1" class="zw-state-rightIMG" src="app/wait-work/img/wait-work-handled.png" alt="">
+              <!-- 已读、未读、退回等 -->
+              <img ng-if="(handlingList.indexOf(waitWorkItem.procInstId)<0)&&(handledList.indexOf(waitWorkItem.procInstId)<0)" class="zw-state-rightIMG" ng-src="{{waitWorkItem.imgUrl}}">
+            </div>
+          </div>
+
+
+
+        </ion-item>
+      </ion-list>
+      <!--上拉加载-->
+        <ion-infinite-scroll ng-if="isHasNextPage"  on-infinite="loadMore()" distance="3%"></ion-infinite-scroll>
+  </ion-content >
+    <div ng-show="waitWorkMask" class="wait-work-show-mask" ng-click="noMask()">
+        <!--下拉框-->
+        <div class="wait-work-pull-down-list-div-{{platformComboBox}}" ng-show="isUnfoldtitle">
+            <div class="">
+                <div class="wait-work-pull-down-list-arrow-div">
+                    <style>
+                        .item-radio .item-content,.item-radio input:checked+.radio-content .item-content{
+                            background-color: transparent;
+                        }
+                        .item-radio{
+                            border-top: 0;
+                            border-right: 0;
+                            border-left: 0;
+                            border-bottom: 2px solid #a3c9df;
+                            background-color: transparent;
+                        }
+                        .disable-pointer-events{
+                            color:#ffffff;
+                        }
+                    </style>
+                    <div class="list wait-work-pull-down-list-content-div">
+                        <ion-radio  ng-repeat="item in clientSideList" ng-value="item.value"  ng-model="data.clientSide" ng-change="serverSideChange(item)">
+                            {{ item.text }}
+                        </ion-radio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-view>

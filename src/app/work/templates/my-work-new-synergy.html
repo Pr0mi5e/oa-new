@@ -1,0 +1,77 @@
+<ion-view hide-tabs="true" view-title="新建协同">
+    
+  
+        <ion-nav-buttons side="right">
+            <button class="button button-icon icon my-work-newsynergy-top-button">发送</button>
+            <button class="button button-icon icon my-work-newsynergy-top-button">保存</button>
+        </ion-nav-buttons>
+   
+    <ion-content>
+        <style>
+            select {
+                direction: rtl;
+            }
+            select option {
+                direction: ltr;
+            }
+        </style>
+        <ion-list class="my-work-newsynergy-list-paddingLeft10">
+            <ion-item>
+                <span>标题名称</span>
+                <input class="my-work-newsynergy-item-input placeholder-right" type="text" placeholder="请输入任务名称" >
+            </ion-item>
+            <ion-item>
+                <span>事项重要程度</span>
+                <div class="my-work-div-right">
+                    <select class="my-work-new-select-right">
+                        <option>普通</option>
+                        <option>重要</option>
+                        <option>非常重要</option>
+                    </select>
+                    <i class="ion-ios-arrow-down"></i>
+                </div>
+            </ion-item>
+            <ion-item>
+                <span>表单</span>
+                <a class="my-work-newsynergy-item-a-blue">《办公室用品报废申请单》</a>
+            </ion-item>
+            <ion-item>
+                <span>流程图</span>
+                <a class="my-work-newsynergy-item-a-blue">流程图</a>
+            </ion-item>
+            <style>
+                .item.activated{
+                    background-color: inherit !important;
+                }
+            </style>
+            <ion-item  ng-click="uploadAttachment()">
+                <span>附件</span>
+                <i class="my-work-i-right ion-ios-arrow-right"></i>
+            </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-item class="my-work-newsynergy-item-bgcolor">
+                <span>正文</span>
+            </ion-item>
+            <ion-item class="">
+                <img src="app/work/img/my-work-newsynergy-request_note.png" width="100%">
+            </ion-item>
+            <ion-item class="my-work-newsynergy-item-bgcolor">
+                <span>附言</span>
+            </ion-item>
+            <ion-item class="my-work-newsynergy-item-boder0">
+                <textarea class="my-work-newsynergy-item-input-accessory"placeholder="请输入附言内容..."></textarea>
+            </ion-item>
+        </ion-list>
+        <div class="my-work-newsynergy-button">
+            <!--<button class="my-work-newsynergy-button-left" ng-class="{active : tableFlag}" ng-click="toSwitch('y')">
+                保存草稿
+            </button>
+            <button class="my-work-newsynergy-button-right" ng-class="{active : tableFlag}" ng-click="toSwitch('q')">
+                上传图片
+            </button>-->
+            <button class="my-work-newsynergy-button-left" ng-class="{active : tableFlag=='a'}" ng-click="toSwitch('y')">原始表单</button>
+            <button class="my-work-newsynergy-button-right" ng-class="{active : tableFlag=='b'}" ng-click="toSwitch('q')">轻量表单</button>
+        </div>
+    </ion-content>
+</ion-view>

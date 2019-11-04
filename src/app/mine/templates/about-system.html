@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<ion-view hide-tabs="true">
+
+    <ion-content overflow-scroll="true" style="overflow:auto;" class="portion-content-bgcolor">
+         <div style="margin: 10px;background-color:#ffffff;padding-top: 5px">
+            <div ng-show="isShowUpdate" style="margin-top: 10px">
+                <b style="display: inline-block;padding-left: 10px;font-size: 16px;vertical-align: middle;
+                           line-height: 30px">最新版本:{{newVersionCode}}</b>
+                <button class="zw-system-butt" ng-click="updateSoftware()">软件更新</button>
+            </div>
+
+            <div class="zw-system-scan">
+                <img style="width: 30%" src="app/mine/img/company_logo_img.png"/>
+                <img style="width: 33%" src="app/mine/img/about_system_title.png"/>
+                <!--<img style="padding-top: 5px;width: 33%" src="app/mine/img/about_system_qr_img.png"/>-->
+                <img style="padding-top: 5px;width: 33%" ng-src="{{imgUrl}}"/>
+            </div>
+            <div style="color: #666666;padding-bottom: 20px">
+                <div style="padding-left: 10px">
+                    <p>版本介绍:</p>
+                    <p ng-repeat="introduce in aboutIntroduce">{{introduce}}</p>
+                </div>
+
+
+                <!--<br>-->
+                <!--<div class="zw-introduce-daddleft">-->
+                    <!--<p>功能要点:</p>-->
+                    <!--<p ng-repeat="emphasis in aboutSystemData[1]">{{emphasis}}</p>-->
+                <!--</div>-->
+
+                <!--<br>-->
+                <!--<div class="zw-introduce-daddleft">-->
+                <!--<p>功能说明:</p>-->
+                <!--<p ng-repeat="explain in aboutSystemData[2]">{{explain}}</p>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+
+    </ion-content>
+</ion-view>

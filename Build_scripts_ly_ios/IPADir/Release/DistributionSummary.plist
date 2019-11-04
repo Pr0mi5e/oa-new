@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OA.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>76C9BBC87956C1A908DC6C69E1CEF32AE9C654C3</string>
+				<key>dateExpires</key>
+				<string>2021/6/24</string>
+				<key>type</key>
+				<string>iOS Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>5HBJ42PL9W.com.chinaZhongwang.oa</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>5HBJ42PL9W</string>
+				<key>get-task-allow</key>
+				<false/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>5HBJ42PL9W.com.chinaZhongwang.oa</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>OA.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>51053006-288e-45ff-973e-6a853a157f2a</string>
+				<key>name</key>
+				<string>chinaZhongwang-Dis</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>5HBJ42PL9W</string>
+				<key>name</key>
+				<string></string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

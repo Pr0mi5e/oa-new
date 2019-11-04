@@ -1,0 +1,35 @@
+
+<ion-view class="notification" hide-tabs="true" style="background-color: #fafafa">
+  
+
+    <ion-content overflow-scroll="true" style="overflow:auto;">
+        <div>
+            <div ng-if="isEmptyData" style="">
+                <img src="img/nodata.svg" alt="没有数据" style="width:100%">   
+                <p style="text-align:center;color:#c0c0c0;font-size:5vw">请求数据为空</p>                     
+            </div>
+            <div class="need-document need-document-border" ng-repeat="InformationItem in InformationData"  ng-click="goNofitication()" >
+                <img class="need-document-img-left" src="app/notification/img/view-form-notification.png">
+                <!-- 2018/5/28 tyw -->
+                <!-- 变更描述：修改消息列表页中消息数量的样式：如果超过1000条显示“999+”，并调整小红点宽度 -->
+                <span style="position: absolute;display: inline-block;min-width: 26px;height: 26px;border-radius: 13px;
+                        background-color: red;line-height: 26px;text-align: center;top: 11px;left: 47px;color: #fff;
+                        font-size: 8px;-webkit-transform-origin-x: 0;-webkit-transform: scale(.8)!important;" ng-if="InformationItem.count != '0'">{{InformationItem.count>999?'999+':InformationItem.count}}</span>
+                <div class="need-document-content" native-transitions>
+                    <div class="need-document-content-title" style="position: relative;top:8px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                      {{InformationItem.msgTypeName}}
+                      
+                    </div>
+                    <div class="need-document-content-item">
+                      <h5>{{InformationItem.msgInfo}}</h5>
+                    </div>
+                </div>
+                <div class="need-inform-tiem" style="padding-left: 0;width: 70px">
+                  <date-filter text="InformationItem.makeTime"></date-filter>
+                  
+                </div>
+        
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

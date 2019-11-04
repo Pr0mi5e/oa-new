@@ -1,0 +1,66 @@
+<ion-view hide-tabs="true">
+
+  <ion-content class="portion-content-bgcolor" overflow-scroll="true" style="overflow:auto;">
+    <ion-list>
+      <ion-item class="screenItem-border0 portion-content-bgcolor">
+        <i class="ion-record"></i>
+        <span>状态</span>
+      </ion-item>
+      <div class="screen-button" ng-click="statusRadio($event)">
+        <button class="button button-icon icon" id="allBtn">
+          全部
+        </button>
+        <br>
+        <button class="button button-icon icon" id="backBtn">
+          退回
+        </button>
+        <button class="button button-icon icon" id="readBtn">
+          已读
+        </button>
+        <button class="button button-icon icon" id="unreadBtn">
+          未读
+        </button>
+        <button class="button button-icon icon" id="pauseBtn">
+          暂存
+        </button>
+      </div>
+
+      <ion-item class="screenItem-border0 portion-content-bgcolor" ng-show="isShowType">
+        <i class="ion-record"></i>
+        <span>类型</span>
+      </ion-item>
+      <div class="screen-button" ng-show="isShowType">
+        <button class="button button-icon icon" ng-click="typeRadio(null)" ng-class = "{true:'actives',false:'normals'}[currentId === null]">
+          全部
+        </button>
+        <br>
+        <button class="button button-icon icon" ng-class = "{true:'actives',false:'normals'}[currentId == item.id]" ng-repeat="item in mapList" id="{{item.id}}" ng-click="typeRadio(item.id)">
+          {{item.name}}
+        </button>
+        <!--<button class="button button-icon icon" id="typeAllBtn">-->
+        <!--全部-->
+        <!--</button>-->
+        <!--<br>-->
+        <!--<button class="button button-icon icon" id="typeFinanceBtn">-->
+        <!--财务-->
+        <!--</button>-->
+        <!--<button class="button button-icon icon" id="typeHRBtn">-->
+        <!--人事-->
+        <!--</button>-->
+        <!--<button class="button button-icon icon" id="typeBuyBtn">-->
+        <!--采购-->
+        <!--</button>-->
+        <!--<button class="button button-icon icon" id="typeOtherBtn">-->
+        <!--其它-->
+        <!--</button>-->
+      </div>
+
+    </ion-list>
+  </ion-content>
+  <div class="bar bar-footer zw-wait-work-bottom-btn-click-background">
+    <button class="button button-icon icon zw-wait-work-bottom-btn-style" ng-click="sizerSure()">
+      确定
+    </button>
+  </div>
+
+</ion-view>

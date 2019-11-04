@@ -1,0 +1,19 @@
+{
+  "name": "China-zhongwang-Community",
+  "proxies": [
+    {
+      "path": "v1/",
+      "proxyUrl": "http://localhost:3000/api/v1/"
+    }
+  ],
+  "gulpStartupTasks": [
+    "default",
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ],
+  "documentRoot": "www"
+}

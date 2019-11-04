@@ -1,0 +1,377 @@
+
+//工作模块首页
+.my-work-top-dotRed{
+  /*position: absolute;
+  left: 22px;
+  top: -8px;
+  display: block;
+  font-size: 10px;
+  color: #ff0607;*/
+  display: inline-block;
+  position: absolute;
+  left: 30%;
+  top: -25%;
+  right: 0;
+  bottom: 0;
+  font-size: 10px;
+  color: #ff0607;
+}
+.my-work-item-borderLeftright0{
+  border-left: 0;
+  border-right: 0;
+  padding: 10px 16px;
+  width:100%;
+}
+.my-work-row{
+  margin-bottom: 15px;
+  /*border-bottom: 1px solid #e5e5e5;*/
+  background-color: #fff;
+  padding: 5px 0 0;
+  float:left;
+  width: 100%;
+}
+.my-work-row-bottom{
+  margin: 0;
+  width: 100%;
+  float:left;
+  padding-top: 5px !important;
+  margin-bottom:15px !important;
+  /*border-bottom: 1px solid #e5e5e5;*/
+}
+.my-work-row .col{
+  padding: 0 0 0 5px;
+}
+.my-work-row .col-25{
+  float:left;
+  /*border-bottom: 1px solid #e5e5e5;*/
+}
+.col-border-bottom{
+  border-bottom: 0px!important;
+}
+.my-work-row .activated{
+  border: 1px solid #dcdcdc !important;
+  opacity: 1 !important;
+  border-radius: 10px;
+}
+//贯穿的横线
+.my-work-col-horizontal-line{
+  height: 1px;
+  background-color: #e5e5e5;
+  position: absolute;
+  width: 100%;
+  left: -5px;
+}
+.row+.row{
+  margin-top: 0!important;
+}
+/*.my-work-col-div-style{
+  width: 100%;
+  border-right:1px solid #e5e5e5;
+  margin-top: 20px;
+  height: 50px;
+  padding-right: 5px;
+}*/
+/**
+ * * 2018/5/4 16:21  tyw
+ *  变更描述：添加样式，替换图片
+ *  功能说明：工作页面图标替换，未读信息居中显示
+ */
+.my-work-col{
+  text-align: center;
+  color: #666;
+  padding: 0 0 0 0px;
+  height: 90px;
+  width: 91%;
+  border: 1px solid#ffffff;
+  background-color: #fff;
+}
+.my-work-col-btton{
+  padding: 15px 0 0 0;
+}
+.my-work-col img{
+  width:45px;
+  height: 45px;
+  position: relative;
+}
+.my-work-col .col-90{
+  padding: 0;
+  margin: 0;
+}
+.my-work-col span{
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 23px;
+  text-align: center;
+  top: -80px;
+  left: 23px;
+  color: #fff;
+  font-size: 12px;
+  -webkit-transform-origin-x: 0;
+  -webkit-transform: scale(.8)!important;
+}
+/*有消息时的  红色的背景*/
+.ma-work-approve-span-bg-red{
+  background-color: red;
+
+}
+/*无消息时的  白色的背景*/
+.ma-work-approve-span-bg-white{
+  background-color: transparent;
+}
+
+.my-work-p-title-margin0{
+  margin-bottom: 0 !important;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.my-work-img-p-left{
+  width: 100%;
+}
+.my-work-hr-vertical{
+  height: 60px;
+  border: none;
+  border-right: 1px solid #e5e5e5;
+  width: 1px;
+  margin-top: 18px;
+  float:right;
+  font-size:0px;overflow:hidden;
+
+}
+/*新建事项*/
+.my-work-newmatter-list .list{
+  background-color: #fff;
+}
+.my-work-newmatter{
+  border-top:0;
+  background-color: #fafafa;
+}
+.my-work-newmatter-documentImg{
+  width:16px ;
+  height: 18px;
+  float:left;
+  margin-right: 10px;
+  margin-top: 3px;
+}
+.my-work-newmatter span{
+  vertical-align: middle;
+  color:#3c8dbc;
+}
+.my-work-newmatter-table-item-img{
+  width: 15px;
+  height: 10px;
+  position: relative;
+  top:0;
+  bottom: 0;
+  transition: 0.4s;
+  transform:rotateZ(0deg);
+  -webkit-transform:rotateZ(0deg) ;
+  -moz-transform:rotateZ(0deg) ;
+  -o-transform:rotateZ(0deg) ;
+  float:right;
+  margin-top: 6px;
+
+}
+.my-work-newmatter-transform-img{
+  transition: 0.4s;
+  transform:rotateZ(-180deg);
+  -webkit-transform:rotateZ(-180deg) ;
+  -moz-transform:rotateZ(-180deg) ;
+  -o-transform:rotateZ(-180deg) ;
+  width: 15px;
+  height: 10px;
+  position: relative;
+  top:0;
+  bottom: 0;
+  float:right;
+  margin-top: 6px;
+}
+.my-work-newmatter-listPaddingLeft .item{
+  padding-left: 40px;
+  color:#666;
+  font-size: 12px;
+
+}
+
+
+//新建协同
+.my-work-newsynergy-top-button{
+  font-size: 12px !important;
+}
+.my-work-newsynergy-list-paddingLeft10 .list{
+  padding-left: 10px;
+}
+.my-work-newsynergy-list-paddingLeft10 .item{
+  padding: 16px 16px 16px 6px;
+  border-left:0;
+  border-right: 0;
+  border-bottom: 0;
+}
+.my-work-newsynergy-item-input{
+  width: 50%;
+  height: 20px !important;
+  text-align: right;
+  float:right;
+}
+.my-work-newsynergy-item-a-blue{
+  color:#3b8dbd;
+  float:right;
+}
+.my-work-newsynergy-list-paddingLeft10 img{
+  width: 100%;
+  height: auto;
+}
+.my-work-newsynergy-item-boder0{
+  border-bottom: 0;
+  padding-top: 10px;
+}
+.my-work-newsynergy-item-input-accessory{
+  width:100%;
+}
+.my-work-newsynergy-item-bgcolor{
+  background-color: #fafafa ;
+}
+.my-work-newsynergy-button{
+  float:left;
+  width: 100%;
+  padding: 15px 10px;
+}
+.my-work-newsynergy-button button{
+  min-width: 47%;
+  min-height: 35px;
+  line-height: 35px;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #3c8dbc;
+  color:#3e8cbc;
+  border-radius: 4px;
+}
+.my-work-newsynergy-button-left{
+  float:left;
+}
+.my-work-newsynergy-button-right{
+  float:right;
+}
+.my-work-newsynergy-button .active{
+  background-color: #3c8cbd;
+  color:#ffffff;
+}
+.my-work-div-right{
+  float:right;
+}
+.my-work-new-select-right{
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: #ffffff;
+  text-align-last: right;
+  text-align: right;
+  border: 0px;
+  color:#666;
+  padding: 0 5px;
+  display: inline-block;
+}
+.my-work-i-right{
+  float: right;
+  padding-left: 20px;
+}
+
+
+
+//待发事项。已发事项，已办事项，跟踪事项
+.my-work-matter-odd span{
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  text-overflow:ellipsis;
+  font-size: 12px;
+}
+.my-work-matter-odd span:nth-child(odd) {
+  width: 68%;
+  padding-right:10px;
+}
+
+@media screen and (min-width: 500px) {
+  .my-work-row{
+    border-bottom: 0px;
+  }
+  .my-work-row-bottom .col-25 {
+    flex: 0 0 16.66%;
+    max-width: 16.66%;
+    padding-bottom: 5px;
+  }
+  .col-border-bottom{
+   /* border-bottom: 1px solid #e5e5e5 !important;*/
+  }
+  .my-work-row-bottom{
+    border-bottom: 0px;
+    padding-bottom: 0px!important;
+  }
+}
+
+//报表的金额竖线高度
+.form-hr-height-50{
+  height: 50px;
+}
+.form-hr-height-30{
+  height: 30px;
+}
+//报表的金额字体大小
+.form-money-size{
+  font-size: 10px;
+}
+
+
+.item-content{
+  padding: 0px 0px 0px 10px!important;
+}
+
+
+.content-view{
+  display: flex;
+  background: white;
+  margin-bottom: 10px;
+  padding: 5px 5px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.content-view .item-view{
+  width: 25%;
+  height: 90px;
+  padding: 5px 0;
+  font-size: 12px;
+}
+.content-view .item-view .item-view-content{
+  //border: 1px solid #cccccc;
+  //border-radius:10px;
+  //padding: 5px 0;
+  border-right:1px solid #eeeeee;
+  width: 100%;
+  height:100%
+}
+//.content-view .item-view:last-child .item-view-content{
+//  border-right: none;
+//}
+.content-view .item-view:nth-child(4n) .item-view-content{
+  border-right: none;
+}
+.content-view .item-view .item-view-content .item-same{
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  //white-space: nowrap;
+  //text-overflow: ellipsis;
+  text-align: center;
+  //padding: 0 10px;
+}
+//.content-view .item-view .item-view-content .function-title{
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//}

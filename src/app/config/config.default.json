@@ -1,0 +1,9 @@
+{
+  "name": "community.configs",
+  "constants": {
+    "baseConfiguration": {
+      "url": "https://www.example.com",
+      "debug": false
+    }
+  }
+}

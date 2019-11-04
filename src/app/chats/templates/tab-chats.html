@@ -1,0 +1,25 @@
+<ion-view view-title="微信(16)">
+    <ion-nav-bar class = "bar-dark">
+
+        <ion-nav-buttons side="right">
+            <button class="button button-icon icon ion-android-search"></button>
+            <button class="button button-icon icon ion-android-add"></button>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-avatar" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
+        <img ng-src="{{chat.face}}" class="img-borderRadiusNO chat-imgPosition">
+        <span class="rj-sm-red-icon"><p>2</p></span>
+        <h2 class="h2-defaultBlack">{{chat.name}}</h2>
+        <p>{{chat.lastText}}</p>
+        <span class="rj-push-right">11:22</span>
+
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

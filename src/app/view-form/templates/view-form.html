@@ -1,0 +1,551 @@
+<ion-view hide-tabs="true" class="need-form" can-swipe-back=”false”>
+  <ion-nav-buttons side="right">
+    <button ng-show="!$root.viewOtherWaitWork" class="head-btn" native-transitions ng-click="clickRightHandle()" ng-if="rightHandle && loaded"> 处理</button>
+    <button class="head-btn" native-transitions ng-click="clickRightBack()" ng-if="rightBack"> 取回</button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <!--<button class="head-btn" native-transitions ng-click="commitError()" ng-if="commitBtn" style="background-color: #2c2c2c;position: absolute"> 提交 </button>-->
+  </ion-nav-buttons>
+
+  <div class="tabs-striped tabs-top tabs-color-calm">
+    <div class="tabs">
+      <a class="tab-item" ng-class="{active : isActiveTab('0')}" ng-click="changeAct('0')"
+         ng-bind="'view-form.active-tab-left-text' | translate">
+      </a>
+      <a class="tab-item" ng-class="{active : isActiveTab('1')}" ng-if="titleFlag != '4'" ng-click="changeAct('1')"
+         ng-bind="'view-form.active-tab-center-text' | translate">
+      </a>
+      <a class="tab-item" ng-class="{active : isActiveTab('2')}" ng-click="changeAct('2')"
+         ng-bind="'view-form.active-tab-right-text' | translate">
+      </a>
+      <a class="tab-item" ng-class="{active : isActiveTab('3')}" ng-click="changeAct('3')" ng-if="showUnderstandingList"
+         ng-bind=" 'view-form.understanding-list' | translate">
+      </a>
+    </div>
+  </div>
+  <style>
+  </style>
+  <link href="shared/lib/jqueryValidate/jquery.qtip.css" rel="stylesheet">
+  <!--<div ng-if="nextP&&itemFlag == '0'" ng-click="loadMore()" -->
+  <!--style="font-size: 16px;text-align:center;line-height:40px;width: 40%;height: 40px;border: 1px solid #d1d3d6;-->
+  <!--border-radius: 20px 0 0 20px;z-index:100;background:#d1d3d6;position: absolute;top: 25%;right: 0">{{longFormNum}}</div>-->
+
+  <div ng-if="nextP&&itemFlag == '0'" ng-click="loadMore()" style="position: absolute;z-index:100;right: 0px;
+         ;margin-right: 10px" ng-class="{true: 'topPortraitViewForm', false: 'topLandscapeViewForm'}[isShowTop]">
+    <div style="text-align: center;width: 24px;font-size: 16px;color: #ff6e11;
+            background: #dddddd;padding-top: 5px;padding-bottom: 5px;
+            padding-bottom: 5px;border-radius: 15px;margin: 0 auto;">
+      点击加载更多
+    </div>
+    <div style="text-align:center;width: 20%;height: 40px;
+             top: 70%;right: 0">
+      <img style="width: 50px;height: 50px" src="app/view-form/img/more_load.gif"/>
+    </div>
+  </div>
+
+
+  <ion-content class="has-tabs-top" overflow-scroll="isios&&!isLongForm"
+               style="overflow: auto;background-color: #F7F7F7;" delegate-handle="viewFormScrollHandle">
+    <!--表单-->
+    <ion-list ng-show="itemFlag == '0'" style="height: 100%;width: 100%;">
+      <!--zoom-form    classname-->
+      <div style="width: 100%;" id="heightScroll" class="need-table">
+        <ion-scroll class="form-div-class" id="formDivID" zooming="true" on-scroll="onFormScroll()" min-zoom="1"
+                    max-zoom="3" direction="xy" scrollbar-x="false"
+                    scrollbar-y="false" has-bouncing="true" overflow-scroll="false"
+                    style="width: 100%;height:100%;padding:0px 10px"
+                    delegate-handle="viewFormScrollHandleChild">
+          <style id="pdfiframe"></style>
+          <div class="scaleWrapper">
+            <div compile="htmlContent" data="{{data}}" id="formSonID" style="" ng-style="tableFlag"></div>
+          </div>
+
+
+        </ion-scroll>
+
+      </div>
+      <img ng-show="!isPdfFlag" class="view-form-enlargement" src="app/view-form/img/view-form-amplification.png" alt=""
+           ng-click="goEnlargement()"><!--去往放大表单页面-->
+
+      <div class="toolbar" style="position:relative;">
+        <!-- 上一页 -->
+        <img ng-show="$root.viewOtherWaitWork && preDetailCached && preDetailInfoCached && (cacheIndex !== 0)" class="" src="app/view-form/img/view-form-transform-arrow-single.png" alt=""
+             style="position: absolute;transform: rotate(90deg);left: 10px;top: -30px"
+             ng-click="prePage()">
+        <!-- 下一页 -->
+        <img ng-show="$root.viewOtherWaitWork && nextDetailCached && nextDetailInfoCached && (cacheIndex !== totalCount - 1)" class=""
+             src="app/view-form/img/view-form-transform-arrow-single.png" alt="" style="position: absolute;transform: rotate(-90deg);right: 10px;top: -30px"
+             ng-click="nextPage()">
+      </div>
+      <!-- 附 言 -->
+      <div class="need-table">
+        <div ng-click="goPostscript()" class="need-table-item">
+          <div class="need-table-item-text">
+            <div class="need-table-text-title need-table-title-color">{{'view-form.postscript-text' | translate}}<i
+              ng-if="flagPostscript == 1" ng-class="{'radius-hidden':postscriptFlag}"
+              style="display: inline-block;width: 6px;height: 6px;border-radius: 3px;background-color: #ff0607;position: relative;top:-10px;"></i>
+            </div>
+          </div>
+          <img ng-class="{'need-transform-img':postscriptFlag,'need-table-item-img':!postscriptFlag}"
+               src="app/view-form/img/view-form-transform-arrow.png" alt="">
+        </div>
+        <ion-list ng-if="postscriptFlag==true">
+          <ion-item ng-repeat="postscript in postscripts track by $index">
+            <!--<span class="need-table-msg" style="display:inline-block;white-space:normal;width: 60%">{{postscript.content}}</span>-->
+            <!--<span class="need-table-time" style="position: absolute;right: 15px">{{postscript.time}}</span>-->
+            <!--<span class="need-table-msg" style="display:inline-block;white-space:normal;width: 100%;margin-bottom: 2px">{{postscript.content}}</span>-->
+            <!--{{postscript.content}}-->
+            <!--white-space:normal;-->
+            <span class="need-table-msg"
+                  style="display:inline-block;white-space:pre-line;width: 100%;margin-bottom: 2px"
+                  ng-bind-html="postscript.content"></span>
+
+            <div ng-if="!(postscript.attachments == [] || postscript.attachments == '[]')"
+                 ng-repeat="postscriptsAttachment in postscript.postscriptsAttachments track by $index">
+
+              <div style="border-top: 1px dashed silver;margin-top: 15px;padding-top: 15px"
+                   ng-if="postscriptsAttachment.type.indexOf('image')==0 " view-form-popup
+                   pkid='postscriptsAttachment.pkid' type='postscriptsAttachment.type'>
+                <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                <div class="need-document-content">
+                  <div class="need-document-content-title" ng-bind="postscriptsAttachment.name">
+
+                  </div>
+                  <div class="need-document-content-item">
+                    <span ng-bind="postscriptsAttachment.user"></span>
+                    <span ng-bind="postscriptsAttachment.date"></span>
+                    <span>{{postscriptsAttachment.size}} M</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div style="border-top: 1px dashed silver;margin-top: 15px;padding-top: 15px"
+                   ng-if="postscriptsAttachment.type=='application/pdf' || postscriptsAttachment.type=='application/octet-stream'"
+                   view-form-popup pkid='postscriptsAttachment.pkid' type='postscriptsAttachment.type'>
+                <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                <div class="need-document-content">
+                  <div class="need-document-content-title" ng-bind="postscriptsAttachment.user">
+                  </div>
+                  <div class="need-document-content-item">
+                    <span ng-bind="postscriptsAttachment.user"></span>
+                    <span ng-bind="postscriptsAttachment.date"></span>
+                    <span>{{postscriptsAttachment.size}} M</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!--时间单起一行放到右下角-->
+            <div class="need-table-time" style="position: absolute;right: 15px;bottom:1px;"
+                 ng-text="postscript.time"></div>
+          </ion-item>
+        </ion-list>
+      </div>
+      <!-- 处理意见 -->
+      <div class="need-table" style="margin-bottom: 50px">
+        <div ng-click="goOpinionProcessing()" class="need-table-item">
+          <div class="need-table-item-text">
+            <div class="need-table-text-title need-table-title-color">{{'view-form.opinion-text' | translate }}<i
+              ng-if="flagApproval==1" ng-class="{'radius-hidden':opinionFlag}"
+              style="display: inline-block;width: 6px;height: 6px;border-radius: 3px;background-color: #ff0607;position: relative;top:-10px;"></i>
+            </div>
+          </div>
+          <img ng-class="{'need-transform-img':opinionFlag,'need-table-item-img':!opinionFlag}"
+               src="app/view-form/img/view-form-transform-arrow.png" alt="">
+        </div>
+        <div class="need-opinion-backgroundColor">
+          <ion-list ng-show="opinionFlag==true">
+            <ion-item ng-repeat="approval in approvals track by approval.pkid">
+              <div class="need-table-msg">
+                <div class="need-name-radius" ng-bind="approval.name | limitTo:-2"></div>
+                <div class="need-msg">
+                  <div class="need-msg-name" ng-bind="approval.name"></div>
+                  <div class="need-msg-text" style="color: #1bbb37;" ng-if="approval.flagStatus == '0'">同意</div>
+                  <div class="need-msg-text" style="color: #1bbb37;" ng-if="approval.flagStatus == '1'">拒绝</div>
+                  <div class="need-msg-text" style="color: #1bbb37;" ng-if="approval.flagStatus == '2'">终止</div>
+                  <div class="need-msg-text" style="color: #1bbb37;" ng-if="approval.flagStatus == '3'">提交</div>
+                  <div class="need-msg-text" style="color: #1bbb37;" ng-if="approval.flagStatus == '4'">暂存待办</div>
+                </div>
+              </div>
+              <span class="need-table-time">{{approval.time}}</span>
+              <span ng-show="!$root.viewOtherWaitWork" style="float: right; color: #0a9dc7;font-size: 15px" ng-click="replyData(approval.pkid)">回复</span>
+              <div>
+
+                <!-- 处理意见 -->
+                <div style="white-space: normal;font-size: 12px;margin-top: 3px" ng-if="approval.content"
+                     ng-bind="approval.content"></div>
+                <div class="need-table-time" ng-if="approval.content" style="text-align: left;margin-right:0;" ng-bind="approval.time"></div>
+
+                <div class="need-msg-enclosure" ng-repeat="attachment in approval.approvalAttachments track by $index"
+                     ng-if="approval.approvalAttachments">
+                  <div class="need-msg-img"
+                       style="border-bottom: 1px dashed #dcdcdc; padding-bottom: 10px;margin-top: 5px"
+                       ng-if="attachment.type.indexOf('video')==0 " ng-click="getAudio(attachment.pkid)">
+                    <!--<img src="app/view-form/img/view-form-speech-picture.png" alt="">-->
+                    <div class="chat-voice" style="height: 30px;left: 0;"
+                         ng-class="{'andioM10':(attachment.def3>0&&attachment.def3<10),'andioM30':(attachment.def3>10&&attachment.def3<30),'andioM60':(attachment.def3>30&&attachment.def3<60)}">
+                      <i class="ion-wifi"></i>
+                    </div>
+                    <span class="chat-voice-red-dot">
+                                       <span></span>
+                                       <em ng-bind="attachment.def3"></em>
+                                       </span>
+                    <div class="need-table-time" style="text-align: left;margin-right:0;" ng-bind="attachment.time"></div>
+                  </div>
+                  <div style="border-bottom: 1px dashed #dcdcdc; padding-bottom: 10px;margin-top: 5px"
+                       ng-if="attachment.type.indexOf('image')==0 " view-form-popup pkid='attachment.pkid'
+                       type='attachment.type'>
+                    <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                    <div class="need-document-content">
+                      <div class="need-document-content-title" ng-bind="attachment.name">
+                      </div>
+                      <div class="need-document-content-item">
+                        <span ng-bind="attachment.name"></span>
+                        <span ng-bind="attachment.date"></span>
+                        <span>{{attachment.size}} M</span>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div style="border-bottom: 1px dashed #dcdcdc; padding-bottom: 10px;margin-top: 5px"
+                       ng-if="attachment.type=='application/pdf' || attachment.type=='application/octet-stream'"
+                       view-form-popup pkid='attachment.pkid' type='attachment.type'>
+                    <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                    <div class="need-document-content">
+                      <div class="need-document-content-title" ng-bind="attachment.name">
+                      </div>
+                      <div class="need-document-content-item">
+                        <span ng-bind="attachment.name"></span>
+                        <span ng-bind="attachment.date"></span>
+                        <span>{{attachment.size}} M</span>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div ng-repeat="reply in approval.replys track by $index" style="border-bottom: 1px dashed #dcdcdc;">
+                <div class="need-msg-right" ng-if="reply.account == rightShow" style="margin-top: 5px;">
+                  <div class="need-msg-right-text" style="width: auto;">
+                    <div class="need-msg-right-name" style="" ng-bind="reply.name"></div>
+                    <div class="need-msg-right-name-radius" ng-bind="reply.name | limitTo:-2"></div>
+                    <!--文字回复-->
+                    <div class="need-msg-right-reply" style="text-align: left;margin-right:0;" ng-bind="reply.content"></div>
+                    <div class="need-table-time" ng-if="reply.content" style="text-align: right;margin-right:0;" ng-bind="reply.time"></div>
+                  </div>
+                  <!--<div class="need-msg-right-name-radius">{{reply.name | limitTo:-2}}</div>-->
+                  <!--语音回复-->
+                  <div class="need-msg-enclosure"
+                       ng-repeat="replayAttachment in reply.replayAttachments track by $index"
+                       ng-if="reply.replayAttachments">
+                    <div class="need-msg-img"
+                         style="padding-bottom: 10px;margin-top: 5px"
+                         ng-if="replayAttachment.type.indexOf('video')==0 " ng-click="getAudio(replayAttachment.pkid)">
+
+                                       <span class="chat-voice-red-dot " style="position: relative;"
+                                             ng-class="{'chat-voice-red-right10':(replayAttachment.def3>0&&replayAttachment.def3<10),'chat-voice-red-right30':(replayAttachment.def3>10&&replayAttachment.def3<30),'chat-voice-red-right60':(replayAttachment.def3>30&&replayAttachment.def3<60)}">
+                                           <span style="margin-left: 20px"></span>
+                                           <em ng-bind="replayAttachment.def3">"</em>
+                                       </span>
+                      <div class="chat-voice chat-voice-right" style="height: 30px;"
+                           ng-class="{'andioM10':(replayAttachment.def3>0&&replayAttachment.def3<10),'andioM30':(replayAttachment.def3>10&&replayAttachment.def3<30),'andioM60':(replayAttachment.def3>30&&replayAttachment.def3<60)}">
+                        <i class="ion-wifi"></i>
+                      </div>
+                      <div class="need-table-time" style="text-align: right;margin-right:0;" ng-bind="reply.time"></div>
+                    </div>
+
+                  </div>
+
+                  <div style="margin-top: 5px" ng-repeat="replayAttachment in reply.replayAttachments track by $index">
+                    <div style="padding-bottom: 10px;margin-top: 5px"
+                         ng-if="replayAttachment.type.indexOf('image')==0 " view-form-popup pkid='replayAttachment.pkid'
+                         type='replayAttachment.type'>
+                      <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                      <div class="need-document-content" style="width: auto"><!--style="width: 50%"-->
+                        <div class="need-document-content-title" ng-bind="replayAttachment.name">
+                        </div>
+                        <div class="need-document-content-item">
+                          <span ng-bind="replayAttachment.user"></span>
+                          <span ng-bind="replayAttachment.time"> </span>
+                          <span> {{replayAttachment.size}} M</span>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div style="padding-bottom: 10px;margin-top: 5px"
+                         ng-if="replayAttachment.type=='application/pdf' || replayAttachment.type=='application/octet-stream'"
+                         view-form-popup pkid='replayAttachment.pkid' type='replayAttachment.type'>
+                      <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                      <div class="need-document-content" style="width:auto"><!--style="width: 50%"-->
+                        <div class="need-document-content-title" ng-bind="replayAttachment.name">
+                        </div>
+                        <div class="need-document-content-item">
+                          <span ng-bind="replayAttachment.user"></span>
+                          <span ng-bind="replayAttachment.date"> </span>
+                          <span> {{replayAttachment.size}} M</span>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="need-table-msg" ng-if="reply.account !== rightShow"
+                     style="margin-top: 15px;width: 100%;padding: 10px 0">
+                  <div class="need-name-radius" ng-bind="reply.name | limitTo:-2"></div>
+                  <div class="need-msg">
+                    <div class="need-msg-name" ng-bind="reply.name"></div>
+                  </div>
+                  <div style="white-space: normal;font-size: 12px;margin-top: 3px" ng-bind="reply.content"></div>
+                  <div class="need-table-time" ng-if="reply.content" style="text-align: left;margin-right:0;" ng-bind="reply.time"></div>
+                  <!--语音回复-->
+                  <div class="need-msg-enclosure"
+                       ng-repeat="replayAttachment in reply.replayAttachments track by $index"
+                       ng-click="getAudio(replayAttachment.pkid)">
+                    <!--<div class="need-msg-img" style="border-bottom: none;margin-top: 0" ng-if="replayAttachment.type.indexOf('video')==0 ">-->
+                    <div class="need-msg-img"
+                         style="border-bottom: 1px dashed #dcdcdc; padding-bottom: 10px;margin-top: 5px"
+                         ng-if="replayAttachment.type.indexOf('video')==0 ">
+                      <!--<img src="app/view-form/img/view-form-speech-picture.png" alt="">-->
+                      <div class="chat-voice" style="height: 30px;left: 0;"
+                           ng-class="{'andioM10':(replayAttachment.def3>0&&replayAttachment.def3<10),'andioM30':(replayAttachment.def3>10&&replayAttachment.def3<30),'andioM60':(replayAttachment.def3>30&&replayAttachment.def3<60)}">
+                        <i class="ion-wifi"></i>
+                      </div>
+                      <span class="chat-voice-red-dot">
+                                           <span></span>
+                                           <em ng-bind="replayAttachment.def3">"</em>
+                                       </span>
+                      <div class="need-table-time" style="text-align: left;margin-right:0;" ng-bind="reply.time"></div>
+                    </div>
+                  </div>
+
+                  <div class="need-msg-enclosure"
+                       ng-repeat="replayAttachment in reply.replayAttachments track by $index"
+                       ng-if="reply.replayAttachments">
+                    <div style="border-bottom: 1px dashed #dcdcdc; padding-bottom: 10px;margin-top: 5px"
+                         ng-if="replayAttachment.type.indexOf('image')==0 " view-form-popup pkid='replayAttachment.pkid'
+                         type='replayAttachment.type'>
+                      <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                      <div class="need-document-content">
+                        <div class="need-document-content-title" ng-bind="replayAttachment.name">
+
+                        </div>
+                        <div class="need-document-content-item">
+                          <span ng-bind="replayAttachment.user"></span>
+                          <span ng-bind="replayAttachment.date"> </span>
+                          <span> {{replayAttachment.size}} M</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="need-msg-enclosure"
+                       ng-repeat="replayAttachment in reply.replayAttachments track by $index"
+                       ng-if="reply.replayAttachments">
+                    <div style="border-bottom: 1px dashed #dcdcdc; padding-bottom: 10px"
+                         ng-if="replayAttachment.type=='application/pdf' || replayAttachment.type=='application/octet-stream'"
+                         view-form-popup pkid='replayAttachment.pkid' type='replayAttachment.type'>
+                      <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+                      <div class="need-document-content">
+                        <div class="need-document-content-title" ng-bind="replayAttachment.name">
+
+                        </div>
+                        <div class="need-document-content-item">
+                          <span ng-bind="replayAttachment.user"></span>
+                          <span ng-bind="replayAttachment.date"> </span>
+                          <span>{{replayAttachment.size}} M</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
+      </div>
+      <!--公文已阅start-->
+      <div style="width: 95%;margin: 20px auto;border: 1px solid #9e9e9e;" ng-if="readers.flag">
+        <div ng-repeat="readerData in readerDatas track by $index" ng-if="readerData.status == '1'">
+          <div style="display: inline-block;width: 20%;text-align: center" ng-bind="readerData.name"></div>
+          <div style="display: inline-block;width: 15%;text-align: center" ng-bind="readerData.statusText"></div>
+          <div style="display: inline-block;width: 60%;text-align: center" ng-bind="readerData.time"></div>
+        </div>
+      </div>
+      <!--公文已阅end-->
+
+
+    </ion-list>
+    <!--流程图-->
+    <ion-list ng-if="itemFlag == '1'">
+
+      <div class="need-flow-chart">
+
+        <ul class="view-table-flow-chart">
+          <!--第一个人（提报人）-->
+          <li class="view-table-flow-chart-node view-node-head" ng-repeat="history in historyData track by $index"
+              ng-if="history.status != '待审批'">
+            <div ng-if="history.status == '提交'">
+              <div class="view-condition-time">
+                <div class="view-condition-submit" style="" ng-bind="history.status">
+                  <div class="view-condition-submit-ico"></div>
+                </div>
+                <span class="ng-binding"
+                      ng-bind="history.completeTime | date:'yyyy-MM-dd'+(history.completeTime | date:' HH:mm:ss')"></span>
+              </div>
+              <div class="view-table-dot wiew-table-location"></div>
+              <div class="view-table-message">
+                <h2 ng-bind="history.auditorName"></h2>
+                <p class="ng-binding" ng-bind="history.opinion"> &nbsp;</p>
+              </div>
+            </div>
+            <div ng-if="history.status == '同意'">
+              <div class="view-condition-time">
+                <div class="view-condition-green" style="background: #3CB371" ng-bind="history.status">
+                  <div class="view-condition-green-ico" style="background: #3CB371"></div>
+                </div>
+                <span class="ng-binding"
+                      ng-bind="history.completeTime | date:'yyyy-MM-dd'+(history.completeTime | date:' HH:mm:ss')"></span>
+              </div>
+              <div class="view-table-dot wiew-table-location"></div>
+              <div class="view-table-message">
+                <h2 ng-bind="history.auditorName"></h2>
+                <p class="ng-binding" ng-bind="history.opinion"> &nbsp;</p>
+              </div>
+            </div>
+            <div ng-if="history.status == '不同意'">
+              <div class="view-condition-time">
+                <div class="view-condition-green" style="background: #BEBEBE" ng-bind="history.status">
+                  <div class="view-condition-green-ico" style="background: #BEBEBE"></div>
+                </div>
+                <span class="ng-binding"
+                      ng-bind="history.completeTime | date:'yyyy-MM-dd'+(history.completeTime | date:' HH:mm:ss')"></span>
+              </div>
+              <div class="view-table-dot wiew-table-location"></div>
+              <div class="view-table-message">
+                <h2 ng-bind="history.auditorName"></h2>
+                <p class="ng-binding" ng-bind="history.opinion"> &nbsp;</p>
+              </div>
+            </div>
+          </li>
+
+
+          <li ng-if="nowFlag" class="view-table-flow-chart-node">
+            <div class="view-condition-time">
+              <div class="view-condition-beepblue" style="">当前
+                <div class="view-condition-beepblue-ico"></div>
+              </div>
+              <span class="ng-binding" ng-bind="nowTime | date:'yyyy-MM-dd'+(nowTime | date:' HH:mm:ss')"></span>
+            </div>
+            <div class="view-table-dot wiew-table-location"></div>
+            <div class="view-table-message">
+              <h2 ng-repeat="auditorName in auditorNames track by $index" ng-bind="auditorName"></h2>
+            </div>
+          </li>
+          <!--最后一个-->
+          <li class="" ng-if="!nowFlag">
+            <div ng-if="zwZz">
+              <div class="view-condition-time">
+                <div class="view-condition-submit" style="">终止
+                  <div class="view-condition-submit-ico"></div>
+                </div>
+                <span class="ng-binding" ng-bind="zzTime | date:'yyyy-MM-dd'+(zzTime | date:' HH:mm:ss')"></span>
+              </div>
+              <div class="view-table-dot wiew-table-location"></div>
+              <div class="view-table-message">
+                <h2 ng-bind="zzName"></h2>
+                <p class="ng-binding" ng-bind="zzOption">
+
+                </p>
+              </div>
+            </div>
+            <div ng-if="zwJs">
+              <div class="view-condition-time">
+                <div class="view-condition-submit" style="">结束
+                  <div class="view-condition-submit-ico"></div>
+                </div>
+                <span class="ng-binding" ng-bind="jsTime | date:'yyyy-MM-dd'+(jsTime | date:' HH:mm:ss')"></span>
+              </div>
+              <div class="view-table-dot wiew-table-location"></div>
+              <div class="view-table-message">
+                <h2 ng-bind="jsName"></h2>
+                <p class="ng-binding" ng-bind="jsOption">
+
+                </p>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </ion-list>
+    <!--知会列表-->
+    <ion-list ng-if="itemFlag == '3'">
+      <div class="need-flow-chart">
+        <ul class="view-table-flow-chart">
+          <li class="view-table-flow-chart-node view-node-head"
+              ng-repeat="understanding in understandingList track by $index">
+            <div ng-show="understanding.status == '已读'">
+              <div class="view-condition-time">
+                <div class="view-condition-green" style="background: #3c8dbc" ng-bind="understanding.status">
+                  <div class="view-condition-green-ico" style="background: #3c8dbc"></div>
+                </div>
+                  <span class="ng-binding" ng-bind="understanding.time | date:'yyyy-MM-dd'"></span>
+              </div>
+              <div class="view-table-dot wiew-table-location"></div>
+              <div class="view-table-message">
+                <h2 ng-bind="understanding.userName"></h2>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </ion-list>
+    <!--相关文档-->
+    <ion-list ng-if="itemFlag == '2'">
+      <ion-item class="need-document need-document-border" ng-if="allAttachments!=[]"
+                ng-repeat="allAttachment in allAttachments track by $index"> <!--ng-click="actionsheet()"-->
+        <div view-form-popup pkid='allAttachment.pkid' type='allAttachment.type' format='allAttachment.name'>
+          <img class="need-document-img-left" src="app/view-form/img/view-form-attachment.png">
+          <div class="need-document-content">
+            <div class="need-document-content-title" ng-bind="allAttachment.name">
+
+            </div>
+            <div class="need-document-content-item">
+              <span ng-bind="allAttachment.user"></span>
+              <span ng-bind="allAttachment.time"></span>
+              <span>{{allAttachment.size}} M</span>
+            </div>
+          </div>
+
+        </div>
+        <!--<img class="right-position need-document-img-right" src="app/view-form/img/view-form-right.png">-->
+      </ion-item>
+
+
+    </ion-list>
+  </ion-content>
+
+  <!--弹出确认模板-->
+  <div ng-show="isTemporary" class="show-mask" ng-style="noneStyle" id="showMaskTemplate">
+    <div class="show-mask-content ng-clock" style="height: 260px">
+      <div style="font-size: 16px">取回操作不可逆,确定取回吗？</div>
+      <div style="margin-top:5px;margin-bottom: 10px;font-size: 13px;color: #69717d">若确认取回，请输入取回附言</div>
+      <textarea
+        style="width: 100%;max-height: 100px;height:100px;overflow-y:hidden;resize:none;margin-top: 5px ;border: 1px solid #d1d3d6;border-radius: 4px"
+        ng-model="mask_content" placeholder="限30字以内"></textarea>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="goYes()" ng-bind="'form-handle.opinion-go' | translate">
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="goCancel()" ng-bind="'form-handle.opinion-cancel' | translate ">
+      </button>
+    </div>
+  </div>
+  <!-- <div class="tyw" onclick="function mask(e){e.preventDefault();e.stopPropagation();console.log(e)}" ng-show="canscroll" style="position:absolute;width:100%;height:100%;top:0;left:0;background-color:red;z-index:100000"></div> -->
+</ion-view>
+
+

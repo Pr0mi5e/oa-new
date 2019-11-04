@@ -1,0 +1,42 @@
+
+<ion-view hide-tabs="true">
+    
+
+    <ion-content class="portion-content-bgcolor" overflow-scroll="true" style="overflow:auto;">
+        <ion-list>
+            <ion-item class="screenItem-border0 portion-content-bgcolor">
+                <i class="ion-record"></i>
+                <span>状态</span>
+            </ion-item>
+            <div class="screen-button" ng-click=selectBtn($event)>
+                <button class="button button-icon icon" id="allBtn">
+                    全部
+                </button>
+                <button class="button button-icon icon" id="pauseBtn">
+                    暂存
+                </button>
+                <button class="button button-icon icon" id="backBtn">
+                    退回
+                </button>
+                <button class="button button-icon icon" id="readBtn">
+                    已读
+                </button>
+                <button class="button button-icon icon" id="unreadBtn">
+                    未读
+                </button>
+            </div>
+        </ion-list>
+    </ion-content>
+    <!--<div class="zw-wait-work-bottom-btn-click-background">
+        <button class="button button-icon icon zw-wait-work-bottom-btn-style">
+        确定
+    </button>
+    </div>-->
+
+    <div class="bar bar-footer zw-wait-work-bottom-btn-click-background">
+        <button class="button button-icon icon zw-wait-work-bottom-btn-style">
+            确定
+        </button>
+    </div>
+
+</ion-view>

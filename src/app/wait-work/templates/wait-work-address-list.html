@@ -1,0 +1,110 @@
+
+<ion-view hide-tabs="true" view-title="联系人">
+    
+
+    <div class="tabs-striped tabs-top tabs-color-calm">
+        <div class="tabs" style="border-bottom:1px solid #e5e5e5;">
+            <button ng-click="" class="button button-small button-light ion-ios-search-strong button-seek">
+                找人
+            </button>
+        </div>
+    </div>
+    <ion-content class="has-tabs-top" overflow-scroll="true" style="overflow: auto;">
+        <!--<div ng-repeat="contain in contacts " style="background-color: #fafafa">
+
+            <div class="need-document need-document-border">
+                <img class="need-document-img-left" src="app/notification/img/view-form-notification.png">
+                <div class="need-document-content" native-transitions>
+                    <div class="need-document-content-title" style="position: relative;top:8px;">
+                        {{contain.name}}
+                    </div>
+                    <div class="need-document-content-item">
+                        <h5>{{contain.text}}</h5>
+                    </div>
+                </div>
+                <div class="need-inform-tiem">
+                    <div ng-class="{true:'checked-radius',false:'check-radius'}[checkFlag]" ng-click="choiceBox($index)">.</div>
+                </div>
+            </div>
+        </div>-->
+        <ion-list>
+            <ion-item class="address-item-padding0">
+                <div class="address-button-div">
+                    <button class="address-button-department" ng-class="{active : tableFlag=='headquarters'}" ng-click="toSwitchover('headquarters')">
+                        本部门
+                    </button>
+                    <button class="address-button-department" ng-class="{active : tableFlag=='finance'}" ng-click="toSwitchover('finance')">
+                        财务部
+                    </button>
+                    <button class="address-button-department" ng-class="{active : tableFlag=='administration'}" ng-click="toSwitchover('administration')">
+                        行政部
+                    </button>
+                    <button class="address-button-department" style="border-bottom: 0px;" ng-class="{active : tableFlag=='produce'}" ng-click="toSwitchover('produce')">
+                        生产部
+                    </button>
+                </div>
+
+                <div class="adderss-list-div-left">
+                    <ion-list>
+                        <ion-item class="item-avatar" ng-click="choiceBox($index)">
+                            <div class="zw-name-round zw-blue-round item-image">
+                                <img src="app/wait-work/img/wait-work-avatar.png">
+                            </div>
+                            <div class="adderss-list-name-div">
+                                <h3><b>张小山</b></h3>
+                                <p class="p-inline">部门经理</p>
+                            </div>
+                            <div class="need-inform-tiem adderss-check-div">
+                                <div ng-class="{true:'checked-radius',false:'check-radius'}[checkFlag]">.</div>
+                            </div>
+                            <hr class="hr_01 hr-margin0">
+                        </ion-item>
+                        <ion-item class="item-avatar" ng-click="choiceBox($index)">
+                            <div class="zw-name-round zw-red-round item-image">
+                                <h2>艳艳</h2>
+                            </div>
+                            <div class="adderss-list-name-div">
+                                <h3><b>杨艳艳</b></h3>
+                                <p class="p-inline">普通员工</p>
+                            </div>
+                            <div class="need-inform-tiem adderss-check-div">
+                                <div ng-class="{true:'checked-radius',false:'check-radius'}[checkFlag]">.</div>
+                            </div>
+                            <hr class="hr_01 hr-margin0">
+                        </ion-item>
+                        <ion-item class="item-avatar" ng-click="choiceBox($index)">
+                            <div class="zw-name-round zw-blue-round item-image">
+                                <h2>晨</h2>
+                            </div>
+                            <div class="adderss-list-name-div">
+                                <h3><b>李晨</b></h3>
+                                <p class="p-inline">普通员工</p>
+                            </div>
+                            <div class="need-inform-tiem adderss-check-div">
+                                <div ng-class="{true:'checked-radius',false:'check-radius'}[checkFlag]">.</div>
+                            </div>
+                            <hr class="hr_01 hr-margin0">
+                        </ion-item>
+                        <ion-item class="item-avatar" ng-click="choiceBox($index)">
+                            <div class="zw-name-round zw-blue-round item-image">
+                                <h2>冰冰</h2>
+                            </div>
+                            <div class="adderss-list-name-div">
+                                <h3><b>范冰冰</b></h3>
+                                <p class="p-inline">普通员工</p>
+                            </div>
+                            <div class="need-inform-tiem adderss-check-div">
+                                <div ng-class="{true:'checked-radius',false:'check-radius'}[checkFlag]">.</div>
+                            </div>
+                        </ion-item>
+
+                    </ion-list>
+                </div>
+            </ion-item>
+        </ion-list>
+
+
+    </ion-content>
+
+</ion-view>
+

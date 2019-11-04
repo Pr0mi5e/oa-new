@@ -1,0 +1,180 @@
+<ion-view hide-tabs="true"  class="form-handle">
+
+    <ion-nav-buttons side="right" >
+
+      <button class="ion-more need-more-option-style" ng-click="selectMoreOption()" ng-if="!replyOption"></button>
+      <button class="need-more-option-style" ng-click="clickRightSave()" ng-if="replyOption">保存</button>
+    </ion-nav-buttons>
+    <!--下拉框-->
+    <div class="need-handle-down-list-div-{{formPulldown}}" ng-if="isShowDialog">
+      <div class="need-handle-down-list-content-div">
+        <div class="need-handle-down-list-arrow-div"></div>
+
+        <div class="need-handle-down-list-padding-ten "
+             ng-click="selectOption('跟踪')">
+          <span class="need-handle-down-list-follow-font">{{ 'form-handle.opinion-track-text' | translate }}</span>
+          <span class="need-handle-down-list-follow-content">{{isFollowText}}</span>
+        </div>
+        <!--终止-->
+        <div class="need-handle-down-list-padding-ten need-handle-down-list-follow-div" ng-click="selectOption('终止')">
+          <span class="need-handle-down-list-notification">{{ 'form-handle.opinion-stop-text' | translate }}</span>
+        </div>
+        <!--暂存-->
+        <div class="need-handle-down-list-padding-ten need-handle-down-list-pause-save"
+             ng-click="selectOption('暂存')">{{ 'form-handle.opinion-temporary-text' | translate }}
+        </div>
+      </div>
+    </div>
+
+  <div class="tabs-striped tabs-top tabs-color-calm" ng-if="isReply">
+    <div class="tabs" style=" padding: 5px 0;">
+
+      <button class="tab-item head-border" ng-click="getOpinion('agree')" native-transitions>
+        {{ 'form-handle.opinion-argee-text' | translate }}
+      </button>
+
+      <button class="tab-item head-border" ng-click="getOpinion('reject')" native-transitions>
+        {{ 'form-handle.opinion-reject-text' | translate }}
+      </button>
+
+
+    </div>
+  </div>
+
+  <ion-content  class="" style="background-color: #f7f7f7;" overflow-scroll="true" ng-class="{'rj-stable-contentB':emoFlagA,'rj-stable-contentA':!emoFlagA,'has-tabs-top':hasTop}"
+               delegate-handle="messageDetailsScroll" id="message-detail-content">
+
+
+      <div class="view-form-handle-margin5" ng-repeat="document in documents track by $index" ng-if="documents != []">
+          <div class="view-form-handle-name">{{userName | limitTo:-2}}</div>
+          <div class="view-form-handle-content-length">
+              <div class="chat-triangle-left" ng-if="document.msg">
+                  {{document.msg}}
+              </div>
+              <div class="chat-triangle-left-img" ng-if="document.img.src">
+                  <img ng-src="{{document.img.src}}"  view-form-popup pkid='document.img.src' type=''>
+                <!--ng-click="getSelfImg(document.img.src)"-->
+                  <span class="view-form-red-exclamation" style="position: absolute;right: -25px;bottom: -5px" ng-if="document.img.imgSuccess">
+                      <img src="app/view-form/img/view-form-load.gif" alt="">
+                  </span>
+                  <span class="view-form-red-exclamation"  style="position: absolute;right: -25px;bottom: -5px" ng-if="document.img.imgFail" ng-click="repeatImg(document)">
+                      <img src="app/view-form/img/red-exclamation-mark.png" alt="">
+                  </span>
+              </div>
+
+
+              <div class="chat-voice chat-voice-handle" ng-if="document.audio" ng-click="playerAudio(document.audio.src)" ng-class="{'andioHandleM10':(document.audio.num>0&&document.audio.num<10),'andioHandleM30':(document.audio.num>10&&document.audio.num<30),'andioHandleM60':(document.audio.num>30)}">
+                  <i class="ion-wifi"></i>
+              </div>
+              <span class="chat-voice-red-dot" style="margin-left: 5px" ng-if="document.audio">
+                   <span></span>
+                   <em>{{document.audio.num}}"</em>
+              </span>
+              <span class="view-form-red-exclamation" ng-if="document.audio.voiceSuccess">
+                  <img src="app/view-form/img/view-form-load.gif" alt="">
+             </span>
+              <span class="view-form-red-exclamation" ng-if="document.audio.voiceFail" ng-click="repeatVoice(document)">
+                  <img src="app/view-form/img/red-exclamation-mark.png" alt="">
+             </span>
+          </div>
+
+
+      </div>
+
+  </ion-content>
+
+  <div class="voice-hint-img" ng-if="voiceHint">
+    <img src="app/view-form/img/voice-hint-img.gif" alt="">
+  </div>
+  <div class="voice-hint-img" style="margin-left: -100px" ng-if="changeTime">
+    <img src="{{changeImg}}" alt="" style="width: 200px">
+  </div>
+
+  <!--弹出确认模板-->
+  <div ng-if="isTemporary" class="show-mask">
+    <div class="show-mask-content">
+      <div style="font-size: 16px">{{maskTitle}}</div>
+      <div style="margin-top:5px;margin-bottom: 10px;font-size: 13px;color: #69717d">{{maskContent}}</div>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="goDash()">{{ 'form-handle.opinion-go' | translate }}
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="cancel()">{{ 'form-handle.opinion-cancel' | translate }}
+      </button>
+    </div>
+  </div>
+  <!--弹出确认模板-->
+  <div ng-if="isVoice" class="show-mask">
+    <div class="show-mask-content">
+      <div style="font-size: 16px">{{voiceTitle}}</div>
+      <div style="margin-top:5px;margin-bottom: 10px;font-size: 13px;color: #69717d">{{voiceContent}}</div>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="goVoice()">{{ 'form-handle.opinion-go' | translate }}
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="voiceCancel()">{{ 'form-handle.opinion-cancel' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!--弹出确认审批签章密码模板-->
+  <div ng-if="isChangePW" class="show-mask">
+    <div class="show-mask-content">
+      <div style="font-size: 16px">{{maskTitle}}</div>
+      <div style="width: 100%;text-align: center;border-bottom: 1px solid #d5d5d5">
+
+        <input id="handlePassword" style="width:30%;padding:10px 0;margin:5px auto ;font-size: 13px;color: #69717d" type="password" placeholder=" 输入签章密码"/>
+
+      </div>
+      <button class="button button button-outline button-clam form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="goPwDash()">{{ 'form-handle.opinion-go' | translate }}
+      </button>
+      <button class="button button button-outline button-dark form-foot-btn" style="width: 45%;margin-top: 15px"
+              ng-click="pwCancel()">{{ 'form-handle.opinion-cancel' | translate }}
+      </button>
+    </div>
+  </div>
+  <ion-footer-bar align-title="left" class="bar-light" id="offsetHeight" resize-foot-bar keyboardshow
+                  ng-class="{true:'bottomY',false:'bottomN'}[emoFlag]">
+
+    <div class="rj-footer-btn-wrap" >
+      <button class="button button-icon icon ion-ios-mic-outline rj-footer-btn-left" ng-click="goShowAudio()"
+              style="position: absolute;bottom: 0;">
+      </button>
+    </div>
+    <label class="item item-input rj-footer-input" ng-show="!audioShow">
+      <textarea style="width: 95%;max-height: 100px;overflow-y:hidden;resize:none;margin-top: 5px;" msd-elastic id="textareaId"
+                ng-model="send_content" ng-focus="hide()" ng-change="textChange(this)"></textarea>
+    </label>
+
+    <label class="item item-input rj-footer-input" ng-show="audioShow">
+      <button class="button button-calm" style="display:block;width: 100%" on-touch="recordAudio()" on-release="onReleaseRecord()" ng-disabled="recording">{{ 'form-handle.opinion-record' | translate }}</button>
+    </label>
+
+    <div class="rj-footer-btn-wrap">
+
+      <div class="buttons">
+        <button ng-if="!hasMsg" class="button button-icon icon ion-ios-plus-outline rj-footer-btn-left" ng-click="showEmoFlag()"
+                style="position: absolute;bottom: 0;">
+        </button>
+        <button ng-if="hasMsg" class="button"  ng-click="sent()"
+                style="position: absolute;bottom: 2px;right:2px;z-index: 11;background-color: darkgreen;color: white;width: 46px;padding: 0 3px;">
+          {{ 'form-handle.opinion-send' | translate }}
+        </button>
+      </div>
+
+    </div>
+
+    <div id='imgDiv'
+         style="width: 100%;margin-top: 10px ;position: absolute;top: 33px;left: 0;right: 0;bottom: 0;background: white;height: 244px"
+         class="hide-on-keyboard-open" ng-show="emoFlag">
+      <img src="app/view-form/img/view-form-camera.png" alt="" style="width: 60px;height: auto;margin: 5px 8px" ng-click="chooseMedia('photoLibrary')">
+      <img src="app/view-form/img/view-form-album.png" alt="" style="width: 60px;height: auto;margin: 5px 8px" ng-click="chooseMedia('takePhoto')">
+
+    </div>
+  </ion-footer-bar>
+
+
+</ion-view>
+
+

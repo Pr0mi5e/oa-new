@@ -1,0 +1,88 @@
+/* Golbal style */
+
+.item.active,
+
+.item.activated,
+
+.item-complex.active .item-content,
+
+.item-complex.activated .item-content,
+
+.item .item-content.active,
+
+.item .item-content.activated {
+
+  background-color: #F7F7F7 !important;
+
+}
+
+h2 {
+  color: red;
+}
+/*字体颜色*/
+$size-fff:#ffffff;
+$size-000:#000000;//所有黑颜色的字
+
+/*背景颜色定义区域*/
+$bgColorEEE: #EEE;
+
+
+/*图片大小定义区域*/
+$Headpicture:40px;        //头像大小，用于chats，
+
+
+/*公共部分样式*/
+
+/*tabs上面的显示线,解决在三星手机上不显示的问题*/
+.tab-nav {
+  background-image: none !important;
+  background-size: 0!important;
+  border-top: 1px solid#d0d0d0 !important;
+}
+
+//头像变成方形，默认是圆形
+.img-borderRadiusNO{
+  border-radius: 0!important;
+}
+
+//内容部分页面背景颜色为#EEE
+.bgColorEEE-stable-content {
+  background-color: $bgColorEEE;
+}
+//页面中头部返回按钮的样式 22px
+.zw-return-button{
+  font-size: 1rem; margin-left: 8px; border-right: 1px solid #262626;padding-right: 12px;
+}
+
+.bar-dark{
+  background-color:#3c8dbc !important;
+}
+ion-tabs.tabs-color-active-balanced .tab-item.tab-item-active{
+  color:#38acff;
+}
+
+
+/*部分content背景颜色f7f7f7*/
+.portion-content-bgcolor{
+  background-color: #f3f3f3;
+}
+
+
+//回退按钮
+.back-btn{
+  width: 35px !important;
+}
+
+////屏幕大于500px ，回退按钮宽12%
+@media screen and (min-width: 500px) {
+  .back-btn {
+    width: 12% !important;
+    text-align: left;
+    padding-left: 15px !important;
+  }
+}
+//输入框提示文字居右
+.placeholder-right::-webkit-input-placeholder{
+  direction: rtl;
+  text-align: right;
+}

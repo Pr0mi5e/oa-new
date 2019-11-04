@@ -1,0 +1,17 @@
+{
+  "constants": {
+    "APP": {
+      "devMode": false,
+      "VPNFlag": false,
+      "forgetPwFlag": false,
+      "notificationFlag":true
+    },
+    "serverConfiguration": {
+      "baseApiUrl": "http://59.46.169.162:3006/",
+      "SSOUrl": "http://59.46.169.162:3004",
+      "domain": "http://59.46.169.162:3006",
+      "webSocket":"ws://59.46.169.162:3003/sys/webSocketServer"
+
+    }
+  }
+}

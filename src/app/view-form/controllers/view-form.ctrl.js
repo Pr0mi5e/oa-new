@@ -11,10 +11,6 @@
               $isMobile, T, timeout, stateGoHelp, clone, application, $ionicScrollDelegate, appUtils, GetRequestService, $ionicPopup) {
       $scope.commitBtn = true // 提交错误日志按钮默认显示
       $rootScope.bell = false//小铃铛不显示
-      $scope.tableFlag = {//显示表单
-        'display': ''
-      }
-
       $rootScope.toBack = true//返回按钮不显示
       $rootScope.titleData = T.translate('form-handle.form-see-title')//title内容
       $scope.title = $stateParams.titleName//前面页面传来的title
@@ -26,11 +22,9 @@
       $scope.zwJs = false//结束是否显示
       $scope.workWaitData = $stateParams.workWaitData//带的是工作页面待办跳转时的数据
       $rootScope.isPdfFlag = false//默认不是pdf公文  可缩放
-      $scope.noneStyle = {//取回模板的样式
-        'display': 'none'
-      }
       $scope.showUnderstandingList = false //是否展示只会tab栏
       $scope.loaded = false
+      $scope.isRetrieve = false//判断取回弹出框是否弹出
       /**
        * * 2018/8/10 16:15  tyw
        *  变更描述：新增两个变量：isios-是否为ios，isLongForm-是否为长表单，动态修改表单详情页容器的overflow-scroll值
@@ -40,6 +34,71 @@
       $scope.isLongForm = false
       $scope.detailCache = {}
       $scope.detailInfoCache = {}
+      $rootScope.hideTabs = true//地步导航栏的显示与否
+      $scope.getDetailUrlMap = {
+        '': $rootScope.viewOtherWaitWork ? 'app/ctl/othertodo/v1/getOtherTodoDetail' : 'app/myNewTodo/v1/getDetail',
+        '1': 'app/done/v1/getDetail',
+        '0': 'app/sent/v1/getDetail',
+        '2': 'app/follow/v1/getDetail',
+        '4': 'app/document/v1/getDocumentData',
+        '5': 'app/understanding/v1/getDetail'
+      }
+      // before
+      $rootScope.hideTabs = true
+      $rootScope.toBack = true
+      $scope.readers = []//表单已阅人员数组
+      $scope.isTemporary = false//判断弹出框是否弹出
+      $scope.zoomingFlag = true//判断表单是否可以缩放
+      $rootScope.enableBtn = '0'//zwfcbtn指令控制权限  控制审批页的暂存 终止 不同意是否可以点击
+      $scope.dataList = []//长表单查看表单页面UI数据
+      $scope.data = ''//数据清空
+      $scope.tableFlag = {'display': ''}
+      $scope.noneStyle = {'display': 'none'}
+      $scope.nextP = false//判断长表单的上拉显示 默认不显示
+      $rootScope.jump = true//表单显示  用于测试长表单卡顿
+      $rootScope.titleData = T.translate('form-handle.form-see-title')//查看表单标题
+      $scope.rightHandle = $stateParams.titleFlag === ''
+      $scope.rightBack = $stateParams.titleFlag === '1'
+      // before end
+      $scope.itemFlag = '0' //*控制分栏数据显示
+      $scope.rightShow = storageService.get(auth_events.userId, null)//判断是不是当前用户 用于处理意见时显示在左还是右  当前用户在右
+      $scope.approvalAttachments = []//意见附件
+      $scope.replys = []//意见回复
+      $scope.allAttachments = []//文档
+      $scope.postscriptsAttachments = []//附言附件
+      $scope.nowTime = new Date()//流程图当前时间
+      $scope.readers = []//表单已阅人员数组
+      $scope.dataList = []//长表单查看表单页面UI数据
+      $scope.nextP = false//判断长表单的上拉显示 默认不显示
+      $scope.mask_content = ''//输入框内容
+      $scope.msgMaskLength = 0//发送的信息的字数长度
+      $scope.allMaskLength = 0//输入框信息与发送的信息的字数长度总和
+      $scope.myNewTodo = '待办'
+      $scope.done = '已办'
+      $scope.sent = '已发'
+      $scope.follow = '跟踪'
+      $scope.document = '公文'
+      $scope.understanding = '知会'
+      $scope.viewOtherWaitWork = '其他人待办'
+      $scope.urlMap = {
+        '待办': 'app/myNewTodo/v2/getDetailForInfo',
+        '已办': 'app/done/v2/getDetailForInfo',
+        '已发': 'app/sent/v2/getDetailForInfo',
+        '跟踪': 'app/follow/v2/getDetailForInfo',
+        '公文': 'app/document/v1/getDocumentDataForInfo',
+        '知会': 'app/understanding/v2/getDetailForInfo',
+        '其他人待办': 'app/ctl/othertodo/v1/getOtherTodoDetailForInfo'
+      }
+      // 可配置的前后预加载数
+      $scope.pre = 4
+      $scope.next = 4
+      $scope.preDetailCached = false
+      $scope.preDetailInfoCached = false
+      $scope.nextDetailCached = false
+      $scope.nextDetailInfoCached = false
+      $scope.subTableLength = 0 // 从表长度
+      $scope.formDataId = '' // 主表id
+
       //判断workWaitData是否有  有则把字符串解开
       if (!($stateParams.workWaitData == undefined || $stateParams.workWaitData == '')) {
         $scope.workWaitData = angular.fromJson($scope.workWaitData)
@@ -56,35 +115,12 @@
       var enlargement = $stateParams.enlargement//从放大表单过来
       var viewScroll = $ionicScrollDelegate.$getByHandle('viewFormScrollHandle')//新需求要求附言和处理打开互斥并且有数据时要自动上移
       var viewScrollForm = $ionicScrollDelegate.$getByHandle('viewFormScrollHandleChild')//控制表单点击更多时,表单数据向上滚动
-      $rootScope.hideTabs = true//地步导航栏的显示与否
+      var heightHandle = window.innerHeight//获取屏幕的高度
+      var type = '0'//tab页index：0表单，1流程图，2相关文档
       $scope.$on('$ionicView.beforeEnter', function (event, data) {
-        $rootScope.hideTabs = true
-        $rootScope.toBack = true
+        cleanScopeData()
         data.enableBack = true//交叉路由
-        /**
-         * * 2018/7/30 14:04  CrazyDong
-         *  变更描述：解决返回后,流程图中当前人无法展示姓名的问题
-         *  功能说明：注释掉
-         */
-        //        $scope.auditorNames = [];//流程图内当前人数组
-        $scope.readers = []//表单已阅人员数组
-        $scope.isTemporary = false//判断弹出框是否弹出
-        $scope.zoomingFlag = true//判断表单是否可以缩放
-        $rootScope.enableBtn = '0'//zwfcbtn指令控制权限  控制审批页的暂存 终止 不同意是否可以点击
-        /**
-         * * 2018/8/15 13:27  CrazyDong
-         *  变更描述：注释掉,不然进入处理页面后返回,显示放大按钮
-         *  功能说明：
-         */
-        // $rootScope.isPdfFlag = false;//默认不是pdf公文  可缩放
-        $scope.nextP = false//判断长表单的上拉显示 默认不显示
-        $rootScope.jump = true//表单显示  用于测试长表单卡顿
         viewScrollForm.scrollTop()//进入时,让表单滚到顶部,否则会出现表单滚出可视窗口的现象
-        /**
-         * * 2018/5/7 16:15  CrazyDong
-         *  变更描述：控制"点击加载更多"按钮的位置,竖屏ng-class为true,横屏为false
-         *  功能说明：不同状态给予不同的top
-         */
         if ($isMobile.isPC) {
           $scope.isShowTop = true
         } else {
@@ -100,34 +136,10 @@
               break
           }
         }
-
-        $scope.dataList = []//长表单查看表单页面UI数据
-        $scope.data = ''//数据清空
-        $scope.tableFlag = {//显示表单
-          'display': ''
-        }
-        $scope.noneStyle = {//取回模板的样式
-          'display': 'none'
-        }
-        /*把App设置成竖屏*/
         if (!$isMobile.isPC && !ionic.Platform.isIPad()) {
-          /**
-           * * 2018/4/25 16:14  CrazyDong
-           *  变更描述：竖屏改为默认
-           *  功能说明：测试手机横竖屏
-           */
           screen.orientation.lock('default')
         }
-
-        var waitWorkPassDate = $stateParams.waitWorkPassDate
-        if (waitWorkPassDate) {
-          var paramData = angular.fromJson(waitWorkPassDate)
-          var taskId = paramData.taskId
-          var procInstId = paramData.procInstId
-        }
-        $rootScope.titleData = T.translate('form-handle.form-see-title')//查看表单标题
-        var account = storageService.get(auth_events.userId, null)
-        var Type = $stateParams.type
+        var Type = $stateParams.type // 首页 undefined,已办,消息 work tab待办 undefined
         var notification = $stateParams.notification//从通知过来
         var stateCurrentViewDataName = scopeData.prototype.getStateCurrentViewDataName()//上一页跳过来时存的stateName
         var stateCurrentViewParams = scopeData.prototype.getStateCurrentViewParams()//上一页跳过来时存的stateParams
@@ -151,184 +163,42 @@
         var viewFormCacheWork = storageService.get('viewFormCacheWork', null)
         var backReply = storageService.get('backReply', null)//回复页直接返回的就有值
         var savereply = $stateParams.savereply//回复时候给的变量
-        //如果是返回 无论从放大返回还是回复返回还是处理返回
-        // || 后面的判断有必要？
-        if (data.direction == 'back' || (enlargement !== 'enlargement' && viewFormCacheWork == 'viewFormCacheWork') || (savereply !== 'savereply' && backReply == 'backReply')) {
-          $scope.tableFlag = {//返回时  让表单显示
-            'display': ''
-          }
-          $scope.data = $rootScope.dataTimeNewNow//返回时给数据赋值为当前页跳转到各页面前的数据
-          $scope.dataList = scopeData.prototype.getLongFormEnlargementData()//获取长表单数据
-          //在pad上显示20条数据 点击每次加载20条数据 其他设备上10条start
-          var xList = 10
-          var xListOnly = 11
-          if (ionic.Platform.isIPad()) {
-            xList = 20
-            xListOnly = 21
-          }
-          //在pad上显示20条数据 点击每次加载20条数据 其他设备上10条end
-          //判断数据是不是有子表  并且子表内数据大于10
-          for (var p in $scope.data) {
-            for (var sub_p in $scope.data[p]) {
-              if ($scope.data[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
-                if ($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > 0) {
-                  $scope.data[p][sub_p] = $scope.data[p][sub_p].slice(0, 10)
-                  if ($scope.dataList.length == 0) {
-                    $scope.nextP = false
-                  } else if ($scope.dataList.length < xListOnly) {//如果这个数组的长度小于11 就直接让数据显示赋值给$scope.data
-                    $scope.data[p][sub_p] = $scope.dataList
-                    $scope.nextP = false
-                  } else if ($scope.dataList.length > xList) {//list数组内数据大于10 让他显示前10个
-                    $scope.data[p][sub_p] = $scope.dataList.slice(0, xList)
-                    $scope.nextP = true
-                    $scope.isLongForm = true
-                    if (!$isMobile.isPC) {
-                      $cordovaToast.showLongBottom('此表单为长数据表单，共' + $scope.dataList.length + '条数据,点击获取更多数据')
-                    } else {
-                      alert('此表单为长数据表单，共' + $scope.dataList.length + '条数据,点击加载获取更多数据')
-                    }
-                  }
-                  scopeData.prototype.setLongFormEnlargementData($scope.dataList)//长表单数据存成新的 用于放大表单
-                }
-              }
-            }
-          }
-          storageService.set('viewFormCacheWork', null)//标识符表示不是放大表单页返回
-          storageService.removeItem('backReply')//回复页返回的标志
-        } else { // 跳转到该页面 - 从列表页，放大页保存，回复页保存
-          if (enlargement !== 'enlargement') {// 不是放大页跳转过来，清空存储的表单数据
-            /**
-             * * 2018/7/19 14:23  tyw
-             *  在退出表单详情，审批通过之后清空储存的表单数据
-             */
-            $scope.$emit('clearStorageFormData')
-            // scopeData.prototype.setUserRole(null);
-            // scopeData.prototype.setHtmlData(null);
-            // scopeData.prototype.setPermissionData(null);
-            // storageService.set("viewFormCacheWork",null);//标识符表示不是放大表单页返回
-            // $rootScope.dataListENew = [];//放大页面存的长表单数据
-            // storageService.removeItem('backReply');//回复页返回的标志
-
-          }
-          if (enlargement == 'enlargement') {//放大表单页面跳转
-            requestViewFormData(account, taskId, procInstId, true)
-            getInfo($scope.myNewTodo, {
-              account: account,
-              taskId: taskId,
-              procInstId: procInstId,
-              isLoading: false
-            })
-            iconShow(true, false)
-          } else if (Type == 'work') {//工作页面跳转
-            //从工作页面跳过来的逻辑
-            if ($scope.titleFlag == '0') {//已发
-              iconShow(false, false)
-              requestSendWorkFormData(account, procInstId, true)
-              getInfo($scope.sent, {account: account, procInstId: procInstId, isLoading: false})
-            } else if ($scope.titleFlag == '1') {//已办
-              iconShow(false, true)
-              requestDoneWorkFormData(account, procInstId, true)
-              getInfo($scope.done, {account: account, procInstId: procInstId, isLoading: false})
-            } else if ($scope.titleFlag == '2') {//跟踪
-              iconShow(false, false)
-              requestFollowWorkFormData(account, procInstId, true)
-              getInfo($scope.follow, {account: account, procInstId: procInstId, isLoading: false})
-            } else if ($scope.titleFlag == '4') {//公文
-              iconShow(false, false)
-              requestWorkDocDataFormData(account, procInstId, true)
-              getInfo($scope.document, {account: account, procInstId: procInstId, isLoading: false})
-            } else if ($scope.titleFlag == '5') {//知会
-              iconShow(false, false)
-              requestUndDataFormData(account, procInstId, true)
-              getInfo($scope.understanding, {account: account, procInstId: procInstId, isLoading: false})
-            } else if (notification == 'notification') {//通知
-              iconShow(true, false)
-              requestViewFormData(account, taskId, procInstId, true)
-              getInfo($scope.myNewTodo, {
-                account: account,
-                taskId: taskId,
-                procInstId: procInstId,
-                isLoading: false
-              })
-            }
-          } else if ($stateParams.notificationDetail == 'notificationDetail') {//消息页面跳转
-            console.log(1111111111111111111111111)
-            if ($scope.titleFlag == '0') {//已发
-              iconShow(false, false)
-              requestSendWorkFormData(account, procInstId, true)
-              getInfo($scope.sent, {account: account, procInstId: procInstId, isLoading: false})
-            } else if ($scope.titleFlag == '4') {//公文
-              iconShow(false, false)
-              requestWorkDocDataFormData(account, procInstId, true)
-              getInfo($scope.document, {account: account, procInstId: procInstId, isLoading: false})
-            } else if (notification == 'notification') {//通知
-              iconShow(true, false)
-              requestViewFormData(account, taskId, procInstId, true)
-              getInfo($scope.myNewTodo, {
-                account: account,
-                taskId: taskId,
-                procInstId: procInstId,
-                isLoading: false
-              })
-            }
-          } else if (isWorkFlag == 'isWork') {//人事 其他等四项审批
-            iconShow(true, false)
-            requestViewFormData(account, taskId, procInstId, true)
-            /**
-             * 如果是查看其他人待办，只请求表单数据，
-             * 其他信息（如流程图，审批意见等getInfo()返回的内容不请求）
-             * viewOtherWaitWork = true 为查看其他人待办
-             */
-            if ($rootScope.viewOtherWaitWork) {
-              $scope.requestParam = angular.fromJson($stateParams.requestParam)// 从列表页带过来的查询条件
-              $scope.totalCount = $scope.requestParam.totalCount
-              if (!$scope.cacheIndex) {
-                $scope.cacheIndex = $scope.requestParam.index  // 全部数据中的索引
-              }
-              getListDataCache($scope.cacheIndex)
-              // }else{
-              //   getInfo($scope.myNewTodo, {
-              //     account: account,
-              //     taskId: taskId,
-              //     procInstId: procInstId,
-              //     isLoading: false
-              //   })
-            }
-            getInfo($scope.myNewTodo, {
-              account: account,
-              taskId: taskId,
-              procInstId: procInstId,
-              isLoading: false
-            })
-          } else {
-            if (notification == 'notification') {//通知
-              iconShow(true, false)
-            } else {//待办
-              iconShow(true, false)
-            }
-            requestViewFormData(account, taskId, procInstId, true)
-            getInfo($scope.myNewTodo, {
-              account: account,
-              taskId: taskId,
-              procInstId: procInstId,
-              isLoading: false
-            })
-          }
-
-
+        /** ------------------------------new------------------------------------
+         *
+         *
+         */
+          //如果是返回 无论从放大返回还是回复返回还是处理返回
+        var waitWorkPassDate = $stateParams.waitWorkPassDate
+        if (waitWorkPassDate) {
+          var paramData = angular.fromJson(waitWorkPassDate)
+          var taskId = paramData.taskId
+          var procInstId = paramData.procInstId
         }
-
-        //判断图标是不是显示
-        function iconShow(handleBoolean, backBoolean) {
-          $scope.rightHandle = handleBoolean
-          $scope.rightBack = backBoolean
+        var account = storageService.get(auth_events.userId, null)
+        if (data.direction === 'forward') {
+          var param = {
+            url: $scope.getDetailUrlMap[$stateParams.titleFlag],
+            account: account,
+            taskId: taskId,
+            procInstId: procInstId,
+            isLoading: true
+          }
+          getDetail(param)
+          getInfo($scope.myNewTodo, {
+            account: account,
+            taskId: taskId,
+            procInstId: procInstId,
+            isLoading: false
+          })
+        } else {
+          // $scope.tableFlag = {'display': ''}
+          // formCenter()
         }
       })
       $scope.$on('$ionicView.enter', function () {//部分页面需要在这个生命周期去判断 按钮显示才生效
         $rootScope.hideTabs = true
         $rootScope.bell = false
         $rootScope.toBack = true
-
         /**
          * * 2018/5/8 14:00  CrazyDong
          *  变更描述：
@@ -353,12 +223,11 @@
       $scope.$on('$ionicView.leave', function () {//部分页面需要在这个生命周期去判断 按钮显示才生效
         scopeData.prototype.setCheckFlag(null)
       })
-      $scope.rightShow = storageService.get(auth_events.userId, null)//判断是不是当前用户 用于处理意见时显示在左还是右  当前用户在右
       // $scope.approvals = [];//意见
-      /*控制分栏数据显示*/
-      $scope.itemFlag = '0'
-      var type = '0'//0表单，1流程图，2相关文档
-      /*切换Tab并获取数据*/
+      /**
+       * 切换tab页
+       * @param flag
+       */
       $scope.changeAct = function (flag) {
         $scope.auditorNames = []//初始化并清空当前人数组,bug2637
         //流程图
@@ -403,11 +272,19 @@
           $scope.itemFlag = '3'
         }
       }
-      /*切换Tab*/
+
+      /**
+       * tab 页 active 状态
+       * @param flag
+       * @returns {boolean}
+       */
       $scope.isActiveTab = function (flag) {
         return flag == type ? true : false
       }
-      //监听手机横竖屏
+
+      /**
+       * 监听手机横竖屏
+       */
       window.addEventListener('orientationchange', function () {
         $timeout(function () {
           viewScrollForm.scrollTop()//旋转屏幕时候,让表单滚到顶部,否则会出现表单滚出可视窗口的现象
@@ -445,7 +322,10 @@
         xListOnly = 21
       }
       //在pad上显示20条数据 点击每次加载20条数据 其他设备上10条end
-      //加载长表单数据
+
+      /**
+       * 加载长表单数据
+       */
       $scope.loadMore = function () {
         //loading图 上拉时显示
         application.showLoading(true)
@@ -458,19 +338,19 @@
             for (var sub_p in $scope.data[p]) {
               if ($scope.data[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
                 if ($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > 0) {
-                  if ($scope.dataList.length - $scope.data[p][sub_p].length < xList) {
-                    $scope.data[p][sub_p] = $scope.data[p][sub_p].concat($scope.dataList.slice($scope.data[p][sub_p].length))
+                  // 如果未展示的从表数据小于xList，则将其全部截给$scope.data[p][sub_p]
+                  if ($scope.dataList.length < xList) {
+                    $scope.data[p][sub_p] = $scope.data[p][sub_p].concat($scope.dataList.splice(0, $scope.dataList.length))
                     viewScrollForm.scrollBy(0, heightHandle * 1 / 5, true)//使整个content上移屏幕的1/5
                   } else {
-                    $scope.data[p][sub_p] = $scope.data[p][sub_p].concat($scope.dataList.slice($scope.data[p][sub_p].length, $scope.data[p][sub_p].length + xList))
-                    if ($scope.dataList.length - $scope.data[p][sub_p].length == 0) {
+                    $scope.data[p][sub_p] = $scope.data[p][sub_p].concat($scope.dataList.splice(0, xList - 1))
+                    if ($scope.dataList.length  === 0) {
                       //数据全部加载完毕
                     } else {
-                      //                      $scope.longFormNum = '剩' + ($scope.dataList.length - $scope.data[p][sub_p].length) + '条数据未读';
                       viewScrollForm.scrollBy(0, heightHandle * 1 / 4, true)//使整个content上移屏幕的1/4
                     }
                   }
-                  if ($scope.data[p][sub_p].length == $scope.dataList.length) {
+                  if ($scope.data[p][sub_p].length === $scope.subTableLength) {
                     $timeout(function () {
                       $scope.nextP = false
                     }, 2000)
@@ -480,190 +360,41 @@
                   $timeout(function () {
                     application.hideLoading()
                   }, 500)
-
                 }
               }
             }
           }
-        }, 10)
-      }
-
-      //长表单数据更改（用户更改了表单内数据  用已看的数据替换总数据的前面已看长度的数据）
-      function isChangeDataList() {
-        for (var p in $scope.data) {
-          for (var sub_p in $scope.data[p]) {
-            if ($scope.data[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
-              // if($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > 9 && $scope.dataList.length>10) {
-              if ($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > xListSub && $scope.dataList.length > xList) {
-                $scope.dataList.splice(0, $scope.data[p][sub_p].length)
-                $scope.dataList = $scope.data[p][sub_p].concat($scope.dataList)
-                scopeData.prototype.setLongFormEnlargementData($scope.dataList)//长表单数据存成新的 用于放大表单
-                $scope.tableFlag = {
-                  'display': 'none'
-                }
-                $scope.data[p][sub_p] = $scope.dataList.slice(0, xList)
-              }
-            }
-          }
-        }
-      }
-
-      /*跳转处理*/
-      $scope.clickRightHandle = function () {
-        application.showLoading(true)
-        // var tempData = angular.copy($scope.data, {})
-        $timeout(function () {//让loading先出来再更新数据
-          var tempData = angular.copy($scope.data, {})
           console.log($scope.data)
-          for (var p in $scope.data) {
-            for (var sub_p in $scope.data[p]) {
-              if ($scope.data[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
-                //将所有的data都给$scope.data  用来做验证
-                if (($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > xListSub && $rootScope.dataListENew.length > xList) || ($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > xListSub && $scope.dataList.length > xList)) {
-                  if (enlargement == 'enlargement') {//放大表单页保存过来的
-                    $rootScope.dataListENew.splice(0, $scope.data[p][sub_p].length)
-                    $rootScope.dataListENew = $scope.data[p][sub_p].concat($rootScope.dataListENew)
-                    scopeData.prototype.setLongFormEnlargementData($rootScope.dataListENew)//长表单数据存成新的 用于放大表单
-                    $scope.tableFlag = {
-                      'display': 'none'
-                    }
-                    tempData[p][sub_p] = $rootScope.dataListENew
-                  } else {
-                    $scope.dataList.splice(0, $scope.data[p][sub_p].length)
-                    $scope.dataList = $scope.data[p][sub_p].concat($scope.dataList)
-                    scopeData.prototype.setLongFormEnlargementData($scope.dataList)//长表单数据存成新的 用于放大表单
-                    $scope.tableFlag = {
-                      'display': 'none'
-                    }
-                    tempData[p][sub_p] = $scope.dataList
-                  }
-                }
-              }
-            }
-          }
-
-          $timeout(function () {
-            application.hideLoading()
-          }, timeout.max)
-          $scope.rightHandle = true//处理图标显示
-          $scope.rightBack = false//取回不显示
-          var waitWorkPassDate = {
-            taskId: angular.fromJson($stateParams.waitWorkPassDate).taskId,
-            procInstId: angular.fromJson($stateParams.waitWorkPassDate).procInstId
-          }
-          //表单验证
-          $timeout(function () {//用来重新刷新页面 触发脏值检测
-
-            var signData = {data: tempData, sign: $scope.sign}//带到处理审批页的数据
-            scopeData.prototype.setSignData(signData)//如果是长表单这数据有可能更改于是在这里重新存入最新的数据
-            /**
-             * * 2018/9/29 16:50  CrazyDong
-             *  变更描述：表单数据data丢失,提前做拦截,bug3850
-             *  功能说明：判断表单数据是否为空,不为空再判断从表数据是否为空,
-             *           从表数据不为空再判断存在getSignData中的从表和存在getLongFormEnlargementData中的从表是否一致
-             */
-
-            var temp = scopeData.prototype.getSignData().data
-            if (angular.equals([], temp) || angular.equals({}, temp) || temp == null || temp == undefined) {
-              appUtils.showTips('view-form.form-data-null', true, 2)
-              application.hideLoading()
-              return
-            } else {
-              //判断是否有从表
-              for (var p in temp) {
-                for (var sub_p in temp[p]) {
-                  if (temp[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
-                    var tempTable = scopeData.prototype.getLongFormEnlargementData()//获取从表数据
-                    if (tempTable == '') {
-                      //判断从表是否为空
-                      appUtils.showTips('view-form.form-data-null', true, 2)
-                      application.hideLoading()
-                      return
-                    } else {
-                      //判断主从表数据是否一致
-                      var tempTableFirst = (temp[p][sub_p])//获取getSignData中从表第一条
-                      // console.log('总数据第一条', tempTableFirst)
-                      // console.log('存的表单数据', tempTable[0])
-                      // for (var key in tempTableFirst) {
-                      //   if (tempTableFirst[key] != tempTable[0][key]) {
-                      //     appUtils.showTips('view-form.table-form-different', true, 2)
-                      //     application.hideLoading()
-                      //     return
-                      //   }
-                      // }
-                      /**
-                       * 判断从表长度
-                       */
-                      // if(tempTableFirst.length !== scopeData.prototype.getLongFormEnlargementData().length) {
-                      //   appUtils.showTips('view-form.table-form-different', true, 2)
-                      //   application.hideLoading()
-                      //   return false
-                      // }
-                      /**
-                       * 从表的 ref_id_ 属性和主表的 id_ 属性相等，则是同一个表单的数据
-                       * 从表的 id_ 属性和 ref_id_ 属性同时为空字符串时，则这一条从表数据是用户新增的，这条数据不做对比校验
-                       */
-                      for(var subKey in tempTableFirst){
-                        var item = tempTableFirst[subKey]
-                        if(item['id_'] !== '' && item['ref_id_'] !== '') {
-                          if(item['ref_id_'] !== temp[p]['id_']) {
-                            appUtils.showTips('view-form.table-form-different', true, 2)
-                            application.hideLoading()
-                            return false
-                          }
-                        }
-                      }
-                    }
-                    /**
-                     * 判断深拷贝的主表数据和绑定到scope上的主表数据是否一致
-                     */
-                    for(var key in $scope.data){
-                      if(temp[p]['id_'] !== $scope.data[key]['id_']) {
-                        appUtils.showTips('view-form.table-form-different', true, 2)
-                        application.hideLoading()
-                        return false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-
-            if ($scope.data) {
-              if (viewFormService.form_check($scope, 0)) {
-                stateGoHelp.stateGoUtils(true, 'tab.form-handle', {
-                  workWaitData: angular.toJson($scope.workWaitData),
-                  waitWorkPassDate: angular.toJson(waitWorkPassDate),
-                  titleFlag: '3',
-                  notification: $stateParams.notification,
-                  information: $stateParams.information,
-                  type: $stateParams.type,
-                  notificationDetail: $stateParams.notificationDetail
-                }, 'left')
-                $timeout(function () {
-                  application.hideLoading()
-                }, 500)
-              } else {//验证失败的时候页面数据显示
-                $scope.tableFlag = {
-                  'display': ''
-                }
-                /**
-                 * * 2018/5/11 9:18  CrazyDong
-                 *  变更描述：不去掉,会在长表单中重复增加数据
-                 *  功能说明：不重新加入数据
-                 */
-                //                sortSubTabelByXH($scope.data);
-                $timeout(function () {
-                  application.hideLoading()
-                }, 500)
-              }
-            }
-          }, 300)
-
         }, 10)
 
       }
-      //取回点击
+
+      /**
+       * 待办表单，右上角处理操作
+       */
+      $scope.clickRightHandle = function () {
+        if($scope.dataList.length > 0) {
+          concatSubTableData()
+          verifyData()
+        }
+        var waitWorkPassDate = {
+          taskId: angular.fromJson($stateParams.waitWorkPassDate).taskId,
+          procInstId: angular.fromJson($stateParams.waitWorkPassDate).procInstId
+        }
+        stateGoHelp.stateGoUtils(true, 'tab.form-handle', {
+          workWaitData: angular.toJson($scope.workWaitData),
+          waitWorkPassDate: angular.toJson(waitWorkPassDate),
+          titleFlag: '3',
+          notification: $stateParams.notification,
+          information: $stateParams.information,
+          type: $stateParams.type,
+          notificationDetail: $stateParams.notificationDetail
+        }, 'left')
+      }
+
+      /**
+       * 已办表单，右上角取回操作
+       */
       $scope.clickRightBack = function () {
         $scope.rightHandle = false//处理不显示
         $scope.rightBack = true//取回显示
@@ -673,10 +404,10 @@
         }
 
       }
-      $scope.mask_content = ''//输入框内容
-      $scope.msgMaskLength = 0//发送的信息的字数长度
-      $scope.allMaskLength = 0//输入框信息与发送的信息的字数长度总和
-      //监视取回时附言的长度
+
+      /**
+       * 监听取回时附言的长度
+       */
       $scope.$watch('mask_content', function (newValue, oldValue, scope) {
         $scope.allMaskLength = newValue.length + $scope.msgMaskLength
         if ($scope.allMaskLength > 30) {//总长度不得大于30
@@ -684,7 +415,10 @@
           appUtils.showTips('view-form.mask-max-err', true, 2)
         }
       })
-      //取回时弹出确认框确认按钮
+
+      /**
+       * 取回 dialog， 确认
+       */
       $scope.goYes = function () {
         // 小于30个字就请求 大于30个字就提示
         // 附言长度大于0
@@ -699,12 +433,23 @@
           }
         }
       }
+
+      /**
+       * 取回 dialog， 取消
+       */
       $scope.goCancel = function () {//取消取回模板
         $scope.isTemporary = false//取回模板不显示
       }
-      //回复
+
+      /**
+       * 处理意见-回复
+       * @param pkid
+       */
       $scope.replyData = function (pkid) {
-        isChangeDataList()//如果是长表单 有可能可以操作子表 就把看过的子表和没看过的子表合并 保证是最新的操作过的数据
+        // isChangeDataList()//如果是长表单 有可能可以操作子表 就把看过的子表和没看过的子表合并 保证是最新的操作过的数据
+        if($scope.dataList.length > 0) {
+          concatSubTableData()
+        }
         var waitWorkPassDate = {
           taskId: angular.fromJson($stateParams.waitWorkPassDate).taskId,
           procInstId: angular.fromJson($stateParams.waitWorkPassDate).procInstId,
@@ -723,7 +468,12 @@
           notificationDetail: $stateParams.notificationDetail
         }, 'left')
       }
-      //表单双指缩放
+
+      /**
+       * 表单双指缩放
+       * @param init
+       * @returns {boolean}
+       */
       $scope.onFormScroll = function (init) {
         var scaleWrapper = angular.element('ion-view.need-form[nav-view="active"]').find('.scaleWrapper')//获取控制缩放的包裹容器
         if (!scaleWrapper.parent()[0]) {
@@ -756,53 +506,34 @@
         var pdfiframe = document.getElementById('pdfiframe')
         pdfiframe.innerHTML = 'iframe[name=iframeId]{ height: ' + document.getElementById('heightScroll').offsetHeight / finalScale + 'px!important;}'
       }
-      /*跳转表单放大页面*/
+
+      /**
+       * 跳转到放大表单页
+       */
       $scope.goEnlargement = function () {
-        isChangeDataList()//如果是长表单 有可能可以操作子表 就把看过的子表和没看过的子表合并 保证是最新的操作过的数据
+        // isChangeDataList()//如果是长表单 有可能可以操作子表 就把看过的子表和没看过的子表合并 保证是最新的操作过的数据
+        if($scope.dataList.length > 0){
+          concatSubTableData()
+        }
         var waitWorkPassDate = {
           taskId: angular.fromJson($stateParams.waitWorkPassDate).taskId,
           procInstId: angular.fromJson($stateParams.waitWorkPassDate).procInstId
         }
-        // debugger
-        if (Type == 'work') {//工作里面,跳转处理的路由
-          stateGoHelp.stateGoUtils(true, 'tab.work-form-enlargement', {
-            waitWorkPassDate: angular.toJson(waitWorkPassDate),
-            type: 'work',
-            information: $stateParams.information,
-            titleFlag: $scope.titleFlag,
-            workWaitData: angular.toJson($scope.workWaitData),
-            notification: $stateParams.notification,
-            NotificationItem: $stateParams.NotificationItem,
-            notificationDetail: $stateParams.notificationDetail
-          }, 'left')
-        } else if (isWorkFlag == 'isWork') {//工作的待办
-          // stateGoHelp.stateGoUtils(true, 'tab.work-form-enlargement', // 解决工作待办进放大页面，再返回表单页，表单移位问题
-          stateGoHelp.stateGoUtils(true, 'tab.form-enlargement', {
-            waitWorkPassDate: angular.toJson(waitWorkPassDate),
-            information: $stateParams.information,
-            titleFlag: $scope.titleFlag,
-            workWaitData: angular.toJson($scope.workWaitData),
-            notification: $stateParams.notification,
-            type: $stateParams.type,
-            NotificationItem: $stateParams.NotificationItem,
-            notificationDetail: $stateParams.notificationDetail
-          }, 'left')
-        } else {//待办
-          stateGoHelp.stateGoUtils(true, 'tab.form-enlargement', {
-            waitWorkPassDate: angular.toJson(waitWorkPassDate),
-            information: $stateParams.information,
-            titleFlag: $scope.titleFlag,
-            notification: $stateParams.notification,
-            type: $stateParams.type,
-            NotificationItem: $stateParams.NotificationItem,
-            notificationDetail: $stateParams.notificationDetail
-          }, 'left')
-        }
+        stateGoHelp.stateGoUtils(true, 'tab.form-enlargement', {
+          waitWorkPassDate: angular.toJson(waitWorkPassDate),
+          information: $stateParams.information,
+          titleFlag: $scope.titleFlag,
+          notification: $stateParams.notification,
+          type: $stateParams.type,
+          NotificationItem: $stateParams.NotificationItem,
+          notificationDetail: $stateParams.notificationDetail
+        }, 'left')
       }
-      var heightHandle = window.innerHeight//获取屏幕的高度
-      /*附言*/
-      $scope.goPostscript = function () {
 
+      /**
+       * 展开或收起附言
+       */
+      $scope.goPostscript = function () {
         if ($scope.isA) {
           //如果处理意见之前打开了并且里面有数据 那么就触发了上移的动作 这里就给清空
           viewScroll.scrollTop()
@@ -816,8 +547,11 @@
         $scope.postscriptFlag = !$scope.postscriptFlag//附言的开关
       }
 
+      /**
+       * 渲染附言
+       */
       function goPostscript() {
-        var othersList = $scope.others || JSON.parse($scope.cacheRequestData.others)//返回的附言 处理意见 及其附件
+        var othersList = $scope.others//返回的附言 处理意见 及其附件
         if (othersList.postscripts) {//如果附言存在
           var tempPostscripts = []
           tempPostscripts = JSON.parse(othersList.postscripts)
@@ -830,25 +564,14 @@
         $scope.opinionFlag = false//与处理意见互斥 使处理意见关闭
       }
 
-      /*处理意见*/
+      /**
+       * 处理意见
+       */
       $scope.goOpinionProcessing = function () {
-        var othersList = $scope.others || JSON.parse($scope.cacheRequestData.others)//返回的附言 处理意见 及其附件
+        var othersList = $scope.others //返回的附言 处理意见 及其附件
         if (othersList.approvals) {//如果处理意见存在
           var tempApprovals = [], tempReplys = [], tempApprovalAttachments = []
-          // $scope.approvals = angular.fromJson(othersList.approvals);//获得处理意见
-          // $scope.allAttachments = angular.fromJson(othersList.allAttachments);//获得所有附件加入到自定义所有附件数组
-          // angular.forEach($scope.approvals, function (data, index, array) {//遍历处理意见数组
-          //   $scope.approvals[index].replys = angular.fromJson(array[index].replys);//获取回复的内容
-          //   $scope.approvals[index].approvalAttachments = angular.fromJson(array[index].approvalAttachments);//获取处理意见附件
-          //   $scope.replys = $scope.approvals[index].replys;//自定义一个回复的数组 将获得的回复的内容加入进去
-          //   $scope.approvalAttachments = $scope.approvals[index].approvalAttachments;//自定义一个处理意见附近的数组 将获得的处理意见附件的内容加入进去
-          //   angular.forEach($scope.replys, function (data, index, array) {//遍历回复数组
-          //     //获取回复内的回复附件
-          //     $scope.replys[index].replayAttachments = angular.fromJson(array[index].replayAttachments);
-          //   })
-          // });
           tempApprovals = angular.fromJson(othersList.approvals)//获得处理意见
-
           angular.forEach(tempApprovals, function (data, index, array) {//遍历处理意见数组
             tempApprovals[index].replys = angular.fromJson(array[index].replys)//获取回复的内容
             tempApprovals[index].approvalAttachments = angular.fromJson(array[index].approvalAttachments)//获取处理意见附件
@@ -878,20 +601,16 @@
         $scope.opinionFlag = !$scope.opinionFlag//处理意见的开关
 
       }
-      $scope.getAudio = function (pkid) {//播放录音
+
+      /**
+       * 播放录音
+       * @param pkid
+       */
+      $scope.getAudio = function (pkid) {
         $scope.url = serverConfiguration.baseApiUrl + 'app/attachment/showVideo?pkid=' + pkid
         var myMedia = new Media($scope.url)//播放这个路径的语音
         myMedia.play()
       }
-      $scope.approvalAttachments = []//意见附件
-      $scope.replys = []//意见回复
-      $scope.allAttachments = []//文档
-      // $scope.auditorNames = [];//流程图内的名字
-      $scope.postscriptsAttachments = []//附言附件
-      $scope.nowTime = new Date()//流程图当前时间
-      $scope.readers = []//表单已阅人员数组
-      $scope.dataList = []//长表单查看表单页面UI数据
-      $scope.nextP = false//判断长表单的上拉显示 默认不显示
 
       /**
        * 提交 bug 信息
@@ -926,7 +645,9 @@
         })
       }
 
-      //适配表单
+      /**
+       * 适配表单
+       */
       function formCenter() {
 
         $timeout(function () {
@@ -939,11 +660,12 @@
       /**
        * 对从表数据根据序号排序
        */
-      function sortSubTabelByXH($scopeData) {
-        //判断数据内是不是有子表
+      function sortSubTableByXH($scopeData) {
         for (var p in $scopeData) {
+          $scope.formDataId = $scopeData[p]['id_']
           for (var sub_p in $scopeData[p]) {
             if ($scopeData[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
+              $scope.subTableLength = $scopeData[p][sub_p].length
               //有子表就进行子表排序
               $scopeData[p][sub_p] = $.fn.sortSubTable($scopeData[p][sub_p], 'seqnum', 'asc')
               //获取子表长度依次显示
@@ -951,33 +673,19 @@
                 //放大页保存回来的直接取dataList值
                 if (enlargement == 'enlargement') {
                   $scope.dataList = scopeData.prototype.getLongFormEnlargementData()//获取长表单数据
-
                 } else {
-                  /**
-                   * * 2018/12/11 11:14  CrazyDong
-                   *  变更描述：bug3850
-                   *  功能说明：清空从表的module存储值
-                   */
-                  scopeData.prototype.setLongFormEnlargementData('')//长表单数据存成新的 用于放大表单
-                  //不是放大页保存回来的把子表内的数据遍历给dataList
-                  for (var i = 0, l = ($scopeData[p][sub_p].length); i < l; i++) {
-                    $scope.dataList.push(($scopeData[p][sub_p])[i])//查看表单页的UI数据
-                  }
+                  $scope.dataList = JSON.parse(JSON.stringify($scopeData[p][sub_p])) // 深拷贝从表数据
                 }
-                //判断dataList数组的长度  然后根据条件不同在页面显示不同
-                if ($scope.dataList.length == 0) {
-                  $scope.nextP = false
-                } else if ($scope.dataList.length < xListOnly) {//如果这个数组的长度小于11 就直接让数据显示赋值给$scope.data
-                  $scopeData[p][sub_p] = $scope.dataList
-                  $scope.nextP = false
-                } else if ($scope.dataList.length > xList) {//list数组内数据大于10 让他显示前10个
-                  $scopeData[p][sub_p] = $scope.dataList.slice(0, xList)
-                  $scope.nextP = true
-                  $scope.isLongForm = true
+                $scope.nextP = $scope.dataList.length > xList
+                $scope.isLongForm = $scope.dataList.length > xList
+                if ($scope.dataList.length < xListOnly) {//如果这个数组的长度小于11,把从表数据整个截给页面数据$scopeData[p][sub_p]
+                  $scopeData[p][sub_p] = $scope.dataList.splice(0, $scope.dataList.length)
+                } else if ($scope.dataList.length > xList) {//list数组内数据大于10,截取前十条给页面数据$scopeData[p][sub_p]
+                  $scopeData[p][sub_p] = $scope.dataList.splice(0, xList)
                   if (!$isMobile.isPC) {
-                    $cordovaToast.showLongBottom('此表单为长数据表单，共' + $scope.dataList.length + '条数据,点击获取更多数据')
+                    $cordovaToast.showLongBottom('此表单为长数据表单，共' + $scope.subTableLength + '条数据,点击获取更多数据')
                   } else {
-                    alert('此表单为长数据表单，共' + $scope.dataList.length + '条数据,点击加载获取更多数据')
+                    alert('此表单为长数据表单，共' + $scope.subTableLength + '条数据,点击加载获取更多数据')
                   }
                 }
                 scopeData.prototype.setLongFormEnlargementData($scope.dataList)//长表单数据存成新的 用于放大表单
@@ -991,10 +699,10 @@
       /**
        * 2019-05-17 15:15
        * Gao
-       * 表单详情报错弹窗提示
+       * 表单详情报错弹窗提示，点击确认返回列表页
        * 判断依据 result.state 为 -1
        */
-      var confirmBack = function (result, isBack) {
+      function confirmBack(result, isBack) {
         var Pop = $ionicPopup.alert({
           title: T.translate('publicMsg.popTitle'),
           template: result.msg,
@@ -1011,357 +719,101 @@
         })
       }
 
-      /*请求待办表单详情数据*/
-      function requestViewFormData(account, taskId, procInstId, isLoading, isCache, index) {
-        var url = serverConfiguration.baseApiUrl + ($rootScope.viewOtherWaitWork ? 'app/ctl/othertodo/v1/getOtherTodoDetail' : 'app/myNewTodo/v1/getDetail')
-        var param = {account: account, taskId: taskId, procInstId: procInstId, isLoading: isLoading}
-        //请求数据
-        if ($rootScope.viewOtherWaitWork) {
-          var param = {
-            todoUserCode: $rootScope.todoUserCode,
-            taskId: taskId,
-            procInstId: procInstId,
-            isLoading: isLoading
-          }
-        }
-        viewFormService.getViewFormData(url, param, isLoading).then(function (result) {
-          // $scope.waitWork = true
-          if (isCache) {
-            console.log('cache')
-            $scope.detailCache[index] = result
+      /**
+       * 获取表单数据（表单Html模板和模板数据）
+       * @param param
+       */
+      function getDetail(param) {
+        var url = serverConfiguration.baseApiUrl + param.url
+        delete param.url
+        viewFormService.getViewFormData(url, param, param.isLoading, 'POST').then(function (result) {
+          if (result.state == '0') {
+            requestSuccess(result)
           } else {
-            if (result.state == '0') {
-              console.log('request')
-              waitWorkRequestSuccess(result)
-            } else if (result.state == -1) {
-              confirmBack(result, true)
-            }
+            confirmBack(result, true)
           }
         }, function (error) {
-          console.log(error)
           if (!$isMobile.isPC) {
             $cordovaToast.showShortBottom(T.translate('publicMsg.requestErr'))
           }
         })
       }
 
-      function waitWorkRequestSuccess(result) {
-        $scope.cacheRequestData = result
-        var tempData = {}
-        var dataList = JSON.parse(result.form)//返回的表单及数据及权限等
-        var formData = dataList.list//进一步获取表单及数据 权限
-        var listData = formData[0]
-        var permission = listData.permission//返回的permission权限
-        var understandingList = listData.ccstatus  // 知会
-        $scope.understandingList = understandingList
-        understandingList.forEach(function (item, index) {
-          item.status == '已读' ? $scope.showUnderstandingList = true : null
-        })
-        if (listData.form !== undefined) {//如果表单存在
-          var oneData = listData.form//返回的form对象
-          var htmlData = oneData.formHtml//返回的表单
-        } else {
-          if (!$isMobile.isPC) {
-            $cordovaToast.showShortBottom(T.translate('view-form.form-empty'))
+      /**
+       * getDetail 成功后处理数据
+       * @param result
+       */
+      function requestSuccess(result) {
+        if($stateParams.titleFlag === '4'){ // 公文
+          if (result.list) {
+            var dataList = JSON.parse(result.list)
+            if (dataList.permission) {
+              var permission = dataList.permission//返回的permission
+            }
+            if (dataList.form !== undefined) {
+              var oneData = dataList.form//返回的form
+              var htmlData = oneData.formHtml
+            } else {
+              if (!$isMobile.isPC) {
+                $cordovaToast.showShortBottom(T.translate('view-form.form-empty'))
+              } else {
+                alert(T.translate('view-form.form-empty'))
+              }
+            }
+            if (dataList.data) {
+              $scope.data = dataList.data
+            }
+            $scope.htmlContent = htmlData
+            scopeData.prototype.setHtmlData(htmlData)
+            $scope.permission = permission
+            var signData = {data: $scope.data, sign: $scope.sign}
+            scopeData.prototype.setUserRole($scope.data)
+            scopeData.prototype.setSignData(signData)
+            scopeData.prototype.setPermissionData($scope.permission)
           } else {
-            alert(T.translate('view-form.form-empty'))
+            if (!$isMobile.isPC) {
+              $cordovaToast.showShortBottom('公文表单返回为空')
+            } else {
+              alert('公文表单返回为空')
+            }
           }
-        }
-
-        //表单放入页面start
-        if (enlargement == 'enlargement') {//如果是放大页保存
-          $scope.data = {}//清空data
-          $rootScope.dataTimeNew = scopeData.prototype.getUserRole()//获取在放大页存入的数据
-          $scope.data = clone.cloneData($rootScope.dataTimeNew)//将放大页的世界克隆
-          $scope.data = sortSubTabelByXH($scope.data)//进行子表排序及长表单分页
-          $scope.htmlContent = scopeData.prototype.getHtmlData()//获取HTML
-          $scope.permission = scopeData.prototype.getPermissionData()//获取权限
-          var signData = {data: $scope.data, sign: $scope.sign}
-          scopeData.prototype.setSignData(signData)
-
         } else {
-          $scope.data = listData.data//获取数据
-          $scope.data = sortSubTabelByXH($scope.data)//子表排序及长表单分页
-          $scope.htmlContent = htmlData//获取HTML
+          var tempData = {}
+          var dataList = result.form ? JSON.parse(result.form) : ''
+          var formData = dataList.list//进一步获取表单及数据 权限
+          var listData = formData[0]
+          var permission = listData.permission//返回的permission
+          if (listData.form !== undefined) {
+            var oneData = listData.form//返回的form
+            var htmlData = oneData.formHtml
+          } else {
+            if (!$isMobile.isPC) {
+              $cordovaToast.showShortBottom(T.translate('view-form.form-empty'))
+            } else {
+              alert(T.translate('view-form.form-empty'))
+            }
+          }
+          tempData.data = listData.data
+          $scope.data = sortSubTableByXH(tempData.data)
+          $scope.htmlContent = htmlData
           scopeData.prototype.setHtmlData(htmlData)
-          $scope.permission = permission//获取权限
+          $scope.permission = permission
           var signData = {data: $scope.data, sign: $scope.sign}
           scopeData.prototype.setUserRole($scope.data)
           scopeData.prototype.setSignData(signData)
           scopeData.prototype.setPermissionData($scope.permission)
+          formCenter()
+          $scope.loaded = true
         }
-        $scope.loaded = true
-        //适配表单
-        formCenter()
       }
 
-      //请求成功后  共用
-      function requestScuess(result) {
-        $scope.cacheRequestData = result
-        // $scope.goPostscript()
-        var tempData = {}
-        var dataList
-        if (result.form) {
-          dataList = JSON.parse(result.form)//返回的表单及数据及权限等
-          // debugger
-          if (dataList.list[0].ccstatus) {
-            $scope.understandingList = dataList.list[0].ccstatus//返回的流程图信息
-            //是否展示知会tab
-            $scope.understandingList.forEach(function (item, index) {
-              item.status == '已读' ? $scope.showUnderstandingList = true : null
-            })
-          }
-        }
-        // if (result.others) {
-        //   var othersList = JSON.parse(result.others);//返回的附言 处理意见 及其附件
-        // }
-
-
-        // $scope.flagPostscript = othersList.flagPostscript;//是否有附言的标志 true就是有
-        // $scope.flagApproval = othersList.flagApproval;//是否有处理意见的标志 true就是有
-        var formData = dataList.list//进一步获取表单及数据 权限
-        var listData = formData[0]
-        var permission = listData.permission//返回的permission
-        if (listData.form !== undefined) {
-          var oneData = listData.form//返回的form
-          var htmlData = oneData.formHtml
-        } else {
-          if (!$isMobile.isPC) {
-            $cordovaToast.showShortBottom(T.translate('view-form.form-empty'))
-          } else {
-            alert(T.translate('view-form.form-empty'))
-          }
-        }
-        // if (othersList.approvals){
-        //   $scope.allAttachments = angular.fromJson(othersList.allAttachments);//获得所有附件加入到自定义所有附件数组
-        // }
-
-        tempData.data = listData.data
-        $scope.data = sortSubTabelByXH(tempData.data)
-        $scope.htmlContent = htmlData
-        scopeData.prototype.setHtmlData(htmlData)
-        $scope.permission = permission
-        var signData = {data: $scope.data, sign: $scope.sign}
-        scopeData.prototype.setUserRole($scope.data)
-        scopeData.prototype.setSignData(signData)
-        scopeData.prototype.setPermissionData($scope.permission)
-        formCenter()
-
-      }
-
-      /*已办表单详情数据*/
-      function requestDoneWorkFormData(account, procInstId, isLoading) {
-        var url = serverConfiguration.baseApiUrl + 'app/done/v1/getDetail'
-        var param = {account: account, procInstId: procInstId, isLoading: isLoading}
-        //请求数据
-        viewFormService.getViewFormData(url, param, isLoading).then(function (result) {
-          if (result.state == '0') {
-            requestScuess(result)
-
-          } else {
-            // if (!$isMobile.isPC) {
-            //   $cordovaToast.showShortBottom(T.translate(result.msg));
-            // } else {
-            //   alert(T.translate(result.msg))
-            // }
-            confirmBack(result, true)
-          }
-        }, function (error) {
-          if (!$isMobile.isPC) {
-            $cordovaToast.showShortBottom(T.translate('publicMsg.requestErr'))
-          }
-        })
-      }
-
-      /*已发表单详情数据*/
-      function requestSendWorkFormData(account, procInstId, isLoading) {
-        var url = serverConfiguration.baseApiUrl + 'app/sent/v1/getDetail'
-        var param = {account: account, procInstId: procInstId, isLoading: isLoading}
-        //请求数据
-        viewFormService.getViewFormData(url, param, isLoading).then(function (result) {
-          if (result.state == '0') {
-            requestScuess(result)
-            //公文已阅功能start
-            if (result.readers) {
-              $scope.readers = angular.fromJson(result.readers)
-              $scope.readerDatas = $scope.readers.data
-              angular.forEach($scope.readerDatas, function (data, index, array) {
-                if ($scope.readerDatas[index].status == '1') {
-                  $scope.readerDatas[index].statusText = '已读'
-                }
-              })
-            }
-            //公文已阅功能end
-          } else {
-            // if (!$isMobile.isPC) {
-            //   $cordovaToast.showShortBottom(T.translate(result.msg));
-            // } else {
-            //   alert(T.translate(result.msg));
-            // }
-            confirmBack(result, true)
-          }
-        }, function (error) {
-          if (!$isMobile.isPC) {
-            $cordovaToast.showShortBottom(T.translate('publicMsg.requestErr'))
-          }
-        })
-      }
-
-      /*跟踪表单详情数据*/
-      function requestFollowWorkFormData(account, procInstId, isLoading) {
-        var url = serverConfiguration.baseApiUrl + 'app/follow/v1/getDetail'
-        var param = {account: account, procInstId: procInstId, isLoading: isLoading}
-        //请求数据
-        viewFormService.getViewFormData(url, param, isLoading).then(function (result) {
-          if (result.state == '0') {
-            requestScuess(result)
-          } else {
-            // if (!$isMobile.isPC) {
-            //   $cordovaToast.showShortBottom(T.translate(result.msg));
-            // } else {
-            //   alert(T.translate(result.msg))
-            // }
-            confirmBack(result, true)
-          }
-        }, function (error) {
-          if (!$isMobile.isPC) {
-            $cordovaToast.showShortBottom(T.translate('publicMsg.requestErr'))
-          }
-        })
-      }
-
-      /*公文表单详情数据*/
-      function requestWorkDocDataFormData(account, procInstId, isLoading) {
-        var url = serverConfiguration.baseApiUrl + 'app/document/v1/getDocumentData'
-        var param = {account: account, procInstId: procInstId, isLoading: isLoading}
-        //请求数据
-        viewFormService.getViewFormData(url, param, isLoading).then(function (result) {
-          if (result.state == '0') {
-            $scope.cacheRequestData = result
-            if (result.list) {
-              var dataList = JSON.parse(result.list)
-              if (dataList.permission) {
-                var permission = dataList.permission//返回的permission
-              }
-              if (dataList.form !== undefined) {
-                var oneData = dataList.form//返回的form
-                var htmlData = oneData.formHtml
-              } else {
-                if (!$isMobile.isPC) {
-                  $cordovaToast.showShortBottom(T.translate('view-form.form-empty'))
-                } else {
-                  alert(T.translate('view-form.form-empty'))
-                }
-              }
-
-              //表单放入页面start
-              if (dataList.data) {
-                $scope.data = dataList.data
-                $scope.data = sortSubTabelByXH($scope.data)
-              }
-              $scope.htmlContent = htmlData
-              scopeData.prototype.setHtmlData(htmlData)
-              $scope.permission = permission
-
-              var signData = {data: $scope.data, sign: $scope.sign}
-              scopeData.prototype.setUserRole($scope.data)
-              scopeData.prototype.setSignData(signData)
-              scopeData.prototype.setPermissionData($scope.permission)
-            } else {
-              if (!$isMobile.isPC) {
-                $cordovaToast.showShortBottom('公文表单返回为空')
-              } else {
-                alert('公文表单返回为空')
-              }
-            }
-            if (result.others) {
-              var othersList = JSON.parse(result.others)
-              $scope.flagPostscript = othersList.flagPostscript
-              $scope.flagApproval = othersList.flagApproval
-              //获取附言列表start
-              if (othersList.postscripts) {
-                $scope.postscripts = JSON.parse(othersList.postscripts)
-                angular.forEach($scope.postscripts, function (data, index, array) {
-                  $scope.postscripts[index].postscriptsAttachments = angular.fromJson(array[index].attachments)
-                  $scope.postscriptsAttachments = $scope.postscripts[index].postscriptsAttachments
-                })
-              }
-              //获取附言列表end
-              //获取意见列表start
-              if (othersList.approvals) {
-                $scope.approvals = angular.fromJson(othersList.approvals)
-                $scope.allAttachments = angular.fromJson(othersList.allAttachments)
-                angular.forEach($scope.approvals, function (data, index, array) {
-                  $scope.approvals[index].replys = angular.fromJson(array[index].replys)
-                  $scope.approvals[index].approvalAttachments = angular.fromJson(array[index].approvalAttachments)
-                  $scope.replys = $scope.approvals[index].replys
-                  $scope.approvalAttachments = $scope.approvals[index].approvalAttachments
-                  angular.forEach($scope.replys, function (data, index, array) {
-                    $scope.replys[index].replayAttachments = angular.fromJson(array[index].replayAttachments)
-                  })
-                })
-              }
-
-              //获取意见列表end
-            }
-
-            formCenter()
-          } else {
-            // if (!$isMobile.isPC) {
-            //   $cordovaToast.showShortBottom(T.translate(result.msg));
-            // } else {
-            //   alert(T.translate(result.msg))
-            // }
-            confirmBack(result, true)
-          }
-        }, function (error) {
-          if (!$isMobile.isPC) {
-            $cordovaToast.showShortBottom(T.translate('publicMsg.requestErr'))
-          }
-        })
-      }
-
-      /*知会详情数据*/
-      function requestUndDataFormData(account, procInstId, isLoading) {
-        var url = serverConfiguration.baseApiUrl + 'app/understanding/v1/getDetail'
-        var param = {account: account, procInstId: procInstId, isLoading: isLoading}
-        //请求数据
-        viewFormService.getViewFormData(url, param, isLoading, 'POST').then(function (result) {
-          if (result.state == '0') {
-            requestScuess(result)
-          } else {
-            // if (!$isMobile.isPC) {
-            //   $cordovaToast.showShortBottom(T.translate(result.msg));
-            // } else {
-            //   alert(T.translate(result.msg))
-            // }
-            confirmBack(result, true)
-          }
-        }, function (error) {
-          if (!$isMobile.isPC) {
-            $cordovaToast.showShortBottom(T.translate('publicMsg.requestErr'))
-          }
-        })
-      }
-
-      $scope.myNewTodo = '待办'
-      $scope.done = '已办'
-      $scope.sent = '已发'
-      $scope.follow = '跟踪'
-      $scope.document = '公文'
-      $scope.understanding = '知会'
-      $scope.viewOtherWaitWork = '其他人待办'
-      $scope.urlMap = {
-        '待办': 'app/myNewTodo/v2/getDetailForInfo',
-        '已办': 'app/done/v2/getDetailForInfo',
-        '已发': 'app/sent/v2/getDetailForInfo',
-        '跟踪': 'app/follow/v2/getDetailForInfo',
-        '公文': 'app/document/v1/getDocumentDataForInfo',
-        '知会': 'app/understanding/v2/getDetailForInfo',
-        '其他人待办': 'app/ctl/othertodo/v1/getOtherTodoDetailForInfo'
-      }
-
-
+      /**
+       * 获取表单其他信息 - 附言，处理意见，流程图等
+       * @param type
+       * @param options
+       * @param isCache
+       * @param index
+       */
       function getInfo(type, options, isCache, index) {
         var url = serverConfiguration.baseApiUrl + $scope.urlMap[type]
         var param = options
@@ -1373,9 +825,9 @@
         //请求数据
         viewFormService.getViewFormData(url, param, param.isLoading).then(function (result) {
           // $scope.getInfo = true
-          if(isCache){
+          if (isCache) {
             $scope.detailInfoCache[index] = result
-          }else {
+          } else {
             getInfoRequestSuccess(result)
           }
         }).catch(function (error) {
@@ -1383,19 +835,17 @@
         })
       }
 
-      // 获取detailInfo成功后公用
-      function getInfoRequestSuccess(result){
+      /**
+       * getInfo成功后处理数据
+       * @param result
+       */
+      function getInfoRequestSuccess(result) {
         var othersList = result.others ? JSON.parse(result.others) : []//返回的附言 处理意见 及其附件
         // var understandingList = result.understanding ? JSON.parse(result.understanding) : [];//返回的知会列表
         $scope.historysList = result.history ? JSON.parse(result.history) : []//返回的流程图信息
         $scope.others = othersList
-        // 查看其他人待办不展开附言
-        // if(!$rootScope.viewOtherWaitWork){
-        // 展开附言
-        // }
         $scope.flagPostscript = othersList.flagPostscript//是否有附言的标志 true就是有
-        // console.log($scope.flagPostscript) // 返回值明明是 1 ？？？？？？
-        if($scope.flagPostscript) {
+        if ($scope.flagPostscript) {
           goPostscript()
           $scope.postscriptFlag = true
         }
@@ -1403,17 +853,15 @@
         if (othersList.approvals) {
           $scope.allAttachments = angular.fromJson(othersList.allAttachments)//获得所有附件加入到自定义所有附件数组
         }
-        //知会列表
-        // $scope.understandingList = understandingList;
-        //是否展示知会tab
-        // understandingList.forEach(function (item, index) {
-        //     item.status == "已读" ? $scope.showUnderstandingList = true : null
-        // })
       }
 
-      $scope.isRetrieve = false//判断取回弹出框是否弹出
-
-      //已办取回
+      /**
+       * 已办表单取回api
+       * @param account
+       * @param procInstId
+       * @param reason
+       * @param isLoading
+       */
       function doneFormRetrieve(account, procInstId, reason, isLoading) {
         var url = serverConfiguration.baseApiUrl + 'app/done/v1/retrieve'
         var param = {account: account, procInstId: procInstId, reason: reason, isLoading: isLoading}
@@ -1440,7 +888,6 @@
       }
 
       /**
-       * * 2018/4/8 14:23  CrazyDong
        *  变更描述：封装固定表单容器的高度代码
        *  功能说明：有两处使用同一段代码,封装成一个方法调用
        *  heightFlag :  boolen值,true为竖屏,false为横屏
@@ -1473,33 +920,27 @@
         //固定表单容器高度 end
       }
 
-      // 可配置的前后预加载数
-      $scope.pre = 4
-      $scope.next = 4
-      $scope.preDetailCached = false
-      $scope.preDetailInfoCached = false
-      $scope.nextDetailCached = false
-      $scope.nextDetailInfoCached = false
-
-      // 初始化时，监听缓存数据 （包括表单数据和其他数据）
-      // 前一条数据的表单数据和其他数据都缓存完毕，显示向上翻页按钮
-      // 后一条数据的表单数据和其他数据都缓存完毕，显示向下翻页按钮
-      $scope.$watch("detailCache", function(n, o){
-        if(!angular.equals(n[$scope.cacheIndex - 1], o[$scope.cacheIndex - 1]) && n[$scope.cacheIndex - 1] && n[$scope.cacheIndex - 1] !== ''){
+      /**
+       * 初始化时，监听缓存数据 （包括表单数据和其他数据）
+       * 前一条数据的表单数据和其他数据都缓存完毕，显示向上翻页按钮
+       * 后一条数据的表单数据和其他数据都缓存完毕，显示向下翻页按钮
+       */
+      $scope.$watch('detailCache', function (n, o) {
+        if (!angular.equals(n[$scope.cacheIndex - 1], o[$scope.cacheIndex - 1]) && n[$scope.cacheIndex - 1] && n[$scope.cacheIndex - 1] !== '') {
           $scope.preDetailCached = true
         }
-        if(!angular.equals(n[$scope.cacheIndex + 1], o[$scope.cacheIndex + 1]) && n[$scope.cacheIndex + 1] && n[$scope.cacheIndex + 1] !== '') {
+        if (!angular.equals(n[$scope.cacheIndex + 1], o[$scope.cacheIndex + 1]) && n[$scope.cacheIndex + 1] && n[$scope.cacheIndex + 1] !== '') {
           $scope.nextDetailCached = true
         }
-      },true)
-      $scope.$watch("detailInfoCache", function(n, o){
-        if(!angular.equals(n[$scope.cacheIndex - 1], o[$scope.cacheIndex - 1]) && n[$scope.cacheIndex - 1] && n[$scope.cacheIndex - 1] !== ''){
+      }, true)
+      $scope.$watch('detailInfoCache', function (n, o) {
+        if (!angular.equals(n[$scope.cacheIndex - 1], o[$scope.cacheIndex - 1]) && n[$scope.cacheIndex - 1] && n[$scope.cacheIndex - 1] !== '') {
           $scope.preDetailInfoCached = true
         }
-        if(!angular.equals(n[$scope.cacheIndex + 1], o[$scope.cacheIndex + 1]) && n[$scope.cacheIndex + 1] && n[$scope.cacheIndex + 1] !== ''){
+        if (!angular.equals(n[$scope.cacheIndex + 1], o[$scope.cacheIndex + 1]) && n[$scope.cacheIndex + 1] && n[$scope.cacheIndex + 1] !== '') {
           $scope.nextDetailInfoCached = true
         }
-      },true)
+      }, true)
 
       /**
        *  查看表单页
@@ -1539,12 +980,6 @@
         listCache(requestParam, startPage, endPage)
       }
 
-      var urls = {
-        'waitWorkList': 'app/myNewTodo/v2/getList',
-        'viewOtherWaitWorkList': 'app/ctl/othertodo/v1/getOtherTodoList',
-        'viewDoneWorkList': 'app/done/v2/getList'
-      }
-
       /**
        * 获取分页数据
        * @param param
@@ -1576,7 +1011,7 @@
                 $scope.detailCache[index] = ''
                 requestViewFormData(account, taskId, procInstId, false, true, index)
               }
-              if($scope.detailInfoCache[index] === undefined){
+              if ($scope.detailInfoCache[index] === undefined) {
                 $scope.detailInfoCache[index] = ''
                 getInfo($scope.myNewTodo, {
                   account: account,
@@ -1613,10 +1048,10 @@
           return
         }
         // 向下翻页后，再下一页如果有数据，让向下翻页按钮显示
-        if($scope.detailCache[$scope.cacheIndex + 1]
+        if ($scope.detailCache[$scope.cacheIndex + 1]
           && $scope.detailCache[$scope.cacheIndex + 1] !== ''
           && $scope.detailInfoCache[$scope.cacheIndex + 1]
-          && $scope.detailInfoCache[$scope.cacheIndex + 1] !== ''){
+          && $scope.detailInfoCache[$scope.cacheIndex + 1] !== '') {
           $scope.nextDetailCached = true
           $scope.nextDetailInfoCached = true
         }
@@ -1642,10 +1077,10 @@
         $scope.htmlContent = ''
         $scope.cacheIndex--
         // 向上翻页后，再上一页如果有数据，让向上翻页按钮显示
-        if($scope.detailCache[$scope.cacheIndex - 1]
+        if ($scope.detailCache[$scope.cacheIndex - 1]
           && $scope.detailCache[$scope.cacheIndex - 1] !== ''
           && $scope.detailInfoCache[$scope.cacheIndex - 1]
-          && $scope.detailInfoCache[$scope.cacheIndex - 1] !== ''){
+          && $scope.detailInfoCache[$scope.cacheIndex - 1] !== '') {
           $scope.preDetailCached = true
           $scope.preDetailInfoCached = true
         }
@@ -1656,6 +1091,9 @@
         getListDataCache($scope.cacheIndex)
       }
 
+      /**
+       * 清空页面数据
+       */
       function clean() {
         $scope.flagPostscript = false // 附言红点隐藏
         $scope.postscriptFlag = false // 合上附言
@@ -1666,6 +1104,66 @@
         $scope.nextP = false  // 存在前一页是长表单，显示加载更多按钮，这里让其不显示
         $scope.dataList = []
       }
+
+      /**
+       * 清空module数据
+       */
+      function cleanScopeData() {
+        scopeData.prototype.setLongFormEnlargementData(null)
+        scopeData.prototype.setUserRole(null)
+        scopeData.prototype.setSignData(null)
+        scopeData.prototype.setPermissionData(null)
+        scopeData.prototype.setHtmlData(null)
+      }
+
+      /**
+       * 把页面未展示的从表数据拼接到 $scope.data 的从表数据后面
+       */
+      function concatSubTableData() {
+        for (var p in $scope.data) {
+          for (var sub_p in $scope.data[p]) {
+            if ($scope.data[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
+              if (($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > xListSub && $rootScope.dataListENew.length > xList) || ($scope.data[p][sub_p] != undefined && $scope.data[p][sub_p].length > xListSub && $scope.dataList.length > xList)) {
+                $scope.data[p][sub_p] = $scope.data[p][sub_p].concat($scope.dataList)
+                $scope.dataList.length = 0
+              }
+            }
+          }
+        }
+      }
+
+      /**
+       * 校验表单数据，包括：
+       *  a.校验主表id是否改变，
+       *  b.从表长度是否改变，
+       *  c.以及每条从表数据的 ref_id_ 和主表 id_ 是否相等
+       * @returns {boolean}
+       */
+      function verifyData() {
+        var temp = scopeData.prototype.getSignData().data
+        for (var p in temp) {
+          // 校验主表id
+          if(temp[p]['id_'] !== $scope.formDataId) return false
+          for (var sub_p in temp[p]) {
+            if (temp[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
+              var subTable = temp[p][sub_p]
+              // 校验从表长度
+              if(subTable.length !== $scope.subTableLength) return false
+              // 校验主表 id_ 和从表每条数据的 ref_id_ 是否相等
+              for (var subKey in subTable) {
+                var item = subTable[subKey]
+                // 子表 id_ 和 ref_id_ 同时为空，则该条数据为新增数据，目前移动端好像不能新增数据，预留
+                // if (item['id_'] !== '' && item['ref_id_'] !== '') {
+                if (item['ref_id_'] !== temp[p]['id_']) return false
+                // }
+              }
+            }
+          }
+        }
+        return true
+      }
+
+
 
     }])
 })()

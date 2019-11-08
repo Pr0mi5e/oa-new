@@ -42,7 +42,7 @@
             })
             /*表单放大页面*/
             .state('tab.form-enlargement', {
-                url: '/view-form/formEnlargement/:waitWorkPassDate/:type/:titleFlag/:workWaitData/:notification/:information/:NotificationItem/:notificationDetail/:subTableLength',
+                url: '/view-form/formEnlargement/:waitWorkPassDate/:type/:titleFlag/:workWaitData/:notification/:information/:NotificationItem/:notificationDetail/:subTableLength/:subTablePage',
                 nativeTransitions : null,
                 views: {
                     'tab-waitWork': {

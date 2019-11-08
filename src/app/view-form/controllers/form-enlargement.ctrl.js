@@ -17,6 +17,7 @@
       var titleFlag = $stateParams.titleFlag
       var tableWidth//表单宽度
       var viewScrollForm = $ionicScrollDelegate.$getByHandle('viewFormScrollHandleChild')//控制表单点击更多时,表单数据向上滚动
+      $scope.subTablePage = $stateParams.subTablePage
       $scope.$on('$ionicView.beforeEnter', function (event, data) {
         storageService.set('viewFormCacheWork', 'viewFormCacheWork')//写一个标识符用来判断是放大表单页面返回
         var Type = $stateParams.type
@@ -121,16 +122,15 @@
                 break
               }
             }
-
-
           }
-
-
         })
 
-        $scope.data = signPermission.data
         $scope.sign = signPermission.sign
-        $scope.dataList = scopeData.prototype.getLongFormEnlargementData()
+        // 深拷贝表单数据和从表数据，将本页数据与module里的数据隔离，
+        // 防止有修改权限的用户，修改了数据后，不想保存直接点击返回，详情页数据改变
+        // 如需修改数据只能点击保存按钮，在保存方法内，执行scopeData.prototype.setSignData()，保证修改后数据同步到module上
+        $scope.formData = JSON.parse(JSON.stringify(signPermission.data))
+        $scope.data = sortSubTableByXH($scope.formData, $scope.subTablePage)
       })
       $rootScope.$ionicGoBack = function () {
         if (scopeData.prototype.getCheckFlag()) {
@@ -140,6 +140,11 @@
         if (!$isMobile.isPC && !ionic.Platform.isIPad()) {
           screen.orientation.lock('default')
         }
+        // 如果放大页点击了加载更多，此时返回到详情页，
+        // 要显示加载更多后的从表数据，而不是从详情页跳转过来时的从表数据
+        // 场景：在详情页显示十条从表数据，在放大页点击加载更多，显示了20条数据，返回到详情页也要显示20条数据
+        // 这里和跳转到回复和处理页不同，那两页的$scope.data为完整数据，而本页还是分开的
+        storageService.set('subTablePage', $scope.subTablePage)
         stateGoHelp.stateGoUtils(false)
       }
       $scope.$on('$ionicView.enter', function () {//$ionicView.afterEnter
@@ -189,12 +194,12 @@
         }
 
         $timeout(function () {
-          $scope.nextP = $scope.dataList.length > 0
-          if($scope.dataList.length > 0){
+          console.log($scope.dataList)
+          if ($scope.dataList.length > 0) {
             if (!$isMobile.isPC) {
-              $cordovaToast.showLongBottom('此表单为长数据表单，共' + $stateParams.subTableLength + '条数据,点击获取更多数据')
+              $cordovaToast.showLongBottom('此表单为长数据表单，共' + $scope.subTableLength + '条数据,点击获取更多数据')
             } else {
-              alert('此表单为长数据表单，共' + $stateParams.subTableLength + '条数据,点击加载获取更多数据')
+              alert('此表单为长数据表单，共' + $scope.subTableLength + '条数据,点击加载获取更多数据')
             }
           }
         }, 100)
@@ -215,6 +220,7 @@
       //加载数据
       $scope.loadMore = function () {
         //loading图 上拉时显示
+        $scope.subTablePage++
         application.showLoading(true)
         $timeout(function () {
           application.hideLoading()
@@ -240,7 +246,7 @@
                   if ($scope.data[p][sub_p].length === Number($stateParams.subTableLength)) {
                     $timeout(function () {
                       $scope.nextP = false
-                    }, 2000)
+                    }, 1000)
                   } else {
                     $scope.nextP = true
                   }
@@ -293,7 +299,8 @@
             screen.orientation.lock('default')
           }
           concatSubTableData()
-          // scopeData.prototype.setSignData({data: $scope.data, sign: $scope.sign})
+          scopeData.prototype.setSignData({data: $scope.data, sign: $scope.sign})
+          scopeData.prototype.setLongFormEnlargementData($scope.dataList)
           stateGoHelp.stateGoUtils(true, 'tab.view-form', {
             waitWorkPassDate: angular.toJson(waitWorkPassDate),
             enlargement: 'enlargement',
@@ -384,6 +391,29 @@
             }
           }
         }
+      }
+
+      function sortSubTableByXH($scopeData, page) {
+        var length = page ? page * 10 : xList
+        for (var p in $scopeData) {
+          $scope.formDataId = $scopeData[p]['id_']
+          for (var sub_p in $scopeData[p]) {
+            if ($scopeData[p].hasOwnProperty(sub_p) && sub_p.indexOf('sub_') == 0) {
+              $scope.subTableLength = $scopeData[p][sub_p].length
+              //有子表就进行子表排序
+              $scopeData[p][sub_p] = $.fn.sortSubTable($scopeData[p][sub_p], 'seqnum', 'asc')
+              //获取子表长度依次显示
+              if ($scopeData[p][sub_p] != undefined && $scopeData[p][sub_p].length > 0) {
+                //放大页保存回来的直接取dataList值
+                $scope.dataList = $scopeData[p][sub_p].splice(0) // 截取从表数据
+                $scope.nextP = $scope.dataList.length > length
+                $scope.isLongForm = $scope.dataList.length > length
+                $scopeData[p][sub_p] = $scope.dataList.splice(0, length)
+              }
+            }
+          }
+        }
+        return $scopeData
       }
 
     }])

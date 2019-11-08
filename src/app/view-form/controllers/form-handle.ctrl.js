@@ -17,6 +17,7 @@
       $scope.userName = storageService.get(auth_events.name,null);//获取用户名
       $scope.workWaitData = $stateParams.workWaitData;//待办带来的数据
       $scope.recording = false
+      $scope.sendLog = false
       if(!($stateParams.workWaitData == undefined || $stateParams.workWaitData == "") ){
         $scope.workWaitData = angular.fromJson($scope.workWaitData);
       }
@@ -127,6 +128,9 @@
       if(!(data == undefined || data == "")){//如果表单数据存在
         var sign = data.sign;//签章字段数组
         var newFandleData = data.data;//表单数据
+        if($scope.sendLog){
+          $scope.commitError(JSON.stringify(newFandleData))
+        }
       }
       var viewScroll = $ionicScrollDelegate.$getByHandle('messageDetailsScroll');
       $scope.hasMsg = false;//控制发送与加号转换
@@ -353,6 +357,9 @@
             MineService.getMineData (url, param).then (function (result) {
               if (result.state == '0') {//审批请求  同意或不同意
                 $scope.newData = signManage(result,true);//要传给后台的data数据
+                if($scope.sendLog){
+                  $scope.commitError(JSON.stringify($scope.newData))
+                }
                 approveData (account, taskId, procInstId, $scope.actionName, $scope.opinion, $scope.newData, $scope.attachmentPkidList, '-1', param.signaturePwd, $scope.follow, true);
               }
             }, function (err) {})
@@ -1263,8 +1270,8 @@
             // wy 这个账号在连续审批时，会出现某一表单的主表数据和前一次审批的主表数据重复，这里清除表单数据（主表和从表一起）,清除全局变量 dataTimeNewNow
             // 上面的clearStorageFormData方法里并没有调用setSignData(null)，因为clearStorageFormData在其他多个地方有调用，不确定其他地方是否都需要setSignData(null)
             // 所以这里单独做处理
-            $rootScope.dataTimeNewNow = ''
-            scopeData.prototype.setSignData(null);
+            // $rootScope.dataTimeNewNow = ''
+            // scopeData.prototype.setSignData(null);
             if(!$isMobile.isPC) {
               $cordovaToast.showShortBottom (T.translate ("form-handle.handle-success"));
             }
@@ -1316,5 +1323,39 @@
 
            return newFandleData;//要传给后台的data数据
       }
+
+      /**
+       * 提交 bug 信息
+       */
+      $scope.commitError = function (errorMsg) {
+        // var errorMsg = localStorage.getItem('errorMsg')
+        // console.log(errorMsg)
+        var url = serverConfiguration.baseApiUrl + 'app/common/uploadError'
+
+        var param = {
+          errorMsg: errorMsg,
+          account: storageService.get(auth_events.userId, null)
+        }
+        GetRequestService.getRequestData(url, param, true, 'POST').then(function (result) {
+          console.log(result)
+          // if (result.success) {
+          //   var alertPopup = $ionicPopup.alert({
+          //     title: '提示',
+          //     template: '提交成功'
+          //   })
+          // } else {
+          //   var alertPopup = $ionicPopup.alert({
+          //     title: '提示',
+          //     template: '提交失败'
+          //   })
+          // }
+        }, function (err) {
+          /*判断平台*/
+          if (!$isMobile.isPC) {
+            $cordovaToast.showShortBottom(T.translate('publicMsg.requestErr'))
+          }
+        })
+      }
+
     }]);
 })();

@@ -18,6 +18,7 @@
       var tableWidth//表单宽度
       var viewScrollForm = $ionicScrollDelegate.$getByHandle('viewFormScrollHandleChild')//控制表单点击更多时,表单数据向上滚动
       $scope.subTablePage = $stateParams.subTablePage
+      $scope.dataList = []
       $scope.$on('$ionicView.beforeEnter', function (event, data) {
         storageService.set('viewFormCacheWork', 'viewFormCacheWork')//写一个标识符用来判断是放大表单页面返回
         var Type = $stateParams.type
@@ -194,7 +195,6 @@
         }
 
         $timeout(function () {
-          console.log($scope.dataList)
           if ($scope.dataList.length > 0) {
             if (!$isMobile.isPC) {
               $cordovaToast.showLongBottom('此表单为长数据表单，共' + $scope.subTableLength + '条数据,点击获取更多数据')

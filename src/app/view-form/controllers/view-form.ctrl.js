@@ -133,6 +133,7 @@
       var type = '0'//tab页index：0表单，1流程图，2相关文档
       $scope.$on('$ionicView.beforeEnter', function (event, data) {
         data.enableBack = true//交叉路由
+        $rootScope.titleData = T.translate('form-handle.form-see-title')//查看表单标题
         viewScrollForm.scrollTop()//进入时,让表单滚到顶部,否则会出现表单滚出可视窗口的现象
         if ($isMobile.isPC) {
           $scope.isShowTop = true
@@ -231,6 +232,7 @@
           var formData = scopeData.prototype.getSignData().data
           $scope.subTablePage = subTablePage ? Number(subTablePage) : $scope.subTablePage
           $scope.data = sortSubTableByXH(formData, $scope.subTablePage)
+          $scope.tableFlag = {'display': ''}
         }
       })
       $scope.$on('$ionicView.enter', function () {//部分页面需要在这个生命周期去判断 按钮显示才生效
@@ -409,7 +411,6 @@
           // 向后台发送待办表单数据
           $scope.commitError(JSON.stringify($scope.data))
         }
-        return false
         // 表单数据校验
         if (!verifyData()) {
           appUtils.showTips('view-form.form-data-null', true, 2)
@@ -520,7 +521,10 @@
         var transform = init ? scaleWrapper.parent()[0].style.transform : 'transform:scale(1)'
         var scaleNum = parseFloat(transform.substring(transform.indexOf('scale(') + 6))//获取父容器缩放比例
         var form = document.getElementsByClassName('zw_formdata').length ? document.getElementsByClassName('zw_formdata') : [{clientWidth: 1}]//获取表单长度
-        var formwidth = form[form.length - 1].clientWidth
+        console.log(form)
+        // 有的已办表单，接口返回的表单模板会有多个table，这里取第一个 修改前代码为 formwidth = form[form.length - 1].clientWidth
+        // 原代码取的是最后一个表单，它的宽度为 0 ，导致下面formwidth为除数时报错
+        var formwidth = form[0].clientWidth
         var scale = (window.innerWidth - 20) / formwidth//计算缩放比例
         var finalScale = init == 'init' ? scale : scale * scaleNum * scaleNum
         /**
@@ -528,6 +532,7 @@
          *  变更描述：当屏幕长度大于表单长度时，缩放原点会默认成表单的左上点，不是屏幕的左上点；而当屏幕长度小于表单长度时，情况会相反。针对这两种情况做不同的原点适配
          *  功能说明：bug911:ipad或者手机横屏时，表单位置不正常
          */
+        console.log(scale)
         var origin = scale >= 1 ? 'top' : 'top left'
         scaleWrapper.css({
           'transform': 'scale(' + finalScale + ')',
@@ -556,6 +561,7 @@
           taskId: angular.fromJson($stateParams.waitWorkPassDate).taskId,
           procInstId: angular.fromJson($stateParams.waitWorkPassDate).procInstId
         }
+        $scope.tableFlag = {'display': 'none'}
         stateGoHelp.stateGoUtils(true, 'tab.form-enlargement', {
           waitWorkPassDate: angular.toJson(waitWorkPassDate),
           information: $stateParams.information,

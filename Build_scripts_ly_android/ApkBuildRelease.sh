@@ -1,7 +1,7 @@
 gulp build --env production
 
 #工程绝对路径
-project_path=D:/code/zhongwang/oa-ly/zw-oa
+project_path=D:\code\zhongwang\oa-new
 exportApkPath=${project_path}/platforms/android/build/outputs
 
 ionic build android --release --prod

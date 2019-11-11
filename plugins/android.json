@@ -1,0 +1,92 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.telerik.plugins.nativepagetransitions": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-media-with-compression": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-app-version": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-screen-orientation": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-x5-webview": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "install": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "jpush-phonegap-plugin": {
+            "APP_KEY": "fe3b58f2701373f1daf3876a",
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "org.cordova.LifeListener": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "org.cordova.PermissionsPlugin": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-disable-ios11-statusbar": {
+            "PACKAGE_NAME": "com.chinaZhongwang.oa_yk"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "cordova-plugin-jcore": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        },
+        "es6-promise-plugin": {
+            "PACKAGE_NAME": "com.chinaZhongWang.community"
+        }
+    }
+}

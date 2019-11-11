@@ -1,0 +1,21 @@
+{
+  "name": "crazy-dong-plugin-life-listener",
+  "version": "1.0.0",
+  "description": "android life listener",
+  "cordova": {
+	"id":"org.cordova.LifeListener",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liujingdong/LifeListener.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "liujingdong",
+  "license": "ISC"
+}

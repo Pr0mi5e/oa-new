@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+  <script src="app/log/sendError.js"></script>
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <!-- <link href="lib/ionic/css/ionic.css" rel="stylesheet">-->
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above -->
+  <!-- compiled css output -->
+  <!-- NOTE: the build-endbuild tags are used by gulp-htmlreplace - DO NOT REMOVE -->
+  <link rel="stylesheet" href="css/ionic.app.min.css">
+
+
+  <!-- NOTE: the build-endbuild tags are used by gulp-htmlreplace - DO NOT REMOVE -->
+  <script src="js/app.plugin.min.js"></script>
+
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <!--指令-->
+  <script src="shared/directives/html.directives.js"></script>
+  <script src="shared/directives/view-form.directives.js"></script>
+  <script src="shared/directives/pinch-form.directives.js"></script>
+  <script src="shared/directives/information.directives.js"></script>
+  <script src="shared/directives/form-handle.directives.js"></script>
+  <script src="shared/directives/view-form-myPopup.directives.js"></script>
+  <script src="shared/directives/echart.directives.js"></script>
+  <!--echart图表-->
+  <script src="shared/lib/echarts.min.js"></script>
+  <!-- your app's js -->
+  <!-- NOTE: the build-endbuild tags are used by gulp-htmlreplace - DO NOT REMOVE -->
+  <script src="js/app.bundle.min.js"></script>
+
+
+  <!-- ANGULAR-TEMPLATECACHE -->
+  <script src="js/templates.js"></script>
+
+
+  <script src="shared/lib/util.js"></script>
+
+  <!-- form validator -->
+  <script src="shared/lib/jqueryValidate/jquery.qtip.js"></script>
+  <script src="shared/lib/jqueryValidate/customValid.js"></script>
+
+  <script src="shared/lib/baseService.js"></script>
+  <script src="shared/lib/component.js"></script>
+  <script src="shared/lib/uploadModule.js"></script>
+
+
+</head>
+<body ng-app="community" ng-controller="ApplicationCtrl" id="stuff" class="platform-android platform-cordova platform-webview">
+<!--
+  The nav bar that will be updated as we navigate between views.
+-->
+<ion-nav-bar class="bar-dark">
+  <ion-nav-back-button class="button-clear back-btn" transitiontype="flip" direction="right" go-native ng-show="$root.toBack">
+    <i class="ion-chevron-left"></i>
+  </ion-nav-back-button>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon icon ion-ios-bell-outline" ng-show="$root.bell" ng-click="clickLiftMessage()">
+      <i ng-show="$root.bellRed" class="my-work-top-dotRed ion-record"></i>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-title>{{$root.titleData}}</ion-nav-title>
+</ion-nav-bar>
+<!--
+  The views will be rendered in the <ion-nav-view> directive below
+  Templates are in the /templates folder (but you could also
+  have templates inline in this html file if you'd like).
+-->
+<ion-nav-view></ion-nav-view>
+<link href="lib/ion-datetime-picker/release/ion-datetime-picker.min.css" rel="stylesheet">
+<link href="lib/oi.select/dist/select.css" rel="stylesheet">
+</body>
+</html>

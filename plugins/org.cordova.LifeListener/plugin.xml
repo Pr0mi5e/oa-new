@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin id="org.cordova.LifeListener" version="0.0.1"
+        xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>LifeListener</name>
+    <description>android监听生命周期</description>
+
+    <js-module name="LifeListener" src="www/LifeListener.js">
+        <clobbers target="LifeListener"/>
+    </js-module>
+
+
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="LifeListener">
+                <param name="android-package" value="custom.cordova.life.LifeListener" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/LifeListener.java" target-dir="src/org/apache/cordova/lifelistener"/>
+    </platform>
+</plugin>

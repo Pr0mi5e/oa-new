@@ -1,7 +1,7 @@
 ﻿@echo off
 echo 替换ICON图标，请稍等...
 
-set project_path=D:\code\zhongwang\oa-ly\zw-oa
+set project_path=D:\code\zhongwang\oa-new
 xcopy /A /Y  %project_path%\resources_ly %project_path%\resources /s /e
 
 rmdir /q /s %project_path%\platforms\android\build

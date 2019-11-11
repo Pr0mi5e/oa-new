@@ -198,7 +198,6 @@
           var procInstId = paramData.procInstId
         }
         var account = storageService.get(auth_events.userId, null)
-
         if (data.direction === 'forward') {
           // 有修改权限的用户，在放大页修改表单数据，保存后跳转到本页，不请求接口，直接从module取表单数据,从localStorage取其他数据
           if ($stateParams.enlargement === 'enlargement') {
@@ -521,7 +520,6 @@
         var transform = init ? scaleWrapper.parent()[0].style.transform : 'transform:scale(1)'
         var scaleNum = parseFloat(transform.substring(transform.indexOf('scale(') + 6))//获取父容器缩放比例
         var form = document.getElementsByClassName('zw_formdata').length ? document.getElementsByClassName('zw_formdata') : [{clientWidth: 1}]//获取表单长度
-        console.log(form)
         // 有的已办表单，接口返回的表单模板会有多个table，这里取第一个 修改前代码为 formwidth = form[form.length - 1].clientWidth
         // 原代码取的是最后一个表单，它的宽度为 0 ，导致下面formwidth为除数时报错
         var formwidth = form[0].clientWidth
@@ -532,7 +530,6 @@
          *  变更描述：当屏幕长度大于表单长度时，缩放原点会默认成表单的左上点，不是屏幕的左上点；而当屏幕长度小于表单长度时，情况会相反。针对这两种情况做不同的原点适配
          *  功能说明：bug911:ipad或者手机横屏时，表单位置不正常
          */
-        console.log(scale)
         var origin = scale >= 1 ? 'top' : 'top left'
         scaleWrapper.css({
           'transform': 'scale(' + finalScale + ')',
@@ -774,6 +771,16 @@
       function getDetail(param, isCache, index) {
         var url = serverConfiguration.baseApiUrl + param.url
         delete param.url
+        if ($rootScope.viewOtherWaitWork) {
+          // param = {
+          //   todoUserCode: $rootScope.todoUserCode,
+          //   taskId: param.taskId,
+          //   procInstId: paramprocInstId,
+          //   isLoading: param.isLoading
+          // }
+          param.todoUserCode = $rootScope.todoUserCode
+          delete param.account
+        }
         viewFormService.getViewFormData(url, param, param.isLoading, 'POST').then(function (result) {
           if (isCache) {
             $scope.detailCache[index] = result
@@ -1043,15 +1050,16 @@
        * @param endPage
        */
       function listCache(param, startPage, endPage) {
-        console.log(param.currentPage, startPage, endPage)
+        console.log(param, startPage, endPage)
+        var selfParam = param
         var url = serverConfiguration.baseApiUrl + 'app/ctl/othertodo/v1/getOtherTodoList'
         viewFormService.getViewFormData(url, param, false).then(function (result) {
           $scope.resultList = $scope.resultList.concat(result.list)
-          console.log($scope.resultList)
+          console.log($scope.resultList, selfParam)
           if (startPage < endPage) {
             startPage++
-            param.currentPage++
-            listCache(param, startPage, endPage)
+            selfParam.currentPage++
+            listCache(selfParam, startPage, endPage)
           } else {
             // 截取需要缓存的部分
             var start = $scope.current - $scope.pre < 0 ? 0 : $scope.current - $scope.pre
@@ -1103,7 +1111,6 @@
         // 防止一直翻页，导致缓存数据过大，做一个类似队列操作
         delete $scope.detailCache[$scope.cacheIndex - $scope.pre]
         delete $scope.detailInfoCache[$scope.cacheIndex - $scope.pre]
-        $scope.htmlContent = ''
         $scope.cacheIndex++
 
         if ($scope.detailCache[$scope.cacheIndex].state == -1) {
@@ -1137,7 +1144,6 @@
         // 防止一直翻页，导致缓存数据过大，做一个类似队列操作
         delete $scope.detailCache[$scope.cacheIndex + $scope.next]
         delete $scope.detailInfoCache[$scope.cacheIndex + $scope.next]
-        $scope.htmlContent = ''
         $scope.cacheIndex--
         // 向上翻页后，再上一页如果有数据，让向上翻页按钮显示
         if ($scope.detailCache[$scope.cacheIndex - 1]
@@ -1166,6 +1172,11 @@
         $scope.approvals = [] // 清空处理意见
         $scope.nextP = false  // 存在前一页是长表单，显示加载更多按钮，这里让其不显示
         $scope.dataList = []
+        $scope.data = ''
+        $scope.htmlContent = ''
+        $rootScope.dataTimeNew = ''
+        $rootScope.dataTimeNewNow = ''
+        cleanScopeData()
       }
 
       /**

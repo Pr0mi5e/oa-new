@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "https://github.com/tamtakoe"
+  },
+  "name": "oi.select",
+  "main": [
+    "./dist/select-tpls.min.js",
+    "./dist/select.min.css"
+  ],
+  "dependencies": {
+    "angular": ">=1.2",
+    "angular-sanitize": ">=1.2",
+    "angular-mocks": ">=1.2"
+  },
+  "homepage": "https://github.com/liujingdong/removeIoSelectItem",
+  "_release": "6fedfd4159",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6fedfd4159d14679bec4cab906f92a11a888e8cb"
+  },
+  "_source": "https://github.com/liujingdong/removeIoSelectItem.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/liujingdong/removeIoSelectItem.git"
+}

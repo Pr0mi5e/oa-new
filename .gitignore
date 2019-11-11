@@ -2,14 +2,8 @@
 # http://git-scm.com/docs/gitignore
 
 node_modules/
-platforms/
-plugins/
+
 www/*
-src/css/ionic.app.css
-src/lib
-src/app/config/config.js
 .idea/
 Build_scripts_yk_ios/IPADir/
-resources/
-config.xml
 **/echo
